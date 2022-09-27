@@ -7,15 +7,13 @@
     "https://www.faceit.com/*"
   ],
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
       "matches": ["https://www.faceit.com/*"],
       "js": ["content.js"],
-      "run_at": "document_end",
-      "type": "module"
+      "run_at": "document_end"
     }
   ],
   "manifest_version": 3

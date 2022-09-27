@@ -1,0 +1,28 @@
+{
+  "name": "mappio",
+  "version": "1.0.0",
+  "description": "Chrome extension that displays everyone's map-related information in the matchroom letting you make more educated decisions during the veto process",
+  "scripts": {
+    "build": "cross-env NODE_ENV=prod webpack",
+    "dev": "cross-env NODE_ENV=dev webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotovrdtrlf/mappio.git"
+  },
+  "author": "Dan Kotov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kotovrdtrlf/mappio/issues"
+  },
+  "homepage": "https://github.com/kotovrdtrlf/mappio#readme",
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
+    "babel-loader": "^8.2.5",
+    "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
