@@ -1,6 +1,6 @@
 {
   "name": "FACEIT Mappio",
-  "description": "Lets you see map-related information in the matchroom and make more educated decisions during the veto process",
+  "description": "See map-related information in the matchroom and make educated veto decisions.",
   "version": "1.0.0",
   "host_permissions": [
     "https://api.faceit.com/*", 
@@ -11,9 +11,9 @@
   },
   "content_scripts": [
     {
-      "run_at": "document_end",
       "matches": ["https://www.faceit.com/*"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "run_at": "document_end"
     }
   ],
   "manifest_version": 3
