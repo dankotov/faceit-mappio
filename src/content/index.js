@@ -1,4 +1,4 @@
-import { fetchMatchDetails } from "./helpers/faceit-api";
+import { fetchMemoizedPlayerDetails } from "./helpers/faceit-api";
 import {
   isMatchroomPage,
   rosterListsLoaded,
@@ -18,7 +18,7 @@ const handleMutation = (mutations, observer) => {
   }
 
   const matchroomId = getMatchroomId();
-  fetchMatchDetails(matchroomId);
+  fetchMemoizedPlayerDetails(matchroomId);
 
   if (!rosterListsLoaded) {
     return;
