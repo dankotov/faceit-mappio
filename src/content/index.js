@@ -1,28 +1,36 @@
+import {
+  addPlayerMapStats,
+  debounceAddPlayerMapStats,
+} from "./features/addPlayerMapStats";
 import { fetchMemoizedPlayerDetails } from "./helpers/faceit-api";
 import {
   isMatchroomPage,
   rosterListsLoaded,
   getMatchroomId,
+  isMatchroomLoaded,
+  isShadowRootLoaded,
+  isMatchroomOverviewLoaded,
 } from "./helpers/matchroom";
 
 const handleMutation = (mutations, observer) => {
   const mainContentElement = document.querySelector("#main-content");
 
-  if (!mainContentElement) {
-    console.log("No main content element");
-    return;
-  }
-
-  if (!isMatchroomPage()) {
+  if (!mainContentElement || !isMatchroomPage()) {
     return;
   }
 
   const matchroomId = getMatchroomId();
   fetchMemoizedPlayerDetails(matchroomId);
 
-  if (!rosterListsLoaded) {
+  if (!isShadowRootLoaded()) {
     return;
   }
+
+  if (!isMatchroomOverviewLoaded()) {
+    return;
+  }
+
+  debounceAddPlayerMapStats(matchroomId);
 
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((addedNode) => {
