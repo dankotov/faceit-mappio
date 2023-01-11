@@ -1,6 +1,7 @@
 import { debounce } from "lodash";
 import { fetchMemoizedPlayerDetails } from "../helpers/faceit-api";
 import { getMatchroomPlayers, getNickname } from "../helpers/matchroom";
+import createMapStatsElement from "../components/mapStats";
 
 export const addPlayerMapStats = async (matchroomId) => {
   const playerElements = getMatchroomPlayers();
@@ -20,8 +21,7 @@ export const debounceAddPlayerMapStats = debounce(async (matchroomId) => {
     const nickname = getNickname(playerElement);
     const stats = playerMapStats[nickname];
 
-    const el = document.createElement("div");
-    el.innerHTML = `Map: de_mirage, Games: ${stats.maps.de_mirage.games}, KD: ${stats.maps.de_mirage.kd}, WR: ${stats.maps.de_mirage.wr}`;
+    const el = createMapStatsElement({ text: "Hello World" });
     playerElement.append(el);
   });
 }, 200);
