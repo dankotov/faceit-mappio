@@ -1,13 +1,17 @@
 import pMemoize from "p-memoize";
-import { faceitApiBaseURL, faceitApiBearerToken } from "./consts";
+import {
+  CACHE_TIME,
+  FACEIT_API_BASE_URL,
+  FACEIT_API_BEARER_TOKEN,
+} from "./consts";
 import { isRelevantMapStat } from "./utils";
 
 const fetchFaceitApi = async (requestPath) => {
   console.log("called api", requestPath);
-  const response = await fetch(faceitApiBaseURL + requestPath, {
+  const response = await fetch(FACEIT_API_BASE_URL + requestPath, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${faceitApiBearerToken}`,
+      Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}`,
       "Content-Type": "application/json",
     },
   });
@@ -16,7 +20,7 @@ const fetchFaceitApi = async (requestPath) => {
   return json;
 };
 
-const fetchFaceitApiMemoized = pMemoize(fetchFaceitApi);
+const fetchFaceitApiMemoized = pMemoize(fetchFaceitApi, { maxAge: CACHE_TIME });
 
 const fetchMatchDetails = async (matchroomId) =>
   await fetchFaceitApiMemoized(`/data/v4/matches/${matchroomId}`);
@@ -50,8 +54,10 @@ const fetchPlayerDetails = async (matchroomId) => {
     });
   });
 
-  console.log(players);
+  // console.log(players);
   return players;
 };
 
-export const fetchMemoizedPlayerDetails = pMemoize(fetchPlayerDetails);
+export const fetchMemoizedPlayerDetails = pMemoize(fetchPlayerDetails, {
+  maxAge: CACHE_TIME,
+});

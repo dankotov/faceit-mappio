@@ -1,5 +1,5 @@
-export const faceitApiBaseURL = "https://open.faceit.com";
-export const faceitApiBearerToken = "e5116e15-8d53-445e-bf01-145a7f04129c";
+export const FACEIT_API_BASE_URL = "https://open.faceit.com";
+export const FACEIT_API_BEARER_TOKEN = "e5116e15-8d53-445e-bf01-145a7f04129c";
 
 export const activeMapPool = {
   de_dust2: "DUS",
@@ -11,3 +11,5 @@ export const activeMapPool = {
   de_vertigo: "VER",
   de_anubis: "ANU",
 };
+
+export const CACHE_TIME = 1000 * 60 * 15;
