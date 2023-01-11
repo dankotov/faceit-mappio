@@ -72,10 +72,5 @@ export const getMatchroomPlayers = () => {
   return rosterOne.concat(rosterTwo);
 };
 
-export const getNickname = (playerCard) => {
-  // return playerCard
-  //   .querySelector("div > div")
-  //   .childNodes[0].childNodes[1].querySelector("span + div");
-
-  return playerCard.querySelector("span + div").textContent;
-};
+export const getNickname = (playerCard) =>
+  playerCard.querySelector("span + div").textContent;

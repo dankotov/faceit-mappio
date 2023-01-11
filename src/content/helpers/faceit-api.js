@@ -54,7 +54,6 @@ const fetchPlayerDetails = async (matchroomId) => {
     });
   });
 
-  // console.log(players);
   return players;
 };
 
