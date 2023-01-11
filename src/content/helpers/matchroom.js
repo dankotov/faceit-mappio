@@ -1,3 +1,4 @@
+import { ESCL } from "./consts";
 import { elementExistsIn } from "./utils";
 
 export const isMatchroomPage = () => {
@@ -73,4 +74,11 @@ export const getMatchroomPlayers = () => {
 };
 
 export const getNickname = (playerCard) =>
-  playerCard.querySelector("span + div").textContent;
+  (
+    playerCard.querySelector("span + div") ||
+    playerCard.firstChild.firstChild.childNodes[1].firstChild.firstChild
+  ).textContent;
+
+export const hasMappio = (element) => {
+  return element.querySelector("." + ESCL) !== null;
+};
