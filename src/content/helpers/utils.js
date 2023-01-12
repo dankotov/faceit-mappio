@@ -1,4 +1,4 @@
-import { ACTIVE_MAP_POOL } from "./consts";
+import { ACTIVE_POOL_MAP } from "./consts";
 
 export const elementExistsIn = (selectorString, parent) => {
   if (parent === null) return false;
@@ -10,14 +10,14 @@ export const isRelevantMapStat = (mapStat) => {
   return (
     mapStat.type === "Map" &&
     mapStat.mode === "5v5" &&
-    mapStat.label in ACTIVE_MAP_POOL
+    ACTIVE_POOL_MAP.has(mapStat.label)
   );
 };
 
 export const colorCodeStat = (stat) => {
   if (
     Number(stat.games) === 0 ||
-    (Number(stat.kd) > 1 && Number(stat.kd) < 1.2)
+    (Number(stat.kd) >= 1 && Number(stat.kd) < 1.2)
   )
     return "rgba(255, 255, 255, 0.6)";
 

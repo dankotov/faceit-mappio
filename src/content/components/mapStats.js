@@ -1,18 +1,18 @@
 import { h } from "dom-chef";
 
-import { ACTIVE_MAP_POOL, ESCL } from "../helpers/consts";
+import { ACTIVE_POOL_MAP, ESCL } from "../helpers/consts";
 import createMapStatsCell from "./mapStatsCell";
 
 export default ({ stats }) => {
   const mapStats = [];
 
-  Object.keys(ACTIVE_MAP_POOL).forEach((key) => {
-    const mapDisplayLabel = ACTIVE_MAP_POOL[key].substring(0, 3).toUpperCase();
+  ACTIVE_POOL_MAP.forEach((mapName, mapCodename) => {
+    const label = mapName.substring(0, 3).toUpperCase();
+    const stat = stats[mapCodename]
+      ? stats[mapCodename]
+      : { games: "0", kd: "0" };
 
-    const stat = stats[key];
-    const statElement = stat
-      ? createMapStatsCell({ mapDisplayLabel, stat })
-      : createMapStatsCell({ mapDisplayLabel });
+    const statElement = createMapStatsCell({ label, stat });
 
     mapStats.push(statElement);
   });
