@@ -26,3 +26,7 @@ export const colorCodeStat = (stat) => {
 
   return kd >= 1.2 ? colors.green : colors.red;
 };
+
+export const hasMappio = (element) => {
+  return element.querySelector("." + ESCL) !== null;
+};

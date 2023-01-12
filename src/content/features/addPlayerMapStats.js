@@ -1,11 +1,8 @@
 import { debounce } from "lodash";
 import { fetchMemoizedPlayerDetails } from "../helpers/faceit-api";
-import {
-  getMatchroomPlayers,
-  getNickname,
-  hasMappio,
-} from "../helpers/matchroom";
+import { getMatchroomPlayers, getNickname } from "../helpers/matchroom";
 import createMapStatsElement from "../components/mapStats";
+import { hasMappio } from "../helpers/utils";
 
 export const addPlayerMapStats = async (matchroomId) => {
   const playerElements = getMatchroomPlayers();

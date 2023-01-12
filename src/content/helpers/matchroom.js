@@ -78,7 +78,3 @@ export const getNickname = (playerCard) =>
     playerCard.querySelector("span + div") ||
     playerCard.firstChild.firstChild.childNodes[1].firstChild.firstChild
   ).textContent;
-
-export const hasMappio = (element) => {
-  return element.querySelector("." + ESCL) !== null;
-};
