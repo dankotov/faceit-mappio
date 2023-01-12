@@ -1,4 +1,4 @@
-import { ACTIVE_POOL_MAP } from "./consts";
+import { ACTIVE_MAP_POOL } from "./consts";
 
 export const elementExistsIn = (selectorString, parent) => {
   if (parent === null) return false;
@@ -10,7 +10,7 @@ export const isRelevantMapStat = (mapStat) => {
   return (
     mapStat.type === "Map" &&
     mapStat.mode === "5v5" &&
-    ACTIVE_POOL_MAP.has(mapStat.label)
+    ACTIVE_MAP_POOL.has(mapStat.label)
   );
 };
 

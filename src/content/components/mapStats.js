@@ -1,12 +1,12 @@
 import { h } from "dom-chef";
 
-import { ACTIVE_POOL_MAP, ESCL } from "../helpers/consts";
+import { ACTIVE_MAP_POOL, ESCL } from "../helpers/consts";
 import createMapStatsCell from "./mapStatsCell";
 
 export default ({ stats }) => {
   const mapStats = [];
 
-  ACTIVE_POOL_MAP.forEach((mapName, mapCodename) => {
+  ACTIVE_MAP_POOL.forEach((mapName, mapCodename) => {
     const label = mapName.substring(0, 3).toUpperCase();
     const stat = stats[mapCodename]
       ? stats[mapCodename]
