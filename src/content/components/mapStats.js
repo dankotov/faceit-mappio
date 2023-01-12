@@ -8,10 +8,6 @@ export default ({ stats }) => {
 
   ACTIVE_MAP_POOL.forEach((mapName, mapCodename) => {
     const label = mapName.substring(0, 3).toUpperCase();
-    // const stat = stats[mapCodename]
-    //   ? stats[mapCodename]
-    //   : { games: "0", kd: "0" };
-
     const stat = stats.get(mapCodename) || { games: "0", kd: "0" };
 
     const statElement = createMapStatsCell({ label, stat });
