@@ -1,13 +1,17 @@
 import pMemoize from "p-memoize";
-import { faceitApiBaseURL, faceitApiBearerToken } from "./consts";
+import {
+  CACHE_TIME,
+  FACEIT_API_BASE_URL,
+  FACEIT_API_BEARER_TOKEN,
+} from "./consts";
 import { isRelevantMapStat } from "./utils";
 
 const fetchFaceitApi = async (requestPath) => {
   console.log("called api", requestPath);
-  const response = await fetch(faceitApiBaseURL + requestPath, {
+  const response = await fetch(FACEIT_API_BASE_URL + requestPath, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${faceitApiBearerToken}`,
+      Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}`,
       "Content-Type": "application/json",
     },
   });
@@ -16,7 +20,7 @@ const fetchFaceitApi = async (requestPath) => {
   return json;
 };
 
-const fetchFaceitApiMemoized = pMemoize(fetchFaceitApi);
+const fetchFaceitApiMemoized = pMemoize(fetchFaceitApi, { maxAge: CACHE_TIME });
 
 const fetchMatchDetails = async (matchroomId) =>
   await fetchFaceitApiMemoized(`/data/v4/matches/${matchroomId}`);
@@ -25,7 +29,7 @@ const getPlayers = (matchDetails) => {
   const players = {};
   Object.values(matchDetails.teams).forEach((team) => {
     team.roster.forEach((player) => {
-      players[player.nickname] = { id: player.player_id, maps: {} };
+      players[player.nickname] = { id: player.player_id, maps: new Map([]) };
     });
   });
 
@@ -46,12 +50,13 @@ const fetchPlayerDetails = async (matchroomId) => {
         kd: map.stats["Average K/D Ratio"],
         wr: map.stats["Win Rate %"],
       };
-      players[nickname].maps[map.label] = data;
+      players[nickname].maps.set(map.label, data);
     });
   });
 
-  console.log(players);
   return players;
 };
 
-export const fetchMemoizedPlayerDetails = pMemoize(fetchPlayerDetails);
+export const fetchMemoizedPlayerDetails = pMemoize(fetchPlayerDetails, {
+  maxAge: CACHE_TIME,
+});

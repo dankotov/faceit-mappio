@@ -18,6 +18,7 @@
   "homepage": "https://github.com/kotovrdtrlf/mappio#readme",
   "devDependencies": {
     "@babel/core": "^7.19.3",
+    "@babel/plugin-transform-react-jsx": "^7.20.7",
     "@babel/preset-env": "^7.19.3",
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^11.0.0",
@@ -26,6 +27,8 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "dom-chef": "^5.1.0",
+    "lodash": "^4.17.21",
     "p-memoize": "^7.1.1"
   }
 }
