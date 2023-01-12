@@ -15,11 +15,14 @@ export const isRelevantMapStat = (mapStat) => {
 };
 
 export const colorCodeStat = (stat) => {
-  if (
-    Number(stat.games) === 0 ||
-    (Number(stat.kd) >= 1 && Number(stat.kd) < 1.2)
-  )
-    return "rgba(255, 255, 255, 0.6)";
+  const colors = {
+    red: "#d94949",
+    grey: "rgba(255, 255, 255, 0.6)",
+    green: "#32d35a",
+  };
+  const [games, kd] = [Number(stat.games), Number(stat.kd)];
 
-  return Number(stat.kd) >= 1.2 ? "#32d35a" : "#d94949";
+  if (games < 1 || (kd >= 1 && kd < 1.2)) return colors.grey;
+
+  return kd >= 1.2 ? colors.green : colors.red;
 };
