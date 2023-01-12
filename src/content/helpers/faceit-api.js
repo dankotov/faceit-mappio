@@ -29,7 +29,7 @@ const getPlayers = (matchDetails) => {
   const players = {};
   Object.values(matchDetails.teams).forEach((team) => {
     team.roster.forEach((player) => {
-      players[player.nickname] = { id: player.player_id, maps: {} };
+      players[player.nickname] = { id: player.player_id, maps: new Map([]) };
     });
   });
 
@@ -50,7 +50,7 @@ const fetchPlayerDetails = async (matchroomId) => {
         kd: map.stats["Average K/D Ratio"],
         wr: map.stats["Win Rate %"],
       };
-      players[nickname].maps[map.label] = data;
+      players[nickname].maps.set(map.label, data);
     });
   });
 
