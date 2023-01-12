@@ -30,5 +30,4 @@ export const debounceAddPlayerMapStats = debounce(async (matchroomId) => {
     const el = createMapStatsElement({ stats });
     playerElement.append(el);
   });
-  console.log(playerMapStats);
 }, 200);

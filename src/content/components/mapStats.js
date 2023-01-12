@@ -1,20 +1,20 @@
 import { h } from "dom-chef";
+
 import { ACTIVE_MAP_POOL, ESCL } from "../helpers/consts";
+import createMapStatsCell from "./mapStatsCell";
 
 export default ({ stats }) => {
   const mapStats = [];
 
   Object.keys(ACTIVE_MAP_POOL).forEach((key) => {
-    const mapDisplay = ACTIVE_MAP_POOL[key].substring(0, 3).toUpperCase();
-    const s = stats[key] ? (
-      <div>
-        {mapDisplay} {stats[key].games} {stats[key].wr}% {stats[key].kd}
-      </div>
-    ) : (
-      <div>{mapDisplay} - - -</div>
-    );
+    const mapDisplayLabel = ACTIVE_MAP_POOL[key].substring(0, 3).toUpperCase();
 
-    mapStats.push(s);
+    const stat = stats[key];
+    const statElement = stat
+      ? createMapStatsCell({ mapDisplayLabel, stat })
+      : createMapStatsCell({ mapDisplayLabel });
+
+    mapStats.push(statElement);
   });
 
   const el = (
@@ -24,23 +24,28 @@ export default ({ stats }) => {
         width: "100%",
         display: "flex",
         flexDirection: "column",
+        borderTop: "1px solid #303030",
         color: "rgba(255, 255, 255, 0.6)",
         fontSize: 6,
       }}
     >
+      <div style={{ textAlign: "center", paddingTop: 4, fontSize: 11 }}>
+        Map / Games / K/D
+      </div>
       <div
         style={{
-          padding: 4,
+          padding: "2px 4px 4px 4px",
+          minHeight: 50,
           boxSizing: "border-box",
-          borderTop: "1px solid #303030",
-          borderBot: "1px solid #303030",
           width: "100%",
-          display: "flex",
+          display: "grid",
+          gap: "0px 26px",
+          gridTemplateColumns: "repeat(auto-fill, minmax(72px, 1fr))",
         }}
       >
         {mapStats}
       </div>
-      <div>{JSON.stringify(stats)}</div>
+      {/* <div>{JSON.stringify(stats)}</div> */}
     </div>
   );
 

@@ -13,3 +13,13 @@ export const isRelevantMapStat = (mapStat) => {
     mapStat.label in ACTIVE_MAP_POOL
   );
 };
+
+export const colorCodeStat = (stat) => {
+  if (
+    Number(stat.games) === 0 ||
+    (Number(stat.kd) > 1 && Number(stat.kd) < 1.2)
+  )
+    return "rgba(255, 255, 255, 0.6)";
+
+  return Number(stat.kd) >= 1.2 ? "#32d35a" : "#d94949";
+};
