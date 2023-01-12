@@ -17,17 +17,17 @@ export default ({ stats }) => {
 
   const el = (
     <div
-      className={ESCL}
+      className={ESCL + " mapStats"}
       style={{
         width: "100%",
         display: "flex",
         flexDirection: "column",
         borderTop: "1px solid #303030",
         color: "rgba(255, 255, 255, 0.6)",
-        fontSize: 6,
+        fontSize: 11,
       }}
     >
-      <div style={{ textAlign: "center", paddingTop: 4, fontSize: 11 }}>
+      <div style={{ textAlign: "center", paddingTop: 4 }}>
         Map / Games / K/D
       </div>
       <div
@@ -43,7 +43,6 @@ export default ({ stats }) => {
       >
         {mapStats}
       </div>
-      {/* <div>{JSON.stringify(stats)}</div> */}
     </div>
   );
 

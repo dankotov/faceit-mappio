@@ -4,7 +4,6 @@ import { colorCodeStat } from "../helpers/utils";
 export default ({ label = "ERR", stat = { games: "0", kd: "0" } }) => (
   <div
     style={{
-      fontSize: 11,
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
