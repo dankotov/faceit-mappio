@@ -27,6 +27,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "@stdlib/stats-base-dists-beta-ctor": "^0.0.8",
     "dom-chef": "^5.1.0",
     "lodash": "^4.17.21",
     "p-memoize": "^7.1.1"
