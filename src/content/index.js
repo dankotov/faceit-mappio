@@ -1,11 +1,10 @@
-import { debounceAddMapDropProbabilities } from "./features/addMapDropProbabilities";
-import { debounceAddPlayerMapStats } from "./features/addPlayerMapStats";
+import debounceAddPlayerMapStats from "./features/addPlayerMapStats";
 import { fetchMemoizedPlayerDetails } from "./helpers/faceit-api";
 import {
-  isMatchroomPage,
   getMatchroomId,
-  isShadowRootLoaded,
   isMatchroomOverviewLoaded,
+  isMatchroomPage,
+  isShadowRootLoaded,
 } from "./helpers/matchroom";
 
 const handleMutation = (mutations, observer) => {

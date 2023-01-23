@@ -1,8 +1,9 @@
+/** @jsx h */
 import { h } from "dom-chef";
-import createMapDropProbabilitiesCell from "./mapDropProbabilitiesCell";
 import { ACTIVE_MAP_POOL, ESCL } from "../helpers/consts";
+import createMapDropProbabilitiesCell from "./mapDropProbabilitiesCell";
 
-export default ({ captainIds, captains }) => {
+const mapDropProbabilitiesTable = ({ captainIds, captains }) => {
   const mapDropProbabilities = [];
 
   ACTIVE_MAP_POOL.forEach((mapName, codeName) => {
@@ -24,7 +25,7 @@ export default ({ captainIds, captains }) => {
 
   const el = (
     <div
-      class={ESCL + " mapDropProbabilities"}
+      className={`${ESCL} mapDropProbabilities`}
       style={{
         width: "100%",
         display: "flex",
@@ -38,3 +39,5 @@ export default ({ captainIds, captains }) => {
   );
   return el;
 };
+
+export default mapDropProbabilitiesTable;

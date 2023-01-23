@@ -3,16 +3,13 @@ import { ACTIVE_MAP_POOL, ESCL } from "./consts";
 export const elementExistsIn = (selectorString, parent) => {
   if (parent === null) return false;
 
-  return parent.querySelector(selectorString) === null ? false : true;
+  return parent.querySelector(selectorString) !== null;
 };
 
-export const isRelevantMapStat = (mapStat) => {
-  return (
-    mapStat.type === "Map" &&
-    mapStat.mode === "5v5" &&
-    ACTIVE_MAP_POOL.has(mapStat.label)
-  );
-};
+export const isRelevantMapStat = (mapStat) =>
+  mapStat.type === "Map" &&
+  mapStat.mode === "5v5" &&
+  ACTIVE_MAP_POOL.has(mapStat.label);
 
 export const colorCodeStat = (stat) => {
   const colors = {
@@ -27,6 +24,5 @@ export const colorCodeStat = (stat) => {
   return kd >= 1.2 ? colors.green : colors.red;
 };
 
-export const hasMappio = (element) => {
-  return element.querySelector("." + ESCL) !== null;
-};
+export const hasMappio = (element) =>
+  element.querySelector(`.${ESCL}`) !== null;

@@ -1,21 +1,15 @@
 import { debounce } from "lodash";
 import createMapDropProbabilitiesTable from "../components/mapDropProbabilitiesTable";
-import { fetchMatchDetails, getCaptains } from "../helpers/faceit-api";
+import { getCaptains } from "../helpers/faceit-api";
 import {
   getCaptainElements,
   getInfoElement,
   getNickname,
 } from "../helpers/matchroom";
+import generateDropProbabilities from "../helpers/probabilities";
 import { hasMappio } from "../helpers/utils";
-import { generateDropProbabilities } from "../helpers/probabilities";
 
-export const addMapDropProbabilities = async (matchroomId) => {
-  const matchDetails = await fetchMatchDetails(matchroomId);
-
-  console.log(matchDetails);
-};
-
-export const debounceAddMapDropProbabilities = debounce(async (matchroomId) => {
+export default debounce(async (matchroomId) => {
   const info = getInfoElement();
   if (hasMappio(info)) return;
 

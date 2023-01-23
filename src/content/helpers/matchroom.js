@@ -1,18 +1,17 @@
-import { ESCL } from "./consts";
 import { elementExistsIn } from "./utils";
+
+const getShadowRootElement = () =>
+  document.querySelector("#parasite-container").shadowRoot;
 
 export const isMatchroomPage = () => {
   const pageUrl = document.location.href;
   return pageUrl.includes("/csgo/room/") && !pageUrl.includes("/matchroom");
 };
 
-export const isShadowRootLoaded = () => {
-  return getShadowRootElement() !== null;
-};
+export const isShadowRootLoaded = () => getShadowRootElement() !== null;
 
-export const isMatchroomOverviewLoaded = () => {
-  return getShadowRootElement().querySelector("#MATCHROOM-OVERVIEW") !== null;
-};
+export const isMatchroomOverviewLoaded = () =>
+  getShadowRootElement().querySelector("#MATCHROOM-OVERVIEW") !== null;
 
 export const rosterListsLoaded = () => {
   const sr = getShadowRootElement();
@@ -31,12 +30,8 @@ export const getMatchroomId = () => {
   return pageUrl.substring(startIndex, startIndex + idLength);
 };
 
-const getShadowRootElement = () => {
-  return document.querySelector("#parasite-container").shadowRoot;
-};
-
 const getRosterList = (rosterContainer) => {
-  let roster = [];
+  const roster = [];
   if (rosterContainer.childElementCount === 5) {
     rosterContainer.childNodes.forEach((playerCard) => {
       roster.push(playerCard.childNodes[0]);
@@ -93,9 +88,8 @@ export const getMapVetoOptions = () => {
   return mapVetoOptionElements;
 };
 
-export const getMapName = (mapCard) => {
-  return mapCard.querySelector("div > span").textContent;
-};
+export const getMapName = (mapCard) =>
+  mapCard.querySelector("div > span").textContent;
 
 export const getNickname = (playerCard) =>
   (

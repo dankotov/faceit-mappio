@@ -1,10 +1,10 @@
 import { debounce } from "lodash";
+import createMapStatsElement from "../components/mapStatsTable";
 import { fetchMemoizedPlayerDetails } from "../helpers/faceit-api";
 import { getMatchroomPlayers, getNickname } from "../helpers/matchroom";
-import createMapStatsElement from "../components/mapStats";
 import { hasMappio } from "../helpers/utils";
 
-export const debounceAddPlayerMapStats = debounce(async (matchroomId) => {
+export default debounce(async (matchroomId) => {
   const playerElements = getMatchroomPlayers();
   const playerMapStats = await fetchMemoizedPlayerDetails(matchroomId);
 

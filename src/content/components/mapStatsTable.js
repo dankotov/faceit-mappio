@@ -1,9 +1,10 @@
+/** @jsx h */
 import { h } from "dom-chef";
-
 import { ACTIVE_MAP_POOL, ESCL } from "../helpers/consts";
+
 import createMapStatsCell from "./mapStatsCell";
 
-export default ({ stats }) => {
+const mapStatsTable = ({ stats }) => {
   const mapStats = [];
 
   ACTIVE_MAP_POOL.forEach((mapName, mapCodename) => {
@@ -17,7 +18,7 @@ export default ({ stats }) => {
 
   const el = (
     <div
-      className={ESCL + " mapStats"}
+      className={`${ESCL} mapStats`}
       style={{
         width: "100%",
         display: "flex",
@@ -48,3 +49,5 @@ export default ({ stats }) => {
 
   return el;
 };
+
+export default mapStatsTable;
