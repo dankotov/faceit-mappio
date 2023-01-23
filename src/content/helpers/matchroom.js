@@ -73,6 +73,30 @@ export const getMatchroomPlayers = () => {
   return rosterOne.concat(rosterTwo);
 };
 
+export const getCaptainElements = () => {
+  const players = getMatchroomPlayers();
+  return [players[0], players[5]];
+};
+
+export const getInfoElement = () => {
+  const mo = getShadowRootElement().querySelector("#MATCHROOM-OVERVIEW");
+
+  return mo.querySelector('[name="info"]');
+};
+
+export const getMapVetoOptions = () => {
+  const info = getInfoElement();
+
+  const mapVetoOptionElements = [
+    ...info.firstChild.firstChild.childNodes[2].firstChild.childNodes,
+  ];
+  return mapVetoOptionElements;
+};
+
+export const getMapName = (mapCard) => {
+  return mapCard.querySelector("div > span").textContent;
+};
+
 export const getNickname = (playerCard) =>
   (
     playerCard.querySelector("span + div") ||
