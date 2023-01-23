@@ -1,4 +1,4 @@
-import { ACTIVE_MAP_POOL } from "./consts";
+import { ACTIVE_MAP_POOL, ESCL } from "./consts";
 
 export const elementExistsIn = (selectorString, parent) => {
   if (parent === null) return false;
@@ -25,4 +25,8 @@ export const colorCodeStat = (stat) => {
   if (games < 1 || (kd >= 1 && kd < 1.2)) return colors.grey;
 
   return kd >= 1.2 ? colors.green : colors.red;
+};
+
+export const hasMappio = (element) => {
+  return element.querySelector("." + ESCL) !== null;
 };

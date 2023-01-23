@@ -1,13 +1,9 @@
-import {
-  addPlayerMapStats,
-  debounceAddPlayerMapStats,
-} from "./features/addPlayerMapStats";
+import { debounceAddMapDropProbabilities } from "./features/addMapDropProbabilities";
+import { debounceAddPlayerMapStats } from "./features/addPlayerMapStats";
 import { fetchMemoizedPlayerDetails } from "./helpers/faceit-api";
 import {
   isMatchroomPage,
-  rosterListsLoaded,
   getMatchroomId,
-  isMatchroomLoaded,
   isShadowRootLoaded,
   isMatchroomOverviewLoaded,
 } from "./helpers/matchroom";
