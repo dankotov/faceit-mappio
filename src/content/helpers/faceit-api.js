@@ -94,7 +94,7 @@ export const fetchMatchVetoDetails = async (matchroomId) =>
  * @param {Object} [matchDetails] The match details object.
  * @returns {{nickname:{id:string,maps:Map.<string,{games:string,kd:string,wr:string}}}} Object with player nickname as a key and an object containing the player's id and an empty Map for map stats.
  */
-const getPlayers = (matchDetails) => {
+const getMatchPlayersIdsFromMatchDetails = (matchDetails) => {
   const players = {};
   Object.values(matchDetails.teams).forEach((team) => {
     team.roster.forEach((player) => {
@@ -154,9 +154,9 @@ const aggregatePlayerStats = async (nickname, playerId) => {
  * @param {string} [matchroomId] The match's FACEIT ID.
  * @returns {{nickname:{id:string,maps:Map.<string,{games:string,kd:string,wr:string}}}} Object with player nicknames as keys and an object containing the player's id and map stats.
  */
-const fetchAllPlayersDetails = async (matchroomId) => {
+const fetchAllMatchPlayersDetails = async (matchroomId) => {
   const matchDetails = await fetchMatchDetails(matchroomId);
-  const players = getPlayers(matchDetails);
+  const players = getMatchPlayersIdsFromMatchDetails(matchDetails);
 
   const playerStatsPromises = Object.keys(players).map(async (nickname) =>
     aggregatePlayerStats(nickname, players[nickname].id)
@@ -170,9 +170,12 @@ const fetchAllPlayersDetails = async (matchroomId) => {
 };
 
 // Memoized fetch all players' details method
-export const fetchMemoizedAllPlayersDetails = pMemoize(fetchAllPlayersDetails, {
-  maxAge: CACHE_TIME,
-});
+export const fetchMemoizedAllMatchPlayersDetails = pMemoize(
+  fetchAllMatchPlayersDetails,
+  {
+    maxAge: CACHE_TIME,
+  }
+);
 
 /**
  * Fetches and organizes a list of a player's last 300 matches
