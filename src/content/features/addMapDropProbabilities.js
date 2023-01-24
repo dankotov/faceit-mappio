@@ -1,6 +1,6 @@
 import { debounce } from "lodash";
 import createMapDropProbabilitiesTable from "../components/mapDropProbabilitiesTable";
-import { getCaptains } from "../helpers/faceit-api";
+import { getCaptainsIdsFromMatchroomId } from "../helpers/faceit-api";
 import {
   getCaptainElements,
   getInfoElement,
@@ -13,7 +13,7 @@ export default debounce(async (matchroomId) => {
   const info = getInfoElement();
   if (hasMappio(info)) return;
 
-  const captainIds = await getCaptains(matchroomId);
+  const captainIds = await getCaptainsIdsFromMatchroomId(matchroomId);
   const captainElements = getCaptainElements();
 
   const dropProbabilityPromises = captainIds.map(generateDropProbabilities);

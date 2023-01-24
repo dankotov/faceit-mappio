@@ -1,5 +1,5 @@
 import debounceAddPlayerMapStats from "./features/addPlayerMapStats";
-import { fetchMemoizedPlayerDetails } from "./helpers/faceit-api";
+import { fetchMemoizedAllPlayersDetails } from "./helpers/faceit-api";
 import {
   getMatchroomId,
   isMatchroomOverviewLoaded,
@@ -15,7 +15,7 @@ const handleMutation = (mutations, observer) => {
   }
 
   const matchroomId = getMatchroomId();
-  fetchMemoizedPlayerDetails(matchroomId);
+  fetchMemoizedAllPlayersDetails(matchroomId);
 
   if (!isShadowRootLoaded()) {
     return;

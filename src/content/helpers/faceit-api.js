@@ -8,12 +8,20 @@ import {
 } from "./consts";
 import { isRelevantMapStat } from "./utils";
 
-const fetchFaceitApi = async (baseUrl, requestPath, auth = true) => {
+/**
+ * Returns response from `baseUrl` + `requestPath`.
+ *
+ * @param {string} [baseUrl] The API's base url.
+ * @param {string} [requestPath] The path of the desired resource.
+ * @param {boolean} [authRequired] Whether an authorization header is required.
+ * @returns {Object} Response from baseUrl + requestPath.
+ */
+const fetchFaceitApi = async (baseUrl, requestPath, authRequired = true) => {
   console.log("API call:", baseUrl + requestPath);
   const headers = {
     "Content-Type": "application/json",
+    ...(authRequired && { Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}` }), // conditional auth header
   };
-  if (auth) headers.Authorization = `Bearer ${FACEIT_API_BEARER_TOKEN}`;
   const response = await fetch(baseUrl + requestPath, {
     method: "GET",
     headers,
@@ -22,17 +30,70 @@ const fetchFaceitApi = async (baseUrl, requestPath, auth = true) => {
   return json;
 };
 
+// Memoized base fetch method
 const fetchFaceitApiMemoized = pMemoize(fetchFaceitApi, {
   maxAge: CACHE_TIME,
   cacheKey: (arguments_) => JSON.stringify(arguments_),
 });
 
+/**
+ * Fetches match details for the match by the `matchroomId`.
+ *
+ * @param {string} [matchroomId] The match's FACEIT ID.
+ * @returns {Object} Match details of matchroomId.
+ */
 export const fetchMatchDetails = async (matchroomId) =>
   fetchFaceitApiMemoized(
     FACEIT_OPEN_BASE_URL,
     `/data/v4/matches/${matchroomId}`
   );
 
+/**
+ * Fetches a player's details by the `playerId`
+ *
+ * @param {string} [playerId] A player's FACEIT ID.
+ * @returns {Object} Player details of `playerId`.
+ */
+export const fetchPlayerDetails = async (playerId) =>
+  fetchFaceitApiMemoized(
+    FACEIT_OPEN_BASE_URL,
+    `/data/v4/players/${playerId}/stats/csgo`
+  );
+
+/**
+ * Fetches a 100 matches of `playerId` offset by `pageNum` times 100.
+ *
+ * @param {string} [playerId] A player's FACEIT ID.
+ * @param {number} [pageNum] Request page offset.
+ * @returns {Object} Object containing information of a 100 matches of `playerId` offset by `pageNum` times 100.
+ */
+const fetchPlayerMatches = async (playerId, pageNum) =>
+  fetchFaceitApiMemoized(
+    FACEIT_OPEN_BASE_URL,
+    `/data/v4/players/${playerId}/history?game=csgo&limit=100&offset=${
+      pageNum * 100
+    }`
+  );
+
+/**
+ * Fetches a match's veto details by `matchroomId`.
+ *
+ * @param {string} [matchroomId] The match's FACEIT ID.
+ * @returns {Object} Object containing information of the veto process of `matchroomId`.
+ */
+export const fetchMatchVetoDetails = async (matchroomId) =>
+  fetchFaceitApiMemoized(
+    FACEIT_API_BASE_URL,
+    `/democracy/v1/match/${matchroomId}/history`,
+    false
+  );
+
+/**
+ * Returns an object with player nickname as a key and an object containing the player's id and an empty Map for map stats.
+ *
+ * @param {Object} [matchDetails] The match details object.
+ * @returns {{nickname:{id:string,maps:Map.<string,{games:string,kd:string,wr:string}}}} Object with player nickname as a key and an object containing the player's id and an empty Map for map stats.
+ */
 const getPlayers = (matchDetails) => {
   const players = {};
   Object.values(matchDetails.teams).forEach((team) => {
@@ -44,16 +105,37 @@ const getPlayers = (matchDetails) => {
   return players;
 };
 
-const getCaptainsIds = (matchDetails) => [
+/**
+ * Returns an array of 2 elements where each element is a string id of a captain player.
+ *
+ * @param {Object} [matchDetails] The match details object.
+ * @returns {Array.<string>} Array of 2 elements where each element is a string id of a captain player.
+ */
+const getCaptainsIdsFromMatchDetails = (matchDetails) => [
   matchDetails.teams.faction1.leader,
   matchDetails.teams.faction2.leader,
 ];
 
+/**
+ * Returns an array of 2 elements where each element is a string id of a captain player
+ *
+ * @param {string} matchroomId. The match's FACEIT ID.
+ * @returns {Array.<string>} Array of 2 elements where each element is a string id of a captain player.
+ */
+export const getCaptainsIdsFromMatchroomId = async (matchroomId) => {
+  const md = await fetchMatchDetails(matchroomId);
+  return getCaptainsIdsFromMatchDetails(md);
+};
+
+/**
+ * Returns organized player stat data fetched from the FACEIT API.
+ *
+ * @param {string} [nickname] Player's nickname.
+ * @param {string} [playerId] Player's ID.
+ * @returns {{nickname:string, id:string, maps:Map.<string,{games:string,kd:string,wr:string}}} Object containing player nickname, id and map stats.
+ */
 const aggregatePlayerStats = async (nickname, playerId) => {
-  const playerStats = await fetchFaceitApiMemoized(
-    FACEIT_OPEN_BASE_URL,
-    `/data/v4/players/${playerId}/stats/csgo`
-  );
+  const playerStats = await fetchPlayerDetails(playerId);
   const stats = { nickname, id: playerId, maps: new Map([]) };
   playerStats.segments.filter(isRelevantMapStat).forEach((map) => {
     const data = {
@@ -66,7 +148,13 @@ const aggregatePlayerStats = async (nickname, playerId) => {
   return stats;
 };
 
-const fetchPlayerDetails = async (matchroomId) => {
+/**
+ * Fetches and organizes all matchroom's players' nickname, id and map stats
+ *
+ * @param {string} [matchroomId] The match's FACEIT ID.
+ * @returns {{nickname:{id:string,maps:Map.<string,{games:string,kd:string,wr:string}}}} Object with player nicknames as keys and an object containing the player's id and map stats.
+ */
+const fetchAllPlayersDetails = async (matchroomId) => {
   const matchDetails = await fetchMatchDetails(matchroomId);
   const players = getPlayers(matchDetails);
 
@@ -81,40 +169,25 @@ const fetchPlayerDetails = async (matchroomId) => {
   return players;
 };
 
-export const fetchMemoizedPlayerDetails = pMemoize(fetchPlayerDetails, {
+// Memoized fetch all players' details method
+export const fetchMemoizedAllPlayersDetails = pMemoize(fetchAllPlayersDetails, {
   maxAge: CACHE_TIME,
 });
 
-const getPlayerMatches = async (playerId, i) => {
-  const m = await fetchFaceitApiMemoized(
-    FACEIT_OPEN_BASE_URL,
-    `/data/v4/players/${playerId}/history?game=csgo&limit=100&offset=${i * 100}`
-  );
-  return m;
-};
-
-export const fetchPlayerMatchList = async (playerId) => {
-  const increments = [...Array(3).keys()];
-  const matchPromises = increments.map(async (increment) =>
-    getPlayerMatches(playerId, increment)
+/**
+ * Fetches and organizes a list of a player's last 300 matches
+ *
+ * @param {string} [playerId] The player's FACEIT ID.
+ * @returns {Array.<Object>} Array of objects with information about the player's last 300 matches.
+ */
+export const aggregatePlayerMatchList = async (playerId) => {
+  const pageNums = [...Array(3).keys()];
+  const matchPromises = pageNums.map(async (pageNum) =>
+    fetchPlayerMatches(playerId, pageNum)
   );
   const matches = (await Promise.all(matchPromises)).reduce(
     (acc, curr) => acc.concat(curr.items),
     []
   );
   return matches;
-};
-
-export const fetchMatchVetoDetails = async (matchroomId) =>
-  fetchFaceitApiMemoized(
-    FACEIT_API_BASE_URL,
-    `/democracy/v1/match/${matchroomId}/history`,
-    false
-  );
-
-export const getCaptains = async (matchroomId) => {
-  const md = await fetchMatchDetails(matchroomId);
-  const captains = getCaptainsIds(md);
-
-  return captains;
 };

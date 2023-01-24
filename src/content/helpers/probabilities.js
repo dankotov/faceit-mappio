@@ -1,6 +1,6 @@
 import Beta from "@stdlib/stats-base-dists-beta-ctor";
 import { ACTIVE_MAP_POOL } from "./consts";
-import { fetchMatchVetoDetails, fetchPlayerMatchList } from "./faceit-api";
+import { aggregatePlayerMatchList, fetchMatchVetoDetails } from "./faceit-api";
 
 const getMatchVetoDetails = async (match, playerId) => {
   const faction =
@@ -12,7 +12,7 @@ const getMatchVetoDetails = async (match, playerId) => {
 
 export default async (playerId) => {
   console.time(`Fetching matches ${playerId}`);
-  const matches = await fetchPlayerMatchList(playerId);
+  const matches = await aggregatePlayerMatchList(playerId);
   console.timeEnd(`Fetching matches ${playerId}`);
   const captainMatches = matches.filter((match) => {
     if (
