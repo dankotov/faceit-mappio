@@ -9,19 +9,17 @@ import {
 } from "./helpers/matchroom";
 
 const handleMutation = (mutations, observer) => {
+  // If not page of interest -> do nothing
   if (!hasMainContentElement() || !isMatchroomPage()) return;
 
   const matchroomId = getMatchroomId();
+  // Start fetching and memoize player details before page fully loaded
   fetchMemoizedAllMatchPlayersDetails(matchroomId);
 
-  if (!isShadowRootLoaded()) {
-    return;
-  }
+  // If page is not fully loaded yet -> do nothing
+  if (!isShadowRootLoaded() || !isMatchroomOverviewLoaded()) return;
 
-  if (!isMatchroomOverviewLoaded()) {
-    return;
-  }
-
+  // When page fully loaded, add player statistics
   debounceAddPlayerMapStats(matchroomId);
 
   mutations.forEach((mutation) => {
