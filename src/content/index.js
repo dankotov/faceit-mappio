@@ -2,17 +2,14 @@ import debounceAddPlayerMapStats from "./features/addPlayerMapStats";
 import { fetchMemoizedAllMatchPlayersDetails } from "./helpers/faceit-api";
 import {
   getMatchroomId,
+  hasMainContentElement,
   isMatchroomOverviewLoaded,
   isMatchroomPage,
   isShadowRootLoaded,
 } from "./helpers/matchroom";
 
 const handleMutation = (mutations, observer) => {
-  const mainContentElement = document.querySelector("#main-content");
-
-  if (!mainContentElement || !isMatchroomPage()) {
-    return;
-  }
+  if (!hasMainContentElement() || !isMatchroomPage()) return;
 
   const matchroomId = getMatchroomId();
   fetchMemoizedAllMatchPlayersDetails(matchroomId);

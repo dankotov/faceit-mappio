@@ -3,6 +3,13 @@ import { elementExistsIn } from "./utils";
 const getShadowRootElement = () =>
   document.querySelector("#parasite-container").shadowRoot;
 
+export const hasMainContentElement = () => {
+  const mainContentElement = document.querySelector("#main-content");
+  if (!mainContentElement) return false;
+
+  return true;
+};
+
 export const isMatchroomPage = () => {
   const pageUrl = document.location.href;
   return pageUrl.includes("/csgo/room/") && !pageUrl.includes("/matchroom");
