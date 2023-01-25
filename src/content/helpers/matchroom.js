@@ -41,19 +41,19 @@ const getRosterList = (rosterContainer) => {
   const roster = [];
   if (rosterContainer.childElementCount === 5) {
     rosterContainer.childNodes.forEach((playerCard) => {
-      roster.push(playerCard.childNodes[0]);
+      roster.push(playerCard.childNodes[0].childNodes[0]);
     });
   } else if (roster.childElementCount === 1) {
     rosterContainer.childNodes[0].forEach((playerCard) => {
-      roster.push(playerCard);
+      roster.push(playerCard.childNodes[0]);
     });
   } else {
     rosterContainer.childNodes.forEach((premadeContainer) => {
       if (premadeContainer.childElementCount === 1) {
-        roster.push(premadeContainer.childNodes[0]);
+        roster.push(premadeContainer.childNodes[0].childNodes[0]);
       } else {
         premadeContainer.childNodes.forEach((playerCard) => {
-          roster.push(playerCard.childNodes[0].childNodes[0]);
+          roster.push(playerCard.childNodes[0].childNodes[0].childNodes[0]);
         });
       }
     });
@@ -101,5 +101,5 @@ export const getMapName = (mapCard) =>
 export const getNickname = (playerCard) =>
   (
     playerCard.querySelector("span + div") ||
-    playerCard.firstChild.firstChild.childNodes[1].firstChild.firstChild
+    playerCard.firstChild.childNodes[1].firstChild.firstChild
   ).textContent;
