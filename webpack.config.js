@@ -7,6 +7,7 @@ module.exports = {
   entry: {
     content: path.resolve(__dirname, "./src/content/index.js"),
     background: path.resolve(__dirname, "./src/background/index.js"),
+    popup: path.resolve(__dirname, "./src/popup/popup.jsx"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -17,7 +18,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /popup/],
         use: {
           loader: "babel-loader",
           options: {
@@ -34,6 +35,16 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(js|jsx)$/,
+        include: /popup/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
+      },
     ],
   },
   plugins: [
@@ -46,6 +57,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, "./src/icons/"),
           to: path.resolve(__dirname, "dist/icons"),
+        },
+        {
+          from: path.resolve(__dirname, "./src/popup/popup.html"),
+          to: path.resolve(__dirname, "dist/popup.html"),
         },
       ],
     }),
