@@ -5,7 +5,7 @@ import { ACTIVE_MAP_POOL, ESCL } from "../helpers/consts";
 import createMapStatsCell from "./mapStatsCell";
 
 const mapStatsTable = ({ stats }) => {
-  const mapStats = [];
+  const mapStatsElements = [];
 
   ACTIVE_MAP_POOL.forEach((mapName, mapCodename) => {
     const label = mapName.substring(0, 3).toUpperCase();
@@ -13,7 +13,7 @@ const mapStatsTable = ({ stats }) => {
 
     const statElement = createMapStatsCell({ label, stat });
 
-    mapStats.push(statElement);
+    mapStatsElements.push(statElement);
   });
 
   const el = (
@@ -42,7 +42,7 @@ const mapStatsTable = ({ stats }) => {
           gridTemplateColumns: "repeat(auto-fill, minmax(72px, 1fr))",
         }}
       >
-        {mapStats}
+        {mapStatsElements}
       </div>
     </div>
   );
