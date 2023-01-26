@@ -1,7 +1,8 @@
+/** @jsx h */
 import { h } from "dom-chef";
 import { colorCodeStat } from "../helpers/utils";
 
-export default ({ label = "ERR", stat = { games: "0", kd: "0" } }) => (
+const mapStatsCell = ({ label = "ERR", stat = { games: "0", kd: "0" } }) => (
   <div
     style={{
       display: "flex",
@@ -16,3 +17,5 @@ export default ({ label = "ERR", stat = { games: "0", kd: "0" } }) => (
     <div style={{ width: 22 }}>{stat.kd}</div>
   </div>
 );
+
+export default mapStatsCell;

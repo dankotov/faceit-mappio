@@ -1,31 +1,25 @@
-import { debounceAddMapDropProbabilities } from "./features/addMapDropProbabilities";
-import { debounceAddPlayerMapStats } from "./features/addPlayerMapStats";
-import { fetchMemoizedPlayerDetails } from "./helpers/faceit-api";
+import debounceAddPlayerMapStats from "./features/addPlayerMapStats";
+import { memFetchAllMatchPlayersMapStats } from "./helpers/faceit-api";
 import {
-  isMatchroomPage,
   getMatchroomId,
-  isShadowRootLoaded,
+  hasMainContentElement,
   isMatchroomOverviewLoaded,
+  isMatchroomPage,
+  isShadowRootLoaded,
 } from "./helpers/matchroom";
 
 const handleMutation = (mutations, observer) => {
-  const mainContentElement = document.querySelector("#main-content");
-
-  if (!mainContentElement || !isMatchroomPage()) {
-    return;
-  }
+  // If not page of interest -> do nothing
+  if (!hasMainContentElement() || !isMatchroomPage()) return;
 
   const matchroomId = getMatchroomId();
-  fetchMemoizedPlayerDetails(matchroomId);
+  // Start fetching and memoize player details before page fully loaded
+  memFetchAllMatchPlayersMapStats(matchroomId);
 
-  if (!isShadowRootLoaded()) {
-    return;
-  }
+  // If page is not fully loaded yet -> do nothing
+  if (!isShadowRootLoaded() || !isMatchroomOverviewLoaded()) return;
 
-  if (!isMatchroomOverviewLoaded()) {
-    return;
-  }
-
+  // When page fully loaded, add player statistics
   debounceAddPlayerMapStats(matchroomId);
 
   mutations.forEach((mutation) => {

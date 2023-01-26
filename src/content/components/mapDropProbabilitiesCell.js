@@ -1,6 +1,11 @@
+/** @jsx h */
 import { h } from "dom-chef";
 
-export default ({ probabilityLeft, probabilityRight, mapName }) => {
+const mapDropProbabilitiesCell = ({
+  probabilityLeft,
+  probabilityRight,
+  mapName,
+}) => {
   const el = (
     <div
       style={{
@@ -17,3 +22,5 @@ export default ({ probabilityLeft, probabilityRight, mapName }) => {
   );
   return el;
 };
+
+export default mapDropProbabilitiesCell;

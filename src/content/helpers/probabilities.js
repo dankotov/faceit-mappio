@@ -1,6 +1,6 @@
-import { fetchPlayerMatchList, fetchMatchVetoDetails } from "./faceit-api";
-import { ACTIVE_MAP_POOL } from "./consts";
 import Beta from "@stdlib/stats-base-dists-beta-ctor";
+import { ACTIVE_MAP_POOL } from "./consts";
+import { fetchMatchVetoDetails, fetchPlayerMatchList } from "./faceit-api";
 
 const getMatchVetoDetails = async (match, playerId) => {
   const faction =
@@ -10,10 +10,8 @@ const getMatchVetoDetails = async (match, playerId) => {
   return { faction, veto };
 };
 
-export const generateDropProbabilities = async (playerId) => {
-  console.time(`Fetching matches ${playerId}`);
+export default async (playerId) => {
   const matches = await fetchPlayerMatchList(playerId);
-  console.timeEnd(`Fetching matches ${playerId}`);
   const captainMatches = matches.filter((match) => {
     if (
       match.teams.faction1.team_id !== playerId &&
@@ -29,9 +27,9 @@ export const generateDropProbabilities = async (playerId) => {
     return true;
   });
 
-  const vetoPromises = captainMatches.map(async (match) => {
-    return await getMatchVetoDetails(match, playerId);
-  });
+  const vetoPromises = captainMatches.map(async (match) =>
+    getMatchVetoDetails(match, playerId)
+  );
   const vetos = await Promise.all(vetoPromises);
 
   const dropMap = new Map();

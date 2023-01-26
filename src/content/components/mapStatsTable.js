@@ -1,10 +1,11 @@
+/** @jsx h */
 import { h } from "dom-chef";
-
 import { ACTIVE_MAP_POOL, ESCL } from "../helpers/consts";
+
 import createMapStatsCell from "./mapStatsCell";
 
-export default ({ stats }) => {
-  const mapStats = [];
+const mapStatsTable = ({ stats }) => {
+  const mapStatsElements = [];
 
   ACTIVE_MAP_POOL.forEach((mapName, mapCodename) => {
     const label = mapName.substring(0, 3).toUpperCase();
@@ -12,12 +13,12 @@ export default ({ stats }) => {
 
     const statElement = createMapStatsCell({ label, stat });
 
-    mapStats.push(statElement);
+    mapStatsElements.push(statElement);
   });
 
   const el = (
     <div
-      className={ESCL + " mapStats"}
+      className={`${ESCL} mapStats`}
       style={{
         width: "100%",
         display: "flex",
@@ -41,10 +42,12 @@ export default ({ stats }) => {
           gridTemplateColumns: "repeat(auto-fill, minmax(72px, 1fr))",
         }}
       >
-        {mapStats}
+        {mapStatsElements}
       </div>
     </div>
   );
 
   return el;
 };
+
+export default mapStatsTable;
