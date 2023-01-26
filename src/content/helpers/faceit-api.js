@@ -31,7 +31,7 @@ const fetchFaceitApi = async (baseUrl, requestPath, authRequired = true) => {
 };
 
 // Memoized base fetch method
-const fetchFaceitApiMemoized = pMemoize(fetchFaceitApi, {
+const memFetchFaceitApi = pMemoize(fetchFaceitApi, {
   maxAge: CACHE_TIME,
   cacheKey: (arguments_) => JSON.stringify(arguments_),
 });
@@ -43,10 +43,7 @@ const fetchFaceitApiMemoized = pMemoize(fetchFaceitApi, {
  * @returns {Object} Match details of matchroomId.
  */
 export const fetchMatchDetails = async (matchroomId) =>
-  fetchFaceitApiMemoized(
-    FACEIT_OPEN_BASE_URL,
-    `/data/v4/matches/${matchroomId}`
-  );
+  memFetchFaceitApi(FACEIT_OPEN_BASE_URL, `/data/v4/matches/${matchroomId}`);
 
 /**
  * Fetches a player's details by the `playerId`
@@ -55,7 +52,7 @@ export const fetchMatchDetails = async (matchroomId) =>
  * @returns {Object} Player details of `playerId`.
  */
 export const fetchPlayerStats = async (playerId) =>
-  fetchFaceitApiMemoized(
+  memFetchFaceitApi(
     FACEIT_OPEN_BASE_URL,
     `/data/v4/players/${playerId}/stats/csgo`
   );
@@ -68,7 +65,7 @@ export const fetchPlayerStats = async (playerId) =>
  * @returns {Object} Object containing information of a 100 matches of `playerId` offset by `pageNum` times 100.
  */
 const fetchPlayerMatches = async (playerId, pageNum) =>
-  fetchFaceitApiMemoized(
+  memFetchFaceitApi(
     FACEIT_OPEN_BASE_URL,
     `/data/v4/players/${playerId}/history?game=csgo&limit=100&offset=${
       pageNum * 100
@@ -82,7 +79,7 @@ const fetchPlayerMatches = async (playerId, pageNum) =>
  * @returns {Object} Object containing information of the veto process of `matchroomId`.
  */
 export const fetchMatchVetoDetails = async (matchroomId) =>
-  fetchFaceitApiMemoized(
+  memFetchFaceitApi(
     FACEIT_API_BASE_URL,
     `/democracy/v1/match/${matchroomId}/history`,
     false
@@ -173,7 +170,7 @@ const fetchAllMatchPlayersMapStats = async (matchroomId) => {
 };
 
 // Memoized fetch all players' details method
-export const fetchMemoizedAllMatchPlayersMapStats = pMemoize(
+export const memFetchAllMatchPlayersMapStats = pMemoize(
   fetchAllMatchPlayersMapStats,
   {
     maxAge: CACHE_TIME,
