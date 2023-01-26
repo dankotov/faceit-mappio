@@ -86,16 +86,20 @@ export const fetchMatchVetoDetails = async (matchroomId) =>
   );
 
 /**
- * Returns an object with player nickname as a key and an object containing the player's id and an empty Map for map stats.
+ * Extracts the match players nicknames and ids from the match details object.
  *
  * @param {Object} [matchDetails] The match details object.
- * @returns {{nickname:{id:string,maps:Map.<string,{games:string,kd:string,wr:string}}}} Object with player nickname as a key and an object containing the player's id and an empty Map for map stats.
+ * @returns {Array.<{nickname: string, id: string}>} Array of objects containing each players nickname and id.s
  */
-const getMatchPlayersIdsFromMatchDetails = (matchDetails) => {
-  const players = {};
-  Object.values(matchDetails.teams).forEach((team) => {
+const getMatchPlayersFromMatchDetails = (matchDetails) => {
+  const matchTeams = Object.values(matchDetails.teams);
+  const players = [];
+  matchTeams.forEach((team) => {
     team.roster.forEach((player) => {
-      players[player.nickname] = { id: player.player_id, maps: new Map([]) };
+      players.push({
+        nickname: player.nickname,
+        id: player.player_id,
+      });
     });
   });
 
@@ -103,7 +107,7 @@ const getMatchPlayersIdsFromMatchDetails = (matchDetails) => {
 };
 
 /**
- * Returns an array of 2 elements where each element is a string id of a captain player.
+ * Extracts the match captain players ids from the match details object.
  *
  * @param {Object} [matchDetails] The match details object.
  * @returns {Array.<string>} Array of 2 elements where each element is a string id of a captain player.
@@ -114,7 +118,7 @@ const getCaptainsIdsFromMatchDetails = (matchDetails) => [
 ];
 
 /**
- * Returns an array of 2 elements where each element is a string id of a captain player
+ * Gets the match captain players ids by the FACEIT match id.
  *
  * @param {string} matchroomId. The match's FACEIT ID.
  * @returns {Array.<string>} Array of 2 elements where each element is a string id of a captain player.
@@ -125,17 +129,21 @@ export const getCaptainsIdsFromMatchroomId = async (matchroomId) => {
 };
 
 /**
+ * Map where keys are CSGO map codenames and values are a player's stats for those maps.
+ * @typedef {Map.<string,{ games:string, kd:string, kr:string, wr:string }>} playerMapStats
+ */
+
+/**
  * Fetches and organizes player stat data fetched from the FACEIT API.
  *
- * @param {string} [nickname] Player's nickname.
  * @param {string} [playerId] Player's ID.
- * @returns {{nickname:string, id:string, maps:Map.<string,{games:string,kd:string,wr:string}}} Object containing player nickname, id and map stats.
+ * @returns {playerMapStats} Map where keys are CSGO map codenames and values are objects with player's stats for those maps.
  */
-const fetchPlayerMapStats = async (nickname, playerId) => {
-  const playerDetails = await fetchPlayerStats(playerId);
+const fetchPlayerMapStats = async (playerId) => {
+  const playerRawStats = await fetchPlayerStats(playerId);
   // extract stats of intereset for each map of active map pool from fetched player details
   const playerMapStats = new Map([]);
-  playerDetails.segments.filter(isRelevantMapStat).forEach((map) => {
+  playerRawStats.segments.filter(isRelevantMapStat).forEach((map) => {
     const mapData = {
       games: map.stats.Matches,
       kd: map.stats["Average K/D Ratio"],
@@ -145,28 +153,36 @@ const fetchPlayerMapStats = async (nickname, playerId) => {
     playerMapStats.set(map.label, mapData);
   });
 
-  return { nickname, id: playerId, maps: playerMapStats };
+  return playerMapStats;
 };
 
 /**
- * Fetches and organizes all matchroom's players' nickname, id and map stats
+ * Takes a player object and adds map stats to it.
+ *
+ * @param {{nickname: string, id: string}} [player] Object with player information.
+ * @returns {{nickname: string, id: string, maps: playerMapStats}} Object with player nickname, id and map stats.
+ */
+const addPlayerMapStats = async (player) => {
+  const playerMapStats = await fetchPlayerMapStats(player.id);
+  return { ...player, maps: playerMapStats };
+};
+
+/**
+ * Fetches all matchroom's players' nickname, id and map stats.
  *
  * @param {string} [matchroomId] The match's FACEIT ID.
- * @returns {{nickname:{id:string,maps:Map.<string,{games:string,kd:string,wr:string}}}} Object with player nicknames as keys and an object containing the player's id and map stats.
+ * @returns {Array.<{nickname: string, id: string, maps: playerMapStats}>} Array of player objects containing each player's nickname, id and maps/
  */
 const fetchAllMatchPlayersMapStats = async (matchroomId) => {
   const matchDetails = await fetchMatchDetails(matchroomId);
-  const players = getMatchPlayersIdsFromMatchDetails(matchDetails);
+  const players = getMatchPlayersFromMatchDetails(matchDetails);
 
-  const playerStatsPromises = Object.keys(players).map(async (nickname) =>
-    fetchPlayerMapStats(nickname, players[nickname].id)
+  const playersMapStatsPromises = players.map(async (player) =>
+    addPlayerMapStats(player)
   );
-  const playerStats = await Promise.all(playerStatsPromises);
-  playerStats.forEach((playerStat) => {
-    players[playerStat.nickname].maps = playerStat.maps;
-  });
+  const allMatchPlayersMapStats = await Promise.all(playersMapStatsPromises);
 
-  return players;
+  return allMatchPlayersMapStats;
 };
 
 // Memoized fetch all players' details method
@@ -178,7 +194,7 @@ export const memFetchAllMatchPlayersMapStats = pMemoize(
 );
 
 /**
- * Fetches and organizes a list of a player's last 300 matches
+ * Fetches and organizes a list of a player's last 300 matches.
  *
  * @param {string} [playerId] The player's FACEIT ID.
  * @returns {Array.<Object>} Array of objects with information about the player's last 300 matches.

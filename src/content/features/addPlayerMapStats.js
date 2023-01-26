@@ -12,7 +12,9 @@ export default debounce(async (matchroomId) => {
     if (hasMappio(playerElement)) return;
 
     const nickname = getNickname(playerElement);
-    const stats = playerMapStats[nickname].maps;
+    const stats = playerMapStats.find(
+      (player) => player.nickname === nickname
+    ).maps;
 
     const el = createMapStatsElement({ stats });
     playerElement.append(el);
