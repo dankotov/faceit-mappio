@@ -186,7 +186,7 @@ export const fetchMemoizedAllMatchPlayersMapStats = pMemoize(
  * @param {string} [playerId] The player's FACEIT ID.
  * @returns {Array.<Object>} Array of objects with information about the player's last 300 matches.
  */
-export const aggregatePlayerMatchList = async (playerId) => {
+export const fetchPlayerMatchList = async (playerId) => {
   const pageNums = [...Array(3).keys()];
   const matchPromises = pageNums.map(async (pageNum) =>
     fetchPlayerMatches(playerId, pageNum)
