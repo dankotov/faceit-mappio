@@ -54,7 +54,7 @@ export const fetchMatchDetails = async (matchroomId) =>
  * @param {string} [playerId] A player's FACEIT ID.
  * @returns {Object} Player details of `playerId`.
  */
-export const fetchPlayerDetails = async (playerId) =>
+export const fetchPlayerStats = async (playerId) =>
   fetchFaceitApiMemoized(
     FACEIT_OPEN_BASE_URL,
     `/data/v4/players/${playerId}/stats/csgo`
@@ -128,24 +128,26 @@ export const getCaptainsIdsFromMatchroomId = async (matchroomId) => {
 };
 
 /**
- * Returns organized player stat data fetched from the FACEIT API.
+ * Fetches and organizes player stat data fetched from the FACEIT API.
  *
  * @param {string} [nickname] Player's nickname.
  * @param {string} [playerId] Player's ID.
  * @returns {{nickname:string, id:string, maps:Map.<string,{games:string,kd:string,wr:string}}} Object containing player nickname, id and map stats.
  */
-const aggregatePlayerStats = async (nickname, playerId) => {
-  const playerStats = await fetchPlayerDetails(playerId);
-  const stats = { nickname, id: playerId, maps: new Map([]) };
-  playerStats.segments.filter(isRelevantMapStat).forEach((map) => {
-    const data = {
+const fetchPlayerMapStats = async (nickname, playerId) => {
+  const playerDetails = await fetchPlayerStats(playerId);
+  // extract stats of intereset for each map of active map pool from fetched player details
+  const playerMapStats = new Map([]);
+  playerDetails.segments.filter(isRelevantMapStat).forEach((map) => {
+    const mapData = {
       games: map.stats.Matches,
       kd: map.stats["Average K/D Ratio"],
       wr: map.stats["Win Rate %"],
     };
-    stats.maps.set(map.label, data);
+    playerMapStats.set(map.label, mapData);
   });
-  return stats;
+
+  return { nickname, id: playerId, maps: playerMapStats };
 };
 
 /**
@@ -154,12 +156,12 @@ const aggregatePlayerStats = async (nickname, playerId) => {
  * @param {string} [matchroomId] The match's FACEIT ID.
  * @returns {{nickname:{id:string,maps:Map.<string,{games:string,kd:string,wr:string}}}} Object with player nicknames as keys and an object containing the player's id and map stats.
  */
-const fetchAllMatchPlayersDetails = async (matchroomId) => {
+const fetchAllMatchPlayersMapStats = async (matchroomId) => {
   const matchDetails = await fetchMatchDetails(matchroomId);
   const players = getMatchPlayersIdsFromMatchDetails(matchDetails);
 
   const playerStatsPromises = Object.keys(players).map(async (nickname) =>
-    aggregatePlayerStats(nickname, players[nickname].id)
+    fetchPlayerMapStats(nickname, players[nickname].id)
   );
   const playerStats = await Promise.all(playerStatsPromises);
   playerStats.forEach((playerStat) => {
@@ -170,8 +172,8 @@ const fetchAllMatchPlayersDetails = async (matchroomId) => {
 };
 
 // Memoized fetch all players' details method
-export const fetchMemoizedAllMatchPlayersDetails = pMemoize(
-  fetchAllMatchPlayersDetails,
+export const fetchMemoizedAllMatchPlayersMapStats = pMemoize(
+  fetchAllMatchPlayersMapStats,
   {
     maxAge: CACHE_TIME,
   }

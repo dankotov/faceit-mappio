@@ -1,5 +1,5 @@
 import debounceAddPlayerMapStats from "./features/addPlayerMapStats";
-import { fetchMemoizedAllMatchPlayersDetails } from "./helpers/faceit-api";
+import { fetchMemoizedAllMatchPlayersMapStats } from "./helpers/faceit-api";
 import {
   getMatchroomId,
   hasMainContentElement,
@@ -14,7 +14,7 @@ const handleMutation = (mutations, observer) => {
 
   const matchroomId = getMatchroomId();
   // Start fetching and memoize player details before page fully loaded
-  fetchMemoizedAllMatchPlayersDetails(matchroomId);
+  fetchMemoizedAllMatchPlayersMapStats(matchroomId);
 
   // If page is not fully loaded yet -> do nothing
   if (!isShadowRootLoaded() || !isMatchroomOverviewLoaded()) return;
