@@ -142,6 +142,7 @@ const fetchPlayerMapStats = async (nickname, playerId) => {
     const mapData = {
       games: map.stats.Matches,
       kd: map.stats["Average K/D Ratio"],
+      kr: map.stats["Average K/R Ratio"],
       wr: map.stats["Win Rate %"],
     };
     playerMapStats.set(map.label, mapData);
