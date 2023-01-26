@@ -11,9 +11,7 @@ const getMatchVetoDetails = async (match, playerId) => {
 };
 
 export default async (playerId) => {
-  console.time(`Fetching matches ${playerId}`);
   const matches = await fetchPlayerMatchList(playerId);
-  console.timeEnd(`Fetching matches ${playerId}`);
   const captainMatches = matches.filter((match) => {
     if (
       match.teams.faction1.team_id !== playerId &&

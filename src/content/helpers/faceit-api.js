@@ -17,7 +17,6 @@ import { isRelevantMapStat } from "./utils";
  * @returns {Object} Response from baseUrl + requestPath.
  */
 const fetchFaceitApi = async (baseUrl, requestPath, authRequired = true) => {
-  console.log("API call:", baseUrl + requestPath);
   const headers = {
     "Content-Type": "application/json",
     ...(authRequired && { Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}` }), // conditional auth header
