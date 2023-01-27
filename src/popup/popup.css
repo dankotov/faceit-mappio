@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* dev purposes, remove when commit */
+body {
+  background: #101010;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app {
+  width: 400px;
+  height: 200px;
+  background-color: #161616;
+
+  font-family: "Source Sans Pro", sans-serif;
+  color: #f0eff4;
+}
+
+.popup-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0px;
+  border-bottom: 1px solid #303030;
+}
+
+.popup-header > img {
+  min-height: 48px;
+  height: 48px;
+}
+
+.popup-header > h1 {
+  margin-top: 10px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 20px;
+  border-bottom: 1px solid #303030;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.section-header > h2 {
+  font-size: 1.8em;
+}
+
+.section-description {
+  color: #a0a0a0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 55px;
+  height: 28px;
+}
+
+.switch > input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 28px;
+
+  background-color: #303030;
+  transition: 0.4s ease-in-out;
+}
+
+.slider::before {
+  box-sizing: border-box;
+  position: absolute;
+  content: "";
+
+  height: 20px;
+  width: 20px;
+  top: 50%;
+  transform: translate(5px, -50%);
+  /* border: 2px solid #a0a0a0; */
+  border-radius: 50%;
+
+  background-color: #f0eff4;
+  transition: 0.4s ease-in-out;
+}
+
+input:checked + .slider {
+  /* background-color: #59cd90; */
+  background-color: #0cca4a;
+}
+input:checked + .slider::before {
+  top: 50%;
+  transform: translate(31px, -50%);
+}

@@ -7,7 +7,7 @@ module.exports = {
   entry: {
     content: path.resolve(__dirname, "./src/content/index.js"),
     background: path.resolve(__dirname, "./src/background/index.js"),
-    popup: path.resolve(__dirname, "./src/popup/popup.jsx"),
+    popup: path.resolve(__dirname, "./src/popup/popup.tsx"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -36,16 +36,19 @@ module.exports = {
         },
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx)$/,
         include: /popup/,
+        exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
-          },
+          loader: "ts-loader",
+          options: {},
         },
       },
+      { test: /\.css$/, use: ["style-loader", "css-loader"] },
     ],
+  },
+  resolve: {
+    extensions: [".js", ".ts", ".tsx"],
   },
   plugins: [
     new CopyWebpackPlugin({
