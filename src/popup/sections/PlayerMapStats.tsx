@@ -5,7 +5,7 @@ import SectionHeader from "../components/SectionHeader";
 const PlayerMapStats = () => (
   <section className="section">
     <SectionHeader title="Player Map Stats" />
-    <SectionDescription description="Display selected player statistics for each map in their player card." />
+    <SectionDescription description="Display statistics for each map in player cards. Select what information to display below." />
   </section>
 );
 
