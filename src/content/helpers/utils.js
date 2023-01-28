@@ -1,4 +1,4 @@
-import { ACTIVE_MAP_POOL, ESCL } from "./consts";
+import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
 
 /**
  * Checks whether an element identifiable by a query selector string in an HTML element.

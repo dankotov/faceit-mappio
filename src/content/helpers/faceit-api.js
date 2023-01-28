@@ -5,7 +5,7 @@ import {
   FACEIT_API_BASE_URL,
   FACEIT_API_BEARER_TOKEN,
   FACEIT_OPEN_BASE_URL,
-} from "./consts";
+} from "../../shared/consts";
 import { isRelevantMapStat } from "./utils";
 
 /**

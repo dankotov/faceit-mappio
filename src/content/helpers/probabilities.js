@@ -1,5 +1,5 @@
 import Beta from "@stdlib/stats-base-dists-beta-ctor";
-import { ACTIVE_MAP_POOL } from "./consts";
+import { ACTIVE_MAP_POOL } from "../../shared/consts";
 import { fetchMatchVetoDetails, fetchPlayerMatchList } from "./faceit-api";
 
 const getMatchVetoDetails = async (match, playerId) => {
