@@ -1,11 +1,14 @@
 import React from "react";
 import SectionDescription from "../components/SectionDescription";
-import SectionHeader from "../components/SectionHeader";
+import SettingSectionHeader from "../components/SettingSectionHeader";
 
 const PlayerMapStats = () => (
   <section className="section">
-    <SectionHeader title="Player Map Stats" />
-    <SectionDescription description="Display statistics for each map in player cards. Select what information to display below." />
+    <SettingSectionHeader
+      title="Player Map Stats"
+      settingKey="showPlayerMapsStats"
+    />
+    <SectionDescription description="Display player statistics (number of games and average K/D) for each map in the match room player cards." />
   </section>
 );
 

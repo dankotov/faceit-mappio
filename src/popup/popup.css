@@ -63,6 +63,7 @@ body {
 
 .section-description {
   color: #a0a0a0;
+  margin-bottom: 5px;
 }
 
 .switch {
@@ -113,4 +114,8 @@ input:checked + .slider {
 input:checked + .slider::before {
   top: 50%;
   transform: translate(33px, -50%);
+}
+
+.section-feature-settings {
+  color: #a0a0a0;
 }
