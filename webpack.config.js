@@ -17,6 +17,15 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(ts|tsx)$/,
+        include: [/popup/, path.resolve(__dirname, "./src/shared/")],
+        exclude: /node_modules/,
+        use: {
+          loader: "ts-loader",
+          options: {},
+        },
+      },
+      {
         test: /\.js$/,
         exclude: [/node_modules/, /popup/],
         use: {
@@ -36,15 +45,9 @@ module.exports = {
         },
       },
       {
-        test: /\.(ts|tsx)$/,
-        include: /popup/,
-        exclude: /node_modules/,
-        use: {
-          loader: "ts-loader",
-          options: {},
-        },
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
       },
-      { test: /\.css$/, use: ["style-loader", "css-loader"] },
     ],
   },
   resolve: {
