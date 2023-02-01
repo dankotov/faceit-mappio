@@ -2,8 +2,8 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 const useExtensionOption = (
   key: string
-): [boolean, Dispatch<SetStateAction<boolean>>] => {
-  const [option, setOption] = useState(false);
+): [boolean | null, Dispatch<SetStateAction<boolean | null>>] => {
+  const [option, setOption] = useState<boolean | null>(null);
   const storageFetchResolved = useRef(false);
 
   useEffect(() => {
