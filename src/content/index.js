@@ -1,3 +1,4 @@
+import { isFeatureEnabled } from "../shared/settings";
 import debounceAddPlayerMapStats from "./features/addPlayerMapStats";
 import { memFetchAllMatchPlayersMapStats } from "./helpers/faceit-api";
 import {
@@ -19,8 +20,9 @@ const handleMutation = (mutations, observer) => {
   // If page is not fully loaded yet -> do nothing
   if (!isShadowRootLoaded() || !isMatchroomOverviewLoaded()) return;
 
-  // When page fully loaded, add player statistics
-  debounceAddPlayerMapStats(matchroomId);
+  // When page fully loaded, add player statistics if the respective feature is on
+  if (isFeatureEnabled("showPlayerMapsStats"))
+    debounceAddPlayerMapStats(matchroomId);
 
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((addedNode) => {
