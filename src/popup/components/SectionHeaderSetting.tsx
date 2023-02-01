@@ -1,7 +1,6 @@
 import React from "react";
 import useExtensionOption from "../hooks/useExtensionOption";
 import Loading from "./Loading";
-import SectionTitle from "./SectionTitle";
 import ToggleSwitch from "./ToggleSwitch";
 
 const SettingSectionHeader = ({
@@ -15,7 +14,7 @@ const SettingSectionHeader = ({
 
   return (
     <header className="section-header">
-      <SectionTitle title={title} />
+      <h2>{title}</h2>
       {option === null ? (
         <Loading />
       ) : (

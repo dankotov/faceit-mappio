@@ -116,10 +116,6 @@ input:checked + .slider::before {
   transform: translate(33px, -50%);
 }
 
-.section-feature-settings {
-  color: #a0a0a0;
-}
-
 .loader {
   width: 55px;
   height: 24px;

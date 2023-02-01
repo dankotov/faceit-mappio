@@ -1,10 +1,10 @@
 import React from "react";
 import SectionDescription from "../components/SectionDescription";
-import SettingSectionHeader from "../components/SettingSectionHeader";
+import SectionHeaderSetting from "../components/SectionHeaderSetting";
 
 const PlayerMapStats = () => (
   <section className="section">
-    <SettingSectionHeader
+    <SectionHeaderSetting
       title="Player Map Stats"
       settingKey="showPlayerMapsStats"
     />
