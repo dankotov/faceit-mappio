@@ -1,13 +1,12 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
-import PopupHeader from "./components/PopupHeader";
 import "./popup.css";
 import About from "./sections/About";
+import Header from "./sections/Header";
 import PlayerMapStats from "./sections/PlayerMapStats";
 
 const Popup = () => (
   <div className="app">
-    <PopupHeader />
+    <Header />
     <PlayerMapStats />
     <About />
   </div>
