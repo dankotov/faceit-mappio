@@ -1,4 +1,3 @@
-import React from "react";
 import useExtensionOption from "../hooks/useExtensionOption";
 import Loading from "./Loading";
 import ToggleSwitch from "./ToggleSwitch";

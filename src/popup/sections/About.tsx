@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import LinkRectangle from "../components/LinkRectangle";
 import SectionDescription from "../components/SectionDescription";
 import SectionHeaderDefault from "../components/SectionHeaderDefault";

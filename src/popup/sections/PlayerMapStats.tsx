@@ -1,4 +1,3 @@
-import React from "react";
 import SectionDescription from "../components/SectionDescription";
 import SectionHeaderSetting from "../components/SectionHeaderSetting";
 
