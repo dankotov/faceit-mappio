@@ -17,17 +17,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        include: [/popup/, path.resolve(__dirname, "./src/shared/")],
-        exclude: /node_modules/,
-        use: {
-          loader: "ts-loader",
-          options: {},
-        },
-      },
-      {
         test: /\.js$/,
-        exclude: [/node_modules/, /popup/],
+        exclude: [/node_modules/],
         use: {
           loader: "babel-loader",
           options: {
@@ -43,6 +34,23 @@ module.exports = {
             ],
           },
         },
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        include: [/popup/, path.resolve(__dirname, "./src/shared/")],
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env", "@babel/preset-react"],
+              plugins: ["styled-jsx/babel"],
+            },
+          },
+          {
+            loader: "ts-loader",
+          },
+        ],
       },
       {
         test: /\.css$/,
