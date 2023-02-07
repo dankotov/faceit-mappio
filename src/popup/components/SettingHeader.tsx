@@ -3,7 +3,7 @@ import Loading from "./Loading";
 import SectionHeader from "./SectionHeader";
 import Toggle from "./Toggle";
 
-const SettingSectionHeader = ({
+const SettingHeader = ({
   title,
   settingKey,
 }: {
@@ -22,4 +22,4 @@ const SettingSectionHeader = ({
     </SectionHeader>
   );
 };
-export default SettingSectionHeader;
+export default SettingHeader;
