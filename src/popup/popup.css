@@ -17,14 +17,6 @@ body {
   align-items: center;
 }
 
-.app {
-  width: 400px;
-  background-color: #161616;
-
-  font-family: "Source Sans Pro", sans-serif;
-  color: #f0eff4;
-}
-
 .popup-header {
   display: flex;
   flex-direction: column;

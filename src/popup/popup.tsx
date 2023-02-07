@@ -5,11 +5,23 @@ import Header from "./sections/Header";
 import PlayerMapStats from "./sections/PlayerMapStats";
 
 const Popup = () => (
-  <div className="app">
-    <Header />
-    <PlayerMapStats />
-    <About />
-  </div>
+  <>
+    <div className="app">
+      <Header />
+      <PlayerMapStats />
+      <About />
+    </div>
+
+    <style jsx>{`
+      .app {
+        width: 400px;
+        background-color: #161616;
+
+        font-family: "Source Sans Pro", sans-serif;
+        color: #f0eff4;
+      }
+    `}</style>
+  </>
 );
 
 const container = document.getElementById("app")!;
