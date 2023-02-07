@@ -7,12 +7,3 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-/* dev purposes, remove when commit */
-body {
-  background: #101010;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
