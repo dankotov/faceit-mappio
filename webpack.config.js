@@ -72,8 +72,8 @@ module.exports = {
           to: path.resolve(__dirname, "dist"),
         },
         {
-          from: path.resolve(__dirname, "./src/icons/"),
-          to: path.resolve(__dirname, "dist/icons"),
+          from: path.resolve(__dirname, "./src/assets/"),
+          to: path.resolve(__dirname, "dist/assets"),
         },
         {
           from: path.resolve(__dirname, "./src/popup/popup.html"),

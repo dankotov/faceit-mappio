@@ -38,7 +38,7 @@ const About = () => (
           link="https://childrenheroes.org/en/donations/"
           title="This extension's creator is Ukrainian. If you want to say thanks, please donate to Ukraine. The linked charity helps kids who have lost their parent(s) in the war."
           text="Ukraine"
-          img="./icons/ukraine.svg"
+          img="./assets/ukraine.svg"
         />
       </AboutColumn>
       <AboutColumn title="Reach Out">
@@ -46,7 +46,7 @@ const About = () => (
           link="https://www.reddit.com/r/FACEITmappio/"
           title="FACEIT Mappio Reddit"
           text="Reddit"
-          img="./icons/reddit.svg"
+          img="./assets/reddit.svg"
         />
       </AboutColumn>
       <AboutColumn title="Creator">
@@ -55,12 +55,12 @@ const About = () => (
             link="https://www.faceit.com/en/players/-koto"
             title="Creator's FACEIT"
             text="-koto"
-            img="./icons/faceit.svg"
+            img="./assets/faceit.svg"
           />
           <LinkRectangle
             link="https://github.com/dankotov"
             title="Creator's GitHub"
-            img="./icons/github.svg"
+            img="./assets/github.svg"
           />
         </div>
       </AboutColumn>
