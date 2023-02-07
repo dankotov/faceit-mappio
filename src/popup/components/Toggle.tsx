@@ -1,4 +1,4 @@
-const ToggleSwitch = ({
+const Toggle = ({
   isToggled,
   onToggle,
 }: {
@@ -67,4 +67,4 @@ const ToggleSwitch = ({
   );
 };
 
-export default ToggleSwitch;
+export default Toggle;

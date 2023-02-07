@@ -1,7 +1,7 @@
 import useExtensionOption from "../hooks/useExtensionOption";
 import Loading from "./Loading";
 import SectionHeader from "./SectionHeader";
-import ToggleSwitch from "./ToggleSwitch";
+import Toggle from "./Toggle";
 
 const SettingSectionHeader = ({
   title,
@@ -18,7 +18,7 @@ const SettingSectionHeader = ({
       {option === null ? (
         <Loading />
       ) : (
-        <ToggleSwitch isToggled={option} onToggle={() => setOption(!option)} />
+        <Toggle isToggled={option} onToggle={() => setOption(!option)} />
       )}
     </SectionHeader>
   );
