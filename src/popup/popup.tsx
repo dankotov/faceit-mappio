@@ -15,10 +15,10 @@ const Popup = () => (
     <style jsx>{`
       .app {
         width: 400px;
-        background-color: #161616;
+        background-color: var(--backblack);
 
         font-family: "Source Sans Pro", sans-serif;
-        color: #f0eff4;
+        color: var(--forewhite);
       }
     `}</style>
   </>

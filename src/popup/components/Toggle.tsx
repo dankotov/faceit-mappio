@@ -36,7 +36,7 @@ const Toggle = ({
           bottom: 0;
           border-radius: 23px;
 
-          background-color: #303030;
+          background-color: var(--backgrey);
           transition: 0.4s ease-in-out;
         }
 
@@ -51,7 +51,7 @@ const Toggle = ({
           transform: translate(6px, -50%);
           border-radius: 50%;
 
-          background-color: #f0eff4;
+          background-color: var(--forewhite);
           transition: 0.4s ease-in-out;
         }
 

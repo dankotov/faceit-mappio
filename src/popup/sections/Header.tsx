@@ -12,7 +12,7 @@ const Header = () => (
         justify-content: center;
         align-items: center;
         padding: 15px 0px;
-        border-bottom: 1px solid #303030;
+        border-bottom: 1px solid var(--backgrey);
       }
 
       header > img {

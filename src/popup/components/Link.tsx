@@ -25,8 +25,8 @@ const Link = ({
         border-radius: 4px;
 
         text-decoration: none;
-        background-color: #303030;
-        color: #a0a0a0;
+        background-color: var(--backgrey);
+        color: var(--foregrey);
 
         cursor: pointer;
       }

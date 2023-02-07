@@ -4,7 +4,7 @@ const SectionDescription = ({ description }: { description: string }) => (
 
     <style jsx>{`
       p {
-        color: #a0a0a0;
+        color: var(--foregrey);
         margin-bottom: 8px;
       }
     `}</style>

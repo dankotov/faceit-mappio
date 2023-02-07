@@ -7,3 +7,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+:root {
+  --backblack: #161616;
+  --backgrey: #303030;
+  --forewhite: #f0eff4;
+  --foregrey: #a0a0a0;
+}
