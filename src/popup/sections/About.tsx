@@ -34,7 +34,7 @@ const About = () => (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <AboutColumn title="Donate To">
         <LinkRectangle
-          link=""
+          link="https://childrenheroes.org/en/donations/"
           title="Donate to Ukraine"
           text="Ukraine"
           img="./icons/ukraine.svg"
