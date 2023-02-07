@@ -1,6 +1,6 @@
 /** @jsx h */
 import { h } from "dom-chef";
-import { ACTIVE_MAP_POOL, ESCL } from "../helpers/consts";
+import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
 import createMapDropProbabilitiesCell from "./mapDropProbabilitiesCell";
 
 const mapDropProbabilitiesTable = ({ captainIds, captains }) => {
