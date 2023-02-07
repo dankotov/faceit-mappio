@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Link from "../components/Link";
 import Section from "../components/Section";
 import SectionDescription from "../components/SectionDescription";
-import SectionHeaderDefault from "../components/SectionHeaderDefault";
+import SectionHeader from "../components/SectionHeader";
 
 const AboutColumn = ({
   title,
@@ -30,7 +30,7 @@ const AboutColumn = ({
 
 const About = () => (
   <Section>
-    <SectionHeaderDefault title="About" />
+    <SectionHeader title="About" />
     <SectionDescription description="Display everyone's map-related information in the matchroom to make more educated decisions during the veto process" />
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <AboutColumn title="Donate To">

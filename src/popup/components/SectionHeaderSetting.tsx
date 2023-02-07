@@ -13,8 +13,7 @@ const SettingSectionHeader = ({
   const [option, setOption] = useExtensionOption(settingKey);
 
   return (
-    <SectionHeader>
-      <h2>{title}</h2>
+    <SectionHeader title={title}>
       {option === null ? (
         <Loading />
       ) : (

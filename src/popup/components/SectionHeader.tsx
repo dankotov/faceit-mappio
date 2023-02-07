@@ -1,8 +1,17 @@
 import { ReactNode } from "react";
 
-const SectionHeader = ({ children }: { children: ReactNode | ReactNode[] }) => (
+const SectionHeader = ({
+  title,
+  children,
+}: {
+  title: string;
+  children?: ReactNode | ReactNode[];
+}) => (
   <>
-    <header>{children}</header>
+    <header>
+      <h2>{title}</h2>
+      {children}
+    </header>
 
     <style jsx>{`
       header {
