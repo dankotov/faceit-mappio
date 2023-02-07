@@ -11,6 +11,10 @@ const Section = ({ children }: { children: ReactNode | ReactNode[] }) => (
         padding: 15px 20px;
         border-bottom: 1px solid #303030;
       }
+
+      section:last-of-type {
+        border: none;
+      }
     `}</style>
   </>
 );
