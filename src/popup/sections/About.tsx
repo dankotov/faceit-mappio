@@ -35,7 +35,7 @@ const About = () => (
       <AboutColumn title="Donate To">
         <LinkRectangle
           link="https://childrenheroes.org/en/donations/"
-          title="Donate to Ukraine"
+          title="This extension's creator is Ukrainian. If you want to say thanks, please donate to Ukraine. The linked charity helps kids who have lost their parent(s) in the war."
           text="Ukraine"
           img="./icons/ukraine.svg"
         />
