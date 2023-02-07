@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import LinkRectangle from "../components/LinkRectangle";
+import Section from "../components/Section";
 import SectionDescription from "../components/SectionDescription";
 import SectionHeaderDefault from "../components/SectionHeaderDefault";
 
@@ -28,7 +29,7 @@ const AboutColumn = ({
 );
 
 const About = () => (
-  <section className="section">
+  <Section>
     <SectionHeaderDefault title="About" />
     <SectionDescription description="Display everyone's map-related information in the matchroom to make more educated decisions during the veto process" />
     <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -64,7 +65,7 @@ const About = () => (
         </div>
       </AboutColumn>
     </div>
-  </section>
+  </Section>
 );
 
 export default About;
