@@ -17,11 +17,6 @@ body {
   align-items: center;
 }
 
-.section-description {
-  color: #a0a0a0;
-  margin-bottom: 8px;
-}
-
 .switch {
   position: relative;
   display: inline-block;
