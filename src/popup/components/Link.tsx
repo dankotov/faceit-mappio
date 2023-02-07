@@ -1,16 +1,16 @@
-const LinkRectangle = ({
-  link,
+const Link = ({
+  url,
   title,
   text,
   img,
 }: {
-  link: string;
+  url: string;
   title: string;
   text?: string;
   img: string;
 }) => (
   <>
-    <a href={link} className={text ? "lg" : "sm"} target="_blank" title={title}>
+    <a href={url} className={text ? "lg" : "sm"} target="_blank" title={title}>
       <img src={img}></img>
       {text && <p>{text}</p>}
     </a>
@@ -54,4 +54,4 @@ const LinkRectangle = ({
   </>
 );
 
-export default LinkRectangle;
+export default Link;
