@@ -1,6 +1,8 @@
+import SectionHeader from "./SectionHeader";
+
 const DefaultSectionHeader = ({ title }: { title: string }) => (
-  <header className="section-header">
+  <SectionHeader>
     <h2>{title}</h2>
-  </header>
+  </SectionHeader>
 );
 export default DefaultSectionHeader;

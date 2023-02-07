@@ -17,17 +17,6 @@ body {
   align-items: center;
 }
 
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.section-header > h2 {
-  font-size: 1.8em;
-}
-
 .section-description {
   color: #a0a0a0;
   margin-bottom: 8px;
