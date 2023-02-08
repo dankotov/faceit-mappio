@@ -1,6 +1,7 @@
 /** @jsx h */
 import { h } from "dom-chef";
 import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
+import { colors } from "../../shared/theme";
 import createMapDropProbabilitiesCell from "./mapDropProbabilitiesCell";
 
 const mapDropProbabilitiesTable = ({ captainIds, captains }) => {
@@ -23,17 +24,16 @@ const mapDropProbabilitiesTable = ({ captainIds, captains }) => {
     mapDropProbabilities.push(mapDropProbabilitiesCell);
   });
 
+  const tableContainerStyle = {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    marginTop: 12,
+    color: `${colors.foregrey}`,
+  };
+
   const el = (
-    <div
-      className={`${ESCL} mapDropProbabilities`}
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        marginTop: 12,
-        color: "rgba(255, 255, 255, 0.6)",
-      }}
-    >
+    <div className={`${ESCL} mapDropProbabilities`} style={tableContainerStyle}>
       {mapDropProbabilities}
     </div>
   );

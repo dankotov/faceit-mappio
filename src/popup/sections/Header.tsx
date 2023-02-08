@@ -1,3 +1,5 @@
+import { colors } from "../../shared/theme";
+
 const Header = () => (
   <>
     <header>
@@ -12,7 +14,7 @@ const Header = () => (
         justify-content: center;
         align-items: center;
         padding: 15px 0px;
-        border-bottom: 1px solid var(--backgrey);
+        border-bottom: 1px solid ${colors.backgrey};
       }
 
       header > img {

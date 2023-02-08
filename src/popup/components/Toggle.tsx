@@ -1,3 +1,5 @@
+import { colors } from "../../shared/theme";
+
 const Toggle = ({
   isToggled,
   onToggle,
@@ -36,7 +38,7 @@ const Toggle = ({
           bottom: 0;
           border-radius: 23px;
 
-          background-color: var(--backgrey);
+          background-color: ${colors.backgrey};
           transition: 0.4s ease-in-out;
         }
 
@@ -51,12 +53,12 @@ const Toggle = ({
           transform: translate(6px, -50%);
           border-radius: 50%;
 
-          background-color: var(--forewhite);
+          background-color: ${colors.forewhite};
           transition: 0.4s ease-in-out;
         }
 
         input:checked + .slider {
-          background-color: #0cca4a;
+          background-color: ${colors.faceitgreen};
         }
         input:checked + .slider::before {
           top: 50%;

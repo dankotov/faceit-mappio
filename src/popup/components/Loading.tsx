@@ -1,3 +1,5 @@
+import { colors } from "../../shared/theme";
+
 const Loading = () => (
   <>
     <div className="loader">
@@ -40,7 +42,7 @@ const Loading = () => (
         }
         50% {
           transform: scale(1);
-          background-color: #ff550b;
+          background-color: ${colors.faceitorange};
         }
       }
     `}</style>

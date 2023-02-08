@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { colors } from "../../shared/theme";
 
 const Section = ({ children }: { children: ReactNode | ReactNode[] }) => (
   <>
@@ -9,7 +10,7 @@ const Section = ({ children }: { children: ReactNode | ReactNode[] }) => (
         display: flex;
         flex-direction: column;
         padding: 15px 20px;
-        border-bottom: 1px solid var(--backgrey);
+        border-bottom: 1px solid ${colors.backgrey};
       }
 
       section:last-of-type {

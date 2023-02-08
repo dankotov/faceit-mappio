@@ -1,7 +1,7 @@
 /** @jsx h */
 import { h } from "dom-chef";
 import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
-
+import { colors } from "../../shared/theme";
 import createMapStatsCell from "./mapStatsCell";
 
 const mapStatsTable = ({ stats }) => {
@@ -16,18 +16,17 @@ const mapStatsTable = ({ stats }) => {
     mapStatsElements.push(statElement);
   });
 
+  const mapStatsContainerStyle = {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    borderTop: `1px solid ${colors.backgrey}`,
+    color: `${colors.foregrey}`,
+    fontSize: 11,
+  };
+
   const el = (
-    <div
-      className={`${ESCL} mapStats`}
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        borderTop: "1px solid #303030",
-        color: "rgba(255, 255, 255, 0.6)",
-        fontSize: 11,
-      }}
-    >
+    <div className={`${ESCL} mapStats`} style={mapStatsContainerStyle}>
       <div style={{ textAlign: "center", paddingTop: 4 }}>
         Map / Games / K/D
       </div>

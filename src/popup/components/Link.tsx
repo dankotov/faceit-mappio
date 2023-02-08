@@ -1,3 +1,5 @@
+import { colors } from "../../shared/theme";
+
 const Link = ({
   url,
   title,
@@ -25,14 +27,14 @@ const Link = ({
         border-radius: 4px;
 
         text-decoration: none;
-        background-color: var(--backgrey);
-        color: var(--foregrey);
+        background-color: ${colors.backgrey};
+        color: ${colors.foregrey};
 
         cursor: pointer;
       }
 
       a:hover {
-        background-color: #505050;
+        background-color: ${colors.backlightgrey};
       }
 
       a.sm {

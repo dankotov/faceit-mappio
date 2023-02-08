@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import { colors } from "../shared/theme";
 import "./popup.css";
 import About from "./sections/About";
 import Header from "./sections/Header";
@@ -15,10 +16,10 @@ const Popup = () => (
     <style jsx>{`
       .app {
         width: 400px;
-        background-color: var(--backblack);
+        background-color: ${colors.backblack};
 
         font-family: "Source Sans Pro", sans-serif;
-        color: var(--forewhite);
+        color: ${colors.forewhite};
       }
     `}</style>
   </>

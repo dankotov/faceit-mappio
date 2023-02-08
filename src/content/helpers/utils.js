@@ -1,4 +1,5 @@
 import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
+import { colors } from "../../shared/theme";
 
 /**
  * Checks whether an element identifiable by a query selector string in an HTML element.
@@ -37,14 +38,9 @@ export const hasMappio = (element) =>
  * @returns {string} String that is a CSS color string.
  */
 export const colorCodeStat = (stat) => {
-  const colors = {
-    red: "#d94949",
-    grey: "rgba(255, 255, 255, 0.6)",
-    green: "#32d35a",
-  };
   const [games, kd] = [Number(stat.games), Number(stat.kd)];
 
-  if (games < 1 || (kd >= 1 && kd < 1.2)) return colors.grey;
+  if (games < 1 || (kd >= 1 && kd < 1.2)) return colors.foregrey;
 
-  return kd >= 1.2 ? colors.green : colors.red;
+  return kd >= 1.2 ? colors.faceitgreen : colors.faceitred;
 };
