@@ -16,7 +16,11 @@ import { isRelevantMapStat } from "./utils";
  * @param {boolean} [authRequired] Whether an authorization header is required.
  * @returns {Object} Response from baseUrl + requestPath.
  */
-const fetchFaceitApi = async (baseUrl, requestPath, authRequired = true) => {
+const fetchFaceitApi = async (
+  baseUrl: string,
+  requestPath: string,
+  authRequired: boolean = true
+) => {
   const headers = {
     "Content-Type": "application/json",
     ...(authRequired && { Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}` }), // conditional auth header

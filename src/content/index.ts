@@ -9,7 +9,7 @@ import {
   isShadowRootLoaded,
 } from "./helpers/matchroom";
 
-const handleMutation = (mutations, observer) => {
+const handleMutation = async (mutations, observer) => {
   // If not page of interest -> do nothing
   if (!hasMainContentElement() || !isMatchroomPage()) return;
 
@@ -21,7 +21,7 @@ const handleMutation = (mutations, observer) => {
   if (!isShadowRootLoaded() || !isMatchroomOverviewLoaded()) return;
 
   // When page fully loaded, add player statistics if the respective feature is on
-  if (isFeatureEnabled("showPlayerMapsStats"))
+  if (await isFeatureEnabled("showPlayerMapsStats"))
     debounceAddPlayerMapStats(matchroomId);
 
   mutations.forEach((mutation) => {

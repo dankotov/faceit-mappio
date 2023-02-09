@@ -17,27 +17,32 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: [/node_modules/],
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"],
-            plugins: [
-              [
-                "@babel/plugin-transform-react-jsx",
-                {
-                  pragma: "h",
-                  pragmaFrag: "DocumentFragment",
-                },
+        test: /\.(ts|tsx)$/,
+        exclude: [/node_modules/, /popup/],
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"],
+              plugins: [
+                [
+                  "@babel/plugin-transform-react-jsx",
+                  {
+                    pragma: "h",
+                    pragmaFrag: "DocumentFragment",
+                  },
+                ],
               ],
-            ],
+            },
           },
-        },
+          {
+            loader: "ts-loader",
+          },
+        ],
       },
       {
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /content/],
         include: [/popup/, path.resolve(__dirname, "./src/shared/")],
         use: [
           {
