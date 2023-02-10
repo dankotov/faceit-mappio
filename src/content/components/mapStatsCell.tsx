@@ -1,4 +1,5 @@
 /** @jsx h */
+import { h } from "dom-chef";
 import { colorCodeStat } from "../helpers/utils";
 
 const mapStatsCell = ({ label = "ERR", stat = { games: "0", kd: "0" } }) => (

@@ -1,11 +1,12 @@
 /** @jsx h */
 import { h } from "dom-chef";
+import { ReactNode } from "react";
 import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
 import { colors } from "../../shared/theme";
 import createMapStatsCell from "./mapStatsCell";
 
-const mapStatsTable = ({ stats }) => {
-  const mapStatsElements = [];
+const mapStatsTable = ({ stats }: { stats: any }) => {
+  const mapStatsElements: ReactNode[] = [];
 
   ACTIVE_MAP_POOL.forEach((mapName, mapCodename) => {
     const label = mapName.substring(0, 3).toUpperCase();
@@ -16,17 +17,18 @@ const mapStatsTable = ({ stats }) => {
     mapStatsElements.push(statElement);
   });
 
-  const mapStatsContainerStyle = {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    borderTop: `1px solid ${colors.backgrey}`,
-    color: `${colors.foregrey}`,
-    fontSize: 11,
-  };
-
   const el = (
-    <div className={`${ESCL} mapStats`} style={mapStatsContainerStyle}>
+    <div
+      className={`${ESCL} mapStats`}
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        borderTop: `1px solid ${colors.backgrey}`,
+        color: `${colors.foregrey}`,
+        fontSize: 11,
+      }}
+    >
       <div style={{ textAlign: "center", paddingTop: 4 }}>
         Map / Games / K/D
       </div>

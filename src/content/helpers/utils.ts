@@ -8,9 +8,10 @@ import { colors } from "../../shared/theme";
  * @param {HTMLElement} [parent] HTML element to apply the `selectorString` to.
  * @returns {boolean} Boolean that represents whether there is a querySelector match for `selectorString` element in the `parent` element
  */
-export const elementExistsIn = (selectorString, parent) => {
-  if (parent === null) return false;
-
+export const elementExistsIn = (
+  selectorString: string,
+  parent: HTMLElement | ShadowRoot
+) => {
   return parent.querySelector(selectorString) !== null;
 };
 
@@ -19,7 +20,7 @@ export const elementExistsIn = (selectorString, parent) => {
  * @param {Object} [mapStat] Map stat object.
  * @returns {boolean} Boolean that represents whether the map stat is eligible to be account for by the extension.
  */
-export const isRelevantMapStat = (mapStat) =>
+export const isRelevantMapStat = (mapStat: any) =>
   mapStat.type === "Map" &&
   mapStat.mode === "5v5" &&
   ACTIVE_MAP_POOL.has(mapStat.label);
@@ -29,7 +30,7 @@ export const isRelevantMapStat = (mapStat) =>
  * @param {HTMLElement} element The HTML element.
  * @returns {boolean} Boolean that represents whether the provided `element` has any mappio extension related elements appended to it.
  */
-export const hasMappio = (element) =>
+export const hasMappio = (element: HTMLElement) =>
   element.querySelector(`.${ESCL}`) !== null;
 
 /**
@@ -37,7 +38,7 @@ export const hasMappio = (element) =>
  * @param {Object} [stat] Stat object.
  * @returns {string} String that is a CSS color string.
  */
-export const colorCodeStat = (stat) => {
+export const colorCodeStat = (stat: any) => {
   const [games, kd] = [Number(stat.games), Number(stat.kd)];
 
   if (games < 1 || (kd >= 1 && kd < 1.2)) return colors.foregrey;
