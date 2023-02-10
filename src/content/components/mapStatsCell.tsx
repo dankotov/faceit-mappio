@@ -2,6 +2,8 @@
 import { h } from "dom-chef";
 import { colorCodeStat } from "../helpers/utils";
 
+type _h = typeof h; // needed to prevent TSeslint from removing h import
+
 const mapStatsCell = ({ label = "ERR", stat = { games: "0", kd: "0" } }) => (
   <div
     style={{

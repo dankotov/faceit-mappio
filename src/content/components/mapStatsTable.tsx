@@ -5,6 +5,8 @@ import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
 import { colors } from "../../shared/theme";
 import createMapStatsCell from "./mapStatsCell";
 
+type _h = typeof h; // needed to prevent TSeslint from removing h import
+
 const mapStatsTable = ({ stats }: { stats: any }) => {
   const mapStatsElements: ReactNode[] = [];
 
