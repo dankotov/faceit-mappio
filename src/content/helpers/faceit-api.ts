@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-import pMemoize from "p-memoize";
+import mem from "mem";
 import {
   CACHE_TIME,
   FACEIT_API_BASE_URL,
@@ -34,7 +34,7 @@ const fetchFaceitApi = async (
 };
 
 // Memoized base fetch method
-const memFetchFaceitApi = pMemoize(fetchFaceitApi, {
+const memFetchFaceitApi = mem(fetchFaceitApi, {
   maxAge: CACHE_TIME,
   cacheKey: (arguments_) => JSON.stringify(arguments_),
 });
@@ -189,7 +189,7 @@ const fetchAllMatchPlayersMapStats = async (matchroomId) => {
 };
 
 // Memoized fetch all players' details method
-export const memFetchAllMatchPlayersMapStats = pMemoize(
+export const memFetchAllMatchPlayersMapStats = mem(
   fetchAllMatchPlayersMapStats,
   {
     maxAge: CACHE_TIME,
