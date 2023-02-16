@@ -2,24 +2,18 @@ import { elementExistsIn } from "./utils";
 
 /**
  * Gets the current page's shadow root element.
- *
- * @returns {HTMLDivElement} The matchroom's shadow root element.
  */
 const getShadowRootElement = () =>
   document.querySelector("#parasite-container")?.shadowRoot;
 
 /**
  * Checks if the current page has a main content element.
- *
- * @returns {boolean} Boolean that represents whether the current page has a main content element.
  */
 export const hasMainContentElement = () =>
   !!document.querySelector("#main-content");
 
 /**
  * Checks if current page is the matchroom page.
- *
- * @returns {boolean} Boolean that represents whether the current page is the matchroom page.
  */
 export const isMatchroomPage = () => {
   const pageUrl = document.location.href;
@@ -28,23 +22,17 @@ export const isMatchroomPage = () => {
 
 /**
  * Checks if the current page's shadow root element is loaded.
- *
- * @returns {boolean} Boolean that represents whether the current page's shadow root is loaded.
  */
 export const isShadowRootLoaded = () => !!getShadowRootElement();
 
 /**
  * Checks if the current page's matchroom overview element is loaded.
- *
- * @returns {boolean} Boolean that represents whether the current page's matchroom overview element is loaded.
  */
 export const isMatchroomOverviewLoaded = () =>
   !!getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
 
 /**
  * Checks if the current page's roster lists elements are loaded.
- *
- * @returns {boolean} Boolean that represents whether the current page's roster lists elements are loaded.
  */
 export const rosterListsLoaded = () => {
   const sr = getShadowRootElement();
@@ -57,7 +45,6 @@ export const rosterListsLoaded = () => {
 
 /**
  * Gets the current matchroom's ID from the URL
- * @returns {string} The current matchroom's ID
  */
 export const getMatchroomId = (): string => {
   const pageUrl = document.location.href;
@@ -70,9 +57,6 @@ export const getMatchroomId = (): string => {
 
 /**
  * Returns an array of individual matchroom player card HTML elements (compattible /w vanilla and faceit-enhacner layouts).
- *
- * @param {HTMLDivElement} [rosterContainer] HTML container element that holds the team member elements.
- * @returns {Array.<HTMLDivElement>} Array of indiviual player card HTML elements.
  */
 const getRosterList = (rosterContainer: HTMLDivElement) => {
   const roster: HTMLDivElement[] = [];
@@ -112,8 +96,6 @@ const getRosterList = (rosterContainer: HTMLDivElement) => {
 
 /**
  * Gets the HTML player card elements taht represent all players in the matchroom.
- *
- * @return {Array.<HTMLDivElement>} Array of HTML elements that represent all players' player cards in the matchroom.
  */
 export const getMatchroomPlayers = () => {
   const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
@@ -133,8 +115,6 @@ export const getMatchroomPlayers = () => {
 
 /**
  * Gets the HTML player card elements that represent the captains of each team in the matchroom.
- *
- * @returns {Array.<HTMLDivElement>} Array of HTML elements that represent the captains of each team in the matchroom.
  */
 export const getCaptainElements = () => {
   const players = getMatchroomPlayers();
@@ -144,8 +124,6 @@ export const getCaptainElements = () => {
 
 /**
  * Gets the HTML element that represents the info section of the matchroom.
- *
- * @returns {HTMLDivElement} HTML element that represents the info section of the matchroom.
  */
 export const getInfoElement = () => {
   const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
@@ -155,9 +133,6 @@ export const getInfoElement = () => {
 
 /**
  * Gets a player's nickname by parsing their matchroom HTML player card element (compattible /w vanilla and faceit-enhancer layouts).
- *
- * @param {HTMLDivElement} [playerCard] The player's HTML player card element.
- * @returns {string} The player's nickame.
  */
 export const getNickname = (playerCard: HTMLDivElement) =>
   (
