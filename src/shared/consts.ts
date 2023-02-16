@@ -1,4 +1,5 @@
 import { MapCodename, MapName } from "./types/csgo-maps";
+import { MapStats, Stats } from "./types/stats";
 
 export const EXTENSION_NAME = "mappio";
 export const ESCL = EXTENSION_NAME;
@@ -29,4 +30,22 @@ export const ACTIVE_MAP_POOL_REVERSE = new Map<MapName, MapCodename>([
   ["Nuke", "de_nuke"],
   ["Vertigo", "de_vertigo"],
   ["Anubis", "de_anubis"],
+]);
+
+export const EMPTY_STATS: Stats = {
+  games: "0",
+  kd: "0",
+  kr: "0",
+  wr: "0",
+};
+
+export const EMPTY_MAP_STATS: MapStats = new Map([
+  ["de_dust2", EMPTY_STATS],
+  ["de_inferno", EMPTY_STATS],
+  ["de_ancient", EMPTY_STATS],
+  ["de_overpass", EMPTY_STATS],
+  ["de_mirage", EMPTY_STATS],
+  ["de_nuke", EMPTY_STATS],
+  ["de_vertigo", EMPTY_STATS],
+  ["de_anubis", EMPTY_STATS],
 ]);

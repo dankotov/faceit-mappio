@@ -1,25 +1,26 @@
 /** @jsx h */
 import { h } from "dom-chef";
 import { ReactNode } from "react";
-import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
+import { ACTIVE_MAP_POOL, EMPTY_STATS, ESCL } from "../../shared/consts";
 import { colors } from "../../shared/theme";
+import { MapStats } from "../../shared/types/stats";
 import createMapStatsCell from "./mapStatsCell";
 
 type _h = typeof h; // needed to prevent TSeslint from removing h import
 
-const mapStatsTable = ({ stats }: { stats: any }) => {
+const mapStatsTable = ({ mapStats }: { mapStats: MapStats }) => {
   const mapStatsElements: ReactNode[] = [];
 
   ACTIVE_MAP_POOL.forEach((mapName, mapCodename) => {
     const label = mapName.substring(0, 3).toUpperCase();
-    const stat = stats.get(mapCodename) || { games: "0", kd: "0" };
+    const stats = mapStats.get(mapCodename) || EMPTY_STATS;
 
-    const statElement = createMapStatsCell({ label, stat });
+    const statElement = createMapStatsCell({ label, stats });
 
     mapStatsElements.push(statElement);
   });
 
-  const el = (
+  const table = (
     <div
       className={`${ESCL} mapStats`}
       style={{
@@ -50,7 +51,7 @@ const mapStatsTable = ({ stats }: { stats: any }) => {
     </div>
   );
 
-  return el;
+  return table;
 };
 
 export default mapStatsTable;

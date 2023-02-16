@@ -13,12 +13,8 @@ const getShadowRootElement = () =>
  *
  * @returns {boolean} Boolean that represents whether the current page has a main content element.
  */
-export const hasMainContentElement = () => {
-  const mainContentElement = document.querySelector("#main-content");
-  if (!mainContentElement) return false;
-
-  return true;
-};
+export const hasMainContentElement = () =>
+  !!document.querySelector("#main-content");
 
 /**
  * Checks if current page is the matchroom page.
@@ -35,7 +31,7 @@ export const isMatchroomPage = () => {
  *
  * @returns {boolean} Boolean that represents whether the current page's shadow root is loaded.
  */
-export const isShadowRootLoaded = () => getShadowRootElement() !== null;
+export const isShadowRootLoaded = () => !!getShadowRootElement();
 
 /**
  * Checks if the current page's matchroom overview element is loaded.
@@ -43,7 +39,7 @@ export const isShadowRootLoaded = () => getShadowRootElement() !== null;
  * @returns {boolean} Boolean that represents whether the current page's matchroom overview element is loaded.
  */
 export const isMatchroomOverviewLoaded = () =>
-  getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW") !== null;
+  !!getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
 
 /**
  * Checks if the current page's roster lists elements are loaded.
@@ -51,8 +47,9 @@ export const isMatchroomOverviewLoaded = () =>
  * @returns {boolean} Boolean that represents whether the current page's roster lists elements are loaded.
  */
 export const rosterListsLoaded = () => {
-  const sr = getShadowRootElement()!;
+  const sr = getShadowRootElement();
   return (
+    sr &&
     elementExistsIn('[name="roster1"]', sr) &&
     elementExistsIn('[name="roster2"]', sr)
   );
@@ -121,12 +118,15 @@ const getRosterList = (rosterContainer: HTMLDivElement) => {
 export const getMatchroomPlayers = () => {
   const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
 
-  const rosterOne = getRosterList(
-    mo?.querySelector('[name="roster1"]')?.childNodes[0] as HTMLDivElement
-  );
-  const rosterTwo = getRosterList(
-    mo?.querySelector('[name="roster2"]')?.childNodes[0] as HTMLDivElement
-  );
+  const rosterOneContainer =
+    mo?.querySelector('[name="roster1"]')?.childNodes[0];
+  const rosterTwoContainer =
+    mo?.querySelector('[name="roster2"]')?.childNodes[0];
+
+  if (!rosterOneContainer || !rosterTwoContainer) return;
+
+  const rosterOne = getRosterList(rosterOneContainer as HTMLDivElement);
+  const rosterTwo = getRosterList(rosterTwoContainer as HTMLDivElement);
 
   return rosterOne.concat(rosterTwo);
 };
@@ -138,6 +138,7 @@ export const getMatchroomPlayers = () => {
  */
 export const getCaptainElements = () => {
   const players = getMatchroomPlayers();
+  if (!players) return;
   return [players[0], players[5]];
 };
 
