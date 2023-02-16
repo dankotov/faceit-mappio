@@ -14,19 +14,12 @@ import { MapStats, Stats } from "../../shared/types/stats";
 import { isRelevantMapStat } from "./utils";
 
 /**
- * Checks whether an authentication header is required for a request to a given API
- */
-const isAuthRequired = (apiBaseUrl: string): boolean =>
-  apiBaseUrl === FACEIT_OPEN_BASE_URL;
-
-/**
  * Returns response from `baseUrl` + `requestPath`.
  */
 const fetchFaceitApi = async (baseUrl: string, requestPath: string) => {
-  const authRequired = isAuthRequired(baseUrl);
   const headers = {
     "Content-Type": "application/json",
-    ...(authRequired && { Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}` }), // conditional auth header
+    Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}`,
   };
   const response = await fetch(baseUrl + requestPath, {
     method: "GET",
