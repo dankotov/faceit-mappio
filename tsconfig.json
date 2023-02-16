@@ -6,7 +6,6 @@
     "target": "es6",
     "jsx": "preserve",
     "allowJs": true,
-    "checkJs": false,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "strict": true,

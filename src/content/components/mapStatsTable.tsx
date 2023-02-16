@@ -1,32 +1,37 @@
 /** @jsx h */
 import { h } from "dom-chef";
-import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
+import { ReactNode } from "react";
+import { ACTIVE_MAP_POOL, EMPTY_STATS, ESCL } from "../../shared/consts";
 import { colors } from "../../shared/theme";
+import { MapStats } from "../../shared/types/stats";
 import createMapStatsCell from "./mapStatsCell";
 
-const mapStatsTable = ({ stats }) => {
-  const mapStatsElements = [];
+type _h = typeof h; // needed to prevent TSeslint from removing h import
+
+const mapStatsTable = ({ mapStats }: { mapStats: MapStats }) => {
+  const mapStatsElements: ReactNode[] = [];
 
   ACTIVE_MAP_POOL.forEach((mapName, mapCodename) => {
     const label = mapName.substring(0, 3).toUpperCase();
-    const stat = stats.get(mapCodename) || { games: "0", kd: "0" };
+    const stats = mapStats.get(mapCodename) || EMPTY_STATS;
 
-    const statElement = createMapStatsCell({ label, stat });
+    const statElement = createMapStatsCell({ label, stats });
 
     mapStatsElements.push(statElement);
   });
 
-  const mapStatsContainerStyle = {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    borderTop: `1px solid ${colors.backgrey}`,
-    color: `${colors.foregrey}`,
-    fontSize: 11,
-  };
-
-  const el = (
-    <div className={`${ESCL} mapStats`} style={mapStatsContainerStyle}>
+  const table = (
+    <div
+      className={`${ESCL} mapStats`}
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        borderTop: `1px solid ${colors.backgrey}`,
+        color: `${colors.foregrey}`,
+        fontSize: 11,
+      }}
+    >
       <div style={{ textAlign: "center", paddingTop: 4 }}>
         Map / Games / K/D
       </div>
@@ -46,7 +51,7 @@ const mapStatsTable = ({ stats }) => {
     </div>
   );
 
-  return el;
+  return table;
 };
 
 export default mapStatsTable;

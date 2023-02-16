@@ -5,8 +5,8 @@ module.exports = {
   mode: process.env.NODE_ENV === "prod" ? "production" : "development",
   devtool: process.env.NODE_ENV === "prod" ? false : "source-map",
   entry: {
-    content: path.resolve(__dirname, "./src/content/index.js"),
-    background: path.resolve(__dirname, "./src/background/index.js"),
+    content: path.resolve(__dirname, "./src/content/index.ts"),
+    background: path.resolve(__dirname, "./src/background/index.ts"),
     popup: path.resolve(__dirname, "./src/popup/popup.tsx"),
   },
   output: {
@@ -17,28 +17,32 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: [/node_modules/],
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"],
-            plugins: [
-              [
-                "@babel/plugin-transform-react-jsx",
-                {
-                  pragma: "h",
-                  pragmaFrag: "DocumentFragment",
-                },
+        test: /\.(ts|tsx)$/,
+        exclude: [/node_modules/, /popup/],
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"],
+              plugins: [
+                [
+                  "@babel/plugin-transform-react-jsx",
+                  {
+                    pragma: "h",
+                    pragmaFrag: "DocumentFragment",
+                  },
+                ],
               ],
-            ],
+            },
           },
-        },
+          {
+            loader: "ts-loader",
+          },
+        ],
       },
       {
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        include: [/popup/, path.resolve(__dirname, "./src/shared/")],
+        include: [/popup/],
         use: [
           {
             loader: "babel-loader",
