@@ -9,7 +9,10 @@ import {
   isShadowRootLoaded,
 } from "./helpers/matchroom";
 
-const handleMutation = async (mutations: any, observer: MutationObserver) => {
+const handleMutation = async (
+  mutations: MutationRecord[],
+  observer: MutationObserver
+) => {
   // If not page of interest -> do nothing
   if (!hasMainContentElement() || !isMatchroomPage()) return;
 
@@ -24,7 +27,7 @@ const handleMutation = async (mutations: any, observer: MutationObserver) => {
   if (await isFeatureEnabled("showPlayerMapsStats"))
     debounceAddPlayerMapStats(matchroomId);
 
-  mutations.forEach((mutation: any) => {
+  mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((addedNode: any) => {
       if (addedNode.shadowRoot) {
         observer.observe(addedNode.shadowRoot, {
