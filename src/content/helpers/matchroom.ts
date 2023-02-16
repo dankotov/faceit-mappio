@@ -69,7 +69,9 @@ const getRosterList = (rosterContainer: HTMLDivElement) => {
     // if there is only 1 child element -> there is a full stack -> get each child of that child element
     const playerCards = rosterContainer.childNodes[0].childNodes;
     playerCards.forEach((playerCard) => {
-      roster.push(playerCard.childNodes[0] as HTMLDivElement);
+      roster.push(
+        playerCard.childNodes[0].childNodes[0].childNodes[0] as HTMLDivElement
+      );
     });
   } else {
     // if the team is a combination of premade parties
