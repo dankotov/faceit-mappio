@@ -1,10 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 import mem from "mem";
-import {
-  CACHE_TIME,
-  FACEIT_API_BEARER_TOKEN,
-  FACEIT_OPEN_BASE_URL,
-} from "../../shared/consts";
+import { CACHE_TIME, FACEIT_OPEN_BASE_URL } from "../../shared/consts";
+import { FACEIT_API_BEARER_TOKEN } from "../../shared/secrets";
 import { MapCodename } from "../../shared/types/csgo-maps";
 import { MatchDetails } from "../../shared/types/match-details";
 import { Faction } from "../../shared/types/match-faction";
@@ -17,19 +14,12 @@ import { MapStats, Stats } from "../../shared/types/stats";
 import { isRelevantMapStat } from "./utils";
 
 /**
- * Checks whether an authentication header is required for a request to a given API
- */
-const isAuthRequired = (apiBaseUrl: string): boolean =>
-  apiBaseUrl === FACEIT_OPEN_BASE_URL;
-
-/**
  * Returns response from `baseUrl` + `requestPath`.
  */
 const fetchFaceitApi = async (baseUrl: string, requestPath: string) => {
-  const authRequired = isAuthRequired(baseUrl);
   const headers = {
     "Content-Type": "application/json",
-    ...(authRequired && { Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}` }), // conditional auth header
+    Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}`,
   };
   const response = await fetch(baseUrl + requestPath, {
     method: "GET",
