@@ -1,10 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 import mem from "mem";
-import {
-  CACHE_TIME,
-  FACEIT_API_BEARER_TOKEN,
-  FACEIT_OPEN_BASE_URL,
-} from "../../shared/consts";
+import { CACHE_TIME, FACEIT_OPEN_BASE_URL } from "../../shared/consts";
+import { FACEIT_API_BEARER_TOKEN } from "../../shared/secrets";
 import { MapCodename } from "../../shared/types/csgo-maps";
 import { MatchDetails } from "../../shared/types/match-details";
 import { Faction } from "../../shared/types/match-faction";

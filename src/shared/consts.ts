@@ -6,7 +6,6 @@ export const ESCL = EXTENSION_NAME;
 
 export const FACEIT_OPEN_BASE_URL = "https://open.faceit.com";
 export const FACEIT_API_BASE_URL = "https://api.faceit.com";
-export const FACEIT_API_BEARER_TOKEN = "e5116e15-8d53-445e-bf01-145a7f04129c";
 
 export const CACHE_TIME = 1000 * 60 * 40; // 1000ms * 60 * 40 = 40 minutes ~ avg game length
 
