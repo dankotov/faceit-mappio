@@ -8,6 +8,6 @@
 
 Comparison between default and Mappio player cards.
 
-| Default                                                        | Mappio                                                       |
+| w/o Mappio                                                     | /w Mappio                                                    |
 | -------------------------------------------------------------- | ------------------------------------------------------------ |
 | ![Player card w/o mappio](/screenshots/playerCards/Before.png) | ![Player card /w mappio](/screenshots/playerCards/After.png) |
