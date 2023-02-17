@@ -21,3 +21,48 @@ This is the MVP feature of this extension. Mappio appends each player's map stat
     <td><img src="/screenshots/playerCards/After.png" alt="FACEIT match room player card /w mappio"></td>
   </tr>
 </table>
+
+## Development
+
+### Clone the repository
+
+```bash
+git clone https://github.com/dankotov/faceit-mappio.git
+```
+
+### Set FACEIT API token
+
+Create a `secrets.ts` file in the `src/shared/` folder and put the following code inside:
+
+```ts
+export const FACEIT_API_BEARER_TOKEN = "YOUR_FACEIT_API_BEARER_TOKEN";
+```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Build the extension
+
+To automatically rebuild on detected changes:
+
+```bash
+npm run dev
+```
+
+To build for publishing:
+
+```bash
+npm run build
+```
+
+> Building the extension will create a `dist` folder.
+
+### Load in Chrome
+
+1. Go to `chrome://extensions`.
+2. Enable developer mode toggle on the top right side of the window.
+3. Click on `Load unpacked` button.
+4. Select the `dist` folder.
