@@ -11,6 +11,7 @@ The idea behind creating this extension is to provide more information about the
 This is the MVP feature of this extension. Mappio appends each player's map statistics to their player card in the match room.
 
 <table>
+  <caption><p align="center">Comparison between default and Mappio player cards.</p></caption>
   <tr>
     <th>w/o Mappio</th>
     <th>w/ Mappio</th>
@@ -19,5 +20,4 @@ This is the MVP feature of this extension. Mappio appends each player's map stat
     <td><img src="/screenshots/playerCards/Before.png" alt="FACEIT match room player card w/o mappio"></td>
     <td><img src="/screenshots/playerCards/After.png" alt="FACEIT match room player card /w mappio"></td>
   </tr>
-  <caption>Comparison between default and Mappio player cards.</caption>
 </table>
