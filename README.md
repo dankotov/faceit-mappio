@@ -2,7 +2,7 @@
 
 > Chrome extension for the FACEIT CSGO esports platform that displays everyone's map-related information in the match room letting you make more educated decisions during the veto process.
 
-The idea behind creating this extension is to provide more information about the match players directly in the match room. I usually play with a stack of friends and often I am the captain of the team. Every time I got to the veto stage, I found myself openning the opponents' profiles to check their map statistics. FACEIT web pages take notoriously long to load, so I frequently missed the first couple of veto picks. Hoping to resolve this issue, I set out to create Mappio.
+The idea behind creating this extension is to provide more information about the match players directly in the match room. I usually play with a stack of friends and I am often the captain of the team. Every time I get to the veto stage, I find myself openning the opponents' profiles to check their map statistics. FACEIT web pages take notoriously long to load, so I frequently miss the first couple of veto picks. Hoping to resolve this issue, I created Mappio.
 
 ## Features
 
