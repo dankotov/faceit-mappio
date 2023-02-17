@@ -24,13 +24,13 @@ This is the MVP feature of this extension. Mappio appends each player's map stat
 
 ## Development
 
-### Clone the repository
+###### Clone the repository
 
 ```bash
 git clone https://github.com/dankotov/faceit-mappio.git
 ```
 
-### Set FACEIT API token
+###### Set FACEIT API token
 
 Create a `secrets.ts` file in the `src/shared/` folder and put the following code inside:
 
@@ -38,13 +38,13 @@ Create a `secrets.ts` file in the `src/shared/` folder and put the following cod
 export const FACEIT_API_BEARER_TOKEN = "YOUR_FACEIT_API_BEARER_TOKEN";
 ```
 
-### Install dependencies
+###### Install dependencies
 
 ```bash
 npm install
 ```
 
-### Build the extension
+###### Build the extension
 
 To automatically rebuild on detected changes:
 
@@ -60,7 +60,7 @@ npm run build
 
 > Building the extension will create a `dist` folder.
 
-### Load in Chrome
+###### Load in Chrome
 
 1. Go to `chrome://extensions`.
 2. Enable developer mode toggle on the top right side of the window.
