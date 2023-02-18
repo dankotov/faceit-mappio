@@ -78,6 +78,20 @@ const getMatchPlayersFromMatchDetails = (matchDetails: MatchDetails) => {
 };
 
 /**
+ * Extracts a list of the maps that are on the voting list of the match from
+ */
+const getMatchMapsFromMatchDetails = (matchDetails: MatchDetails) =>
+  matchDetails.voting.map.entities.map((mapOption) => mapOption.game_map_id);
+
+/**
+ * Gets a list of the maps that are on the voting list of the match by the FACEIT match id.
+ */
+export const getMatchMapsFromMatchId = async (matchId: string) => {
+  const md = await fetchMatchDetails(matchId);
+  return getMatchMapsFromMatchDetails(md);
+};
+
+/**
  * Extracts a list of the match captain players ids from the match details object.
  */
 const getCaptainsIdsFromMatchDetails = (matchDetails: MatchDetails) => [
