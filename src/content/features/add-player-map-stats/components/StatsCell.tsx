@@ -1,7 +1,7 @@
 /** @jsx h */
 import { h } from "dom-chef";
-import { Stats } from "../../shared/types/stats";
-import { colorCodeStat } from "../helpers/utils";
+import { Stats } from "../../../../shared/types/stats";
+import { colorCodeStat } from "../../../helpers/utils";
 
 type _h = typeof h; // needed to prevent TSeslint from removing h import
 

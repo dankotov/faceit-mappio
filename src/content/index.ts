@@ -1,5 +1,5 @@
 import { isFeatureEnabled } from "../shared/settings";
-import debounceAddPlayerMapStats from "./features/addPlayerMapStats";
+import debounceAddPlayerMapStats from "./features/add-player-map-stats";
 import { memFetchAllMatchPlayersMapStats } from "./helpers/faceit-api";
 import {
   getMatchroomId,
