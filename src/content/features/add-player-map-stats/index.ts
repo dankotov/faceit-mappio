@@ -1,9 +1,9 @@
 import { debounce } from "lodash";
-import { EMPTY_MAP_STATS } from "../../shared/consts";
-import createMapStatsTable from "../components/mapStatsTable";
-import { memFetchAllMatchPlayersMapStats } from "../helpers/faceit-api";
-import { getMatchroomPlayers, getNickname } from "../helpers/matchroom";
-import { hasMappio } from "../helpers/utils";
+import { EMPTY_MAP_STATS } from "../../../shared/consts";
+import { memFetchAllMatchPlayersMapStats } from "../../helpers/faceit-api";
+import { getMatchroomPlayers, getNickname } from "../../helpers/matchroom";
+import { hasMappio } from "../../helpers/utils";
+import createMapStatsTable from "./components/StatsTable";
 
 export default debounce(async (matchroomId) => {
   const playerElements = getMatchroomPlayers();
