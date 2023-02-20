@@ -1,3 +1,4 @@
+import { MappioFeature } from "../../shared/settings";
 import useExtensionOption from "../hooks/useExtensionOption";
 import Loading from "./Loading";
 import SectionHeader from "./SectionHeader";
@@ -8,7 +9,7 @@ const SettingHeader = ({
   settingKey,
 }: {
   title: string;
-  settingKey: string;
+  settingKey: MappioFeature;
 }) => {
   const [option, setOption] = useExtensionOption(settingKey);
 

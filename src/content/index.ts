@@ -1,4 +1,4 @@
-import { isFeatureEnabled } from "../shared/settings";
+import { isFeatureEnabled, MappioFeature } from "../shared/settings";
 import debounceAddMapDropProbabilities from "./features/add-map-drop-probabilities";
 import debounceAddPlayerMapStats from "./features/add-player-map-stats";
 import { memFetchAllMatchPlayersMapStats } from "./helpers/faceit-api";
@@ -25,7 +25,7 @@ const handleMutation = async (
   if (!isShadowRootLoaded() || !isMatchroomOverviewLoaded()) return;
 
   // When page fully loaded, add player statistics if the respective feature is on
-  if (await isFeatureEnabled("showPlayerMapsStats"))
+  if (await isFeatureEnabled(MappioFeature.PlayerMapStats))
     debounceAddPlayerMapStats(matchroomId);
 
   // Add map drop probabilities
