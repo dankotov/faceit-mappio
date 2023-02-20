@@ -26,7 +26,7 @@ export default debounce(async (matchId) => {
     currentUserId
   );
   const mapDropProbabilities = await memGetPlayerMapDropProbabilities(
-    currentUserId
+    opponentCaptainId
   );
 
   const matchMapsElements = getMatchroomMapsElements();
