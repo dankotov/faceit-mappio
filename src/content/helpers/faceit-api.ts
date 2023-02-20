@@ -10,6 +10,7 @@ import { FACEIT_API_BEARER_TOKEN } from "../../shared/secrets";
 import { MapCodename } from "../../shared/types/csgo-maps";
 import { MatchDetails } from "../../shared/types/match-details";
 import { Faction } from "../../shared/types/match-faction";
+import { Me } from "../../shared/types/me";
 import {
   Player,
   PlayerGameStats,
@@ -57,6 +58,14 @@ const memFetchFaceitApi = mem(fetchFaceitApi, {
   maxAge: CACHE_TIME,
   cacheKey: (arguments_) => JSON.stringify(arguments_),
 });
+
+/**
+ * Fetches currently logged in user's details
+ */
+export const fetchMe = async (): Promise<Me> =>
+  memFetchFaceitApi(FACEIT_API_BASE_URL, "/users/v1/sessions/me").then(
+    (res) => res.payload
+  );
 
 /**
  * Fetches match details by `matchId`.
