@@ -1,6 +1,11 @@
 // eslint-disable-next-line import/no-unresolved
 import mem from "mem";
-import { CACHE_TIME, FACEIT_OPEN_BASE_URL } from "../../shared/consts";
+import { getCookie } from "typescript-cookie";
+import {
+  CACHE_TIME,
+  FACEIT_API_BASE_URL,
+  FACEIT_OPEN_BASE_URL,
+} from "../../shared/consts";
 import { FACEIT_API_BEARER_TOKEN } from "../../shared/secrets";
 import { MapCodename } from "../../shared/types/csgo-maps";
 import { MatchDetails } from "../../shared/types/match-details";
@@ -14,12 +19,28 @@ import { MapStats, Stats } from "../../shared/types/stats";
 import { isRelevantMapStat } from "./utils";
 
 /**
+ * Returns the user's cached FACEIT production API auth token.
+ */
+const getLocalApiToken = () => {
+  return getCookie("t") || localStorage.getItem("token");
+};
+
+/**
+ * Returns the appropriate auth token for a FACEIT API.
+ */
+const getApiToken = (apiUrl: string) => {
+  if (apiUrl === FACEIT_OPEN_BASE_URL) return FACEIT_API_BEARER_TOKEN;
+  return getLocalApiToken();
+};
+
+/**
  * Returns response from `baseUrl` + `requestPath`.
  */
 const fetchFaceitApi = async (baseUrl: string, requestPath: string) => {
+  const token = getApiToken(baseUrl);
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${FACEIT_API_BEARER_TOKEN}`,
+    Authorization: `Bearer ${token}`,
   };
   const response = await fetch(baseUrl + requestPath, {
     method: "GET",
