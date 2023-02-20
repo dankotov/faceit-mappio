@@ -24,12 +24,14 @@ const handleMutation = async (
   // If page is not fully loaded yet -> do nothing
   if (!isShadowRootLoaded() || !isMatchroomOverviewLoaded()) return;
 
-  // When page fully loaded, add player statistics if the respective feature is on
+  // When page fully loaded, run feature scripts if respective features are enabled
+  // Add player statistics
   if (await isFeatureEnabled(MappioFeature.PlayerMapStats))
     debounceAddPlayerMapStats(matchroomId);
 
   // Add map drop probabilities
-  debounceAddMapDropProbabilities(matchroomId);
+  if (await isFeatureEnabled(MappioFeature.MapDropProbabilities))
+    debounceAddMapDropProbabilities(matchroomId);
 
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((addedNode: any) => {

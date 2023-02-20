@@ -3,6 +3,7 @@ import { colors } from "../shared/theme";
 import "./popup.css";
 import About from "./sections/About";
 import Header from "./sections/Header";
+import MapDropProbabilities from "./sections/MapDropProbabilities";
 import PlayerMapStats from "./sections/PlayerMapStats";
 
 const Popup = () => (
@@ -10,6 +11,7 @@ const Popup = () => (
     <div className="app">
       <Header />
       <PlayerMapStats />
+      <MapDropProbabilities />
       <About />
     </div>
 
