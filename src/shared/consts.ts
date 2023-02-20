@@ -1,5 +1,5 @@
 import { MapCodename, MapName } from "./types/csgo-maps";
-import { MapStats, Stats } from "./types/stats";
+import { DropStats, MapStats, Stats } from "./types/stats";
 
 export const EXTENSION_NAME = "mappio";
 export const ESCL = EXTENSION_NAME;
@@ -48,3 +48,8 @@ export const EMPTY_MAP_STATS: MapStats = new Map([
   ["de_vertigo", EMPTY_STATS],
   ["de_anubis", EMPTY_STATS],
 ]);
+
+export const EMPTY_MAP_DROP_STATS: DropStats = {
+  drop: 0,
+  opportunities: 0,
+};

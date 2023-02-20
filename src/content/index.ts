@@ -1,4 +1,5 @@
 import { isFeatureEnabled } from "../shared/settings";
+import debounceAddMapDropProbabilities from "./features/add-map-drop-probabilities";
 import debounceAddPlayerMapStats from "./features/add-player-map-stats";
 import { memFetchAllMatchPlayersMapStats } from "./helpers/faceit-api";
 import {
@@ -26,6 +27,9 @@ const handleMutation = async (
   // When page fully loaded, add player statistics if the respective feature is on
   if (await isFeatureEnabled("showPlayerMapsStats"))
     debounceAddPlayerMapStats(matchroomId);
+
+  // Add map drop probabilities
+  debounceAddMapDropProbabilities(matchroomId);
 
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((addedNode: any) => {

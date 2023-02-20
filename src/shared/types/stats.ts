@@ -55,3 +55,10 @@ export interface Stats {
 }
 
 export type MapStats = Map<MapCodename, Stats>;
+
+export interface DropStats {
+  drop: number;
+  opportunities: number;
+}
+
+export type MapDropStats = Map<MapCodename, DropStats>;
