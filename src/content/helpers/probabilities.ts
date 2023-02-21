@@ -91,7 +91,6 @@ const calculateMapDropProbabilities = (mapDropStats: MapDropStats) => {
       return { mapCodename, probability: normalizedProbability };
     }
   );
-  console.log(normalizedProbabilities);
   return normalizedProbabilities;
 };
 
@@ -102,7 +101,6 @@ const getPlayerMapDropProbabilties = async (
   playerId: string
 ): Promise<MapDropProbability[]> => {
   const captainMatches = await fetchPlayerCaptainMatchList(playerId);
-  console.log(captainMatches.length);
   const vetoPromises = captainMatches.map(async (match: any) =>
     getPlayerMatchVetoDetails(match, playerId)
   );
