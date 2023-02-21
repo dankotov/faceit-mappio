@@ -243,9 +243,16 @@ const fetchPlayerMatchList = async (playerId: string) => {
  * Checks whether the player with `playerId` was a team captain in `match`.
  */
 const isCaptainMatch = (match: MatchOverview, playerId: string) => {
+  const player =
+    match.teams.faction1.players.find((p) => p.player_id === playerId) ||
+    match.teams.faction2.players.find((p) => p.player_id === playerId);
+  if (!player) return false;
+
   if (
     match.teams.faction1.team_id !== playerId &&
-    match.teams.faction2.team_id !== playerId
+    match.teams.faction2.team_id !== playerId &&
+    !match.teams.faction1.nickname.endsWith(player.nickname) &&
+    !match.teams.faction2.nickname.endsWith(player.nickname)
   )
     return false;
 
