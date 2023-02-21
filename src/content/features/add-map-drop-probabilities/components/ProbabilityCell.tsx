@@ -4,18 +4,7 @@ import { ESCL } from "../../../../shared/consts";
 
 type _h = typeof h; // needed to prevent TSeslint from removing h import
 
-export enum ProbabilityCellVariant {
-  Default,
-  NoMargin,
-}
-
-const ProbabilityCell = ({
-  probability,
-  variant,
-}: {
-  probability: number;
-  variant: ProbabilityCellVariant;
-}) => (
+const ProbabilityCell = ({ probability }: { probability: number }) => (
   <div
     className={`${ESCL} mapDropProbabilities`}
     style={{
@@ -25,7 +14,6 @@ const ProbabilityCell = ({
       alignItems: "center",
       fontSize: 14,
       fontWeight: "bold",
-      marginRight: variant === ProbabilityCellVariant.Default ? 8 : 0,
     }}
   >
     {probability}%

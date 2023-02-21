@@ -9,9 +9,7 @@ import {
 import { getMapName, getMatchroomMapsElements } from "../../helpers/matchroom";
 import { memGetPlayerMapDropProbabilities } from "../../helpers/probabilities";
 import { hasMappio } from "../../helpers/utils";
-import createProbabilityCell, {
-  ProbabilityCellVariant,
-} from "./components/ProbabilityCell";
+import createProbabilityCell from "./components/ProbabilityCell";
 
 export default debounce(async (matchId) => {
   const matchPlayers = await getMatchPlayersFromMatchId(matchId);
@@ -43,16 +41,7 @@ export default debounce(async (matchId) => {
     )?.probability;
     if (!probability) return;
 
-    const mapElementLastChild =
-      mapElement.childNodes[mapElement.childNodes.length - 1];
-
-    const variant = mapElementLastChild.firstChild?.hasChildNodes()
-      ? ProbabilityCellVariant.Default
-      : ProbabilityCellVariant.NoMargin;
-    const probabilityCell = createProbabilityCell({
-      probability,
-      variant,
-    });
-    mapElement.insertBefore(probabilityCell, mapElementLastChild);
+    const probabilityCell = createProbabilityCell({ probability });
+    mapElement.append(probabilityCell);
   });
 }, 300);
