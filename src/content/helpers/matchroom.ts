@@ -138,18 +138,27 @@ export const getNickname = (playerCard: HTMLDivElement) =>
  */
 export const getMatchroomMapsElements = () => {
   const wrapper = getInfoElement()?.children?.[0].children?.[0];
+  const n_of_children = wrapper?.children?.length;
+
   let mapElements: HTMLDivElement[] = [];
-  if (wrapper?.children?.length === 3) {
+
+  if (n_of_children === 3) {
     // if wrapper contains 3 children -> room is in veto state
-    const container = wrapper.children[2].children[0];
-    container.childNodes.forEach((mapContainer) => {
+    const container = wrapper?.children[2].children[0];
+    container?.childNodes.forEach((mapContainer) => {
       mapElements.push(mapContainer.childNodes[0] as HTMLDivElement);
     });
-  } else if (wrapper?.children?.length === 4) {
-    // if wrapper contains 4 children -> room is in after veto state
+  } else if (
+    n_of_children === 6 || // room is in connecting to server state
+    n_of_children === 5 || // room is in match live state
+    n_of_children === 4 // room is in match ended state
+  ) {
+    const i = n_of_children - 4; // map card element wrapper is always 4th from the end in these states
     mapElements.push(
-      wrapper.children[0].children[0].children[3].children[0] as HTMLDivElement
+      wrapper?.children[i].children[0].children[3].children[0] as HTMLDivElement
     );
+  } else {
+    console.warn("unknown match room state", wrapper);
   }
 
   return mapElements;
