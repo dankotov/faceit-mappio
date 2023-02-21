@@ -26,6 +26,9 @@ const getPlayerMapDropStats = (
 ) => {
   const mapDropStats: MapDropStats = new Map();
   vetos.forEach(({ playerFaction, veto }) => {
+    // if veto fetch was corrupt -> dont process this match
+    if (!veto) return;
+
     let opportunityCount = 0;
     const mapVeto = veto.tickets.find((ticket) => ticket.entity_type === "map");
     mapVeto?.entities.forEach((action) => {
