@@ -22,6 +22,22 @@ This is the MVP feature of this extension. Mappio appends each player's map stat
   </tr>
 </table>
 
+### Map Drop Probabilities
+
+While developing the Map Statistics feature, I realized it would also be useful to see the opponent's map dropping statistics. Let's say if you see that the opponent drops Nuke very often, you might want to let him drop it and use your veto pick to drop some other map you do not want to play. Mappio calculates the opposing team's captain map drop probabilities and appends them to the map cards in the match room.
+
+<table>
+  <caption><p align="center">Comparison between default and Mappio map cards.</p></caption>
+  <tr>
+    <th>w/o Mappio</th>
+    <th>w/ Mappio</th>
+  </tr>
+  <tr>
+    <td><img src="" alt="FACEIT match room map card w/o mappio"></td>
+    <td><img src="" alt="FACEIT match room map card w/ mappio"></td>
+  </tr>
+</table>
+
 ## Development
 
 ###### Clone the repository
