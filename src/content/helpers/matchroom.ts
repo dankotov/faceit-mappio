@@ -121,7 +121,7 @@ export const getMatchroomPlayers = () => {
 export const getInfoElement = () => {
   const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
 
-  return mo?.querySelector('[name="info"]');
+  return mo?.querySelector('[name="info"]') as HTMLElement | null | undefined;
 };
 
 /**
@@ -134,6 +134,33 @@ export const getNickname = (playerCard: HTMLDivElement) =>
   )?.textContent;
 
 /**
+ * Gets the element that contains matchroom maps list and its parent element.
+ */
+export const getMatchroomMapsElementsParentAndContainer = () => {
+  const wrapper = getInfoElement()?.children?.[0].children?.[0];
+  const n_of_children = wrapper?.children?.length;
+
+  let parent;
+  let container;
+
+  if (n_of_children === 3) {
+    // if wrapper contains 3 children -> room is in veto state
+    parent = wrapper?.children?.[2];
+    container = parent?.children?.[0];
+  } else if (
+    n_of_children === 6 || // room is in connecting to server state
+    n_of_children === 5 || // room is in match live state
+    n_of_children === 4 // room is in match ended state
+  ) {
+    const i = n_of_children - 4; // map card element container is always 4th from the end in these states
+    parent = wrapper?.children?.[i].children?.[0];
+    container = parent?.children?.[3];
+  }
+
+  return [parent, container];
+};
+
+/**
  * Gets a list of map card HTML elements.
  */
 export const getMatchroomMapsElements = () => {
@@ -144,7 +171,7 @@ export const getMatchroomMapsElements = () => {
 
   if (n_of_children === 3) {
     // if wrapper contains 3 children -> room is in veto state
-    const container = wrapper?.children[2].children[0];
+    const container = wrapper?.children?.[2].children?.[0];
     container?.childNodes.forEach((mapContainer) => {
       mapElements.push(mapContainer.childNodes[0] as HTMLDivElement);
     });
@@ -153,12 +180,11 @@ export const getMatchroomMapsElements = () => {
     n_of_children === 5 || // room is in match live state
     n_of_children === 4 // room is in match ended state
   ) {
-    const i = n_of_children - 4; // map card element wrapper is always 4th from the end in these states
+    const i = n_of_children - 4; // map card element container is always 4th from the end in these states
     mapElements.push(
-      wrapper?.children[i].children[0].children[3].children[0] as HTMLDivElement
+      wrapper?.children?.[i].children?.[0].children?.[3]
+        .children?.[0] as HTMLDivElement
     );
-  } else {
-    console.warn("unknown match room state", wrapper);
   }
 
   return mapElements;

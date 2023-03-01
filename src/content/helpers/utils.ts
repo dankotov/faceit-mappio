@@ -8,7 +8,7 @@ import { SegmentStats, Stats } from "../../shared/types/stats";
  */
 export const elementExistsIn = (
   selectorString: string,
-  parent: HTMLElement | ShadowRoot
+  parent: HTMLElement | ShadowRoot | Element
 ) => !!parent.querySelector(selectorString);
 
 /**
@@ -23,7 +23,7 @@ export const isRelevantMapStat = (segmentStats: SegmentStats) =>
  * Checks whether the provided element has any mappio extension related elements appended to it.
  */
 export const hasMappio = (element: HTMLElement) =>
-  !!element.querySelector(`.${ESCL}`);
+  !!element?.querySelector(`.${ESCL}`);
 
 /**
  * Return a CSS color string that should be applied to the provided stat.

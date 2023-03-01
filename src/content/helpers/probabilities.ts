@@ -99,7 +99,7 @@ const calculateMapDropProbabilities = (mapDropStats: MapDropStats) => {
  */
 const getPlayerMapDropProbabilties = async (
   playerId: string
-): Promise<MapDropProbability[]> => {
+): Promise<[number, MapDropProbability[]]> => {
   const captainMatches = await fetchPlayerCaptainMatchList(playerId);
   const vetoPromises = captainMatches.map(async (match: any) =>
     getPlayerMatchVetoDetails(match, playerId)
@@ -109,7 +109,7 @@ const getPlayerMapDropProbabilties = async (
 
   const probabilities = calculateMapDropProbabilities(mapDropStats);
 
-  return probabilities;
+  return [captainMatches.length, probabilities];
 };
 
 export const memGetPlayerMapDropProbabilities = mem(

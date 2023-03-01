@@ -6,10 +6,16 @@ import {
   getMatchPlayersFromMatchId,
   getOpponentCaptainIdFromMatchId,
 } from "../../helpers/faceit-api";
-import { getMapName, getMatchroomMapsElements } from "../../helpers/matchroom";
+import {
+  getInfoElement,
+  getMapName,
+  getMatchroomMapsElements,
+  getMatchroomMapsElementsParentAndContainer,
+} from "../../helpers/matchroom";
 import { memGetPlayerMapDropProbabilities } from "../../helpers/probabilities";
 import { hasMappio } from "../../helpers/utils";
 import createProbabilityCell from "./components/ProbabilityCell";
+import createProbabilityLegend from "./components/ProbabilityLegend";
 
 export default debounce(async (matchId) => {
   const matchPlayers = await getMatchPlayersFromMatchId(matchId);
@@ -23,13 +29,20 @@ export default debounce(async (matchId) => {
     matchId,
     currentUserId
   );
-  const mapDropProbabilities = await memGetPlayerMapDropProbabilities(
-    opponentCaptainId
-  );
+  const [datasetSize, mapDropProbabilities] =
+    await memGetPlayerMapDropProbabilities(opponentCaptainId);
 
   const matchMapsElements = getMatchroomMapsElements();
-  matchMapsElements.forEach((mapElement) => {
-    if (hasMappio(mapElement)) return;
+
+  const infoElement = getInfoElement();
+  if (infoElement && !hasMappio(infoElement)) {
+    const probabilityLegend = createProbabilityLegend({ datasetSize });
+    const [parent, container] = getMatchroomMapsElementsParentAndContainer();
+    if (parent && container) parent.insertBefore(probabilityLegend, container);
+  }
+
+  matchMapsElements?.forEach((mapElement) => {
+    if (hasMappio(mapElement) || !mapElement) return;
 
     const mapName = getMapName(mapElement);
     if (!mapName) return;
