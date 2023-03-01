@@ -1,26 +1,45 @@
+import { FactionDetails, FactionOverview } from "./match-faction";
 import { MatchResults } from "./match-results";
-import { MatchTeams } from "./match-teams";
 import { MatchVoting } from "./match-voting";
 
-export interface MatchDetails {
+interface BaseMatchDetails {
   match_id: string;
-  version: number;
-  game: string;
   region: string;
   competition_id: string;
   competition_type: string;
   competition_name: string;
   organizer_id: string;
-  calculate_elo: boolean;
-  configured_at: number;
   started_at: number;
   finished_at: number;
+  results: MatchResults;
+  faceit_url: string;
+  status: string;
+}
+
+export interface MatchDetails extends BaseMatchDetails {
+  game: string;
+  version: number;
+  calculate_elo: boolean;
+  configured_at: number;
   chat_room_id: string;
   best_of: number;
-  status: string;
-  faceit_url: string;
-  results: MatchResults;
   demo_url: string[];
   voting: MatchVoting;
-  teams: MatchTeams;
+  teams: {
+    faction1: FactionDetails;
+    faction2: FactionDetails;
+  };
+}
+
+export interface MatchOverview extends BaseMatchDetails {
+  game_id: string;
+  match_type: string;
+  game_mode: string;
+  max_players: number;
+  teams_size: number;
+  teams: {
+    faction1: FactionOverview;
+    faction2: FactionOverview;
+  };
+  playing_players: string[];
 }

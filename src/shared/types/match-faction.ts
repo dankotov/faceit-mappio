@@ -1,11 +1,20 @@
-import { PlayerMatchDetails } from "./player";
+import { PlayerMatchDetails, PlayerMatchOverview } from "./player";
 
-export interface Faction {
-  faction_id: string;
-  leader: string;
-  name: string;
+interface BaseFaction {
   avatar: string;
-  substituted: boolean;
   type: string;
+}
+
+export interface FactionDetails extends BaseFaction {
+  faction_id: string;
+  name: string;
+  leader: string;
+  substituted: boolean;
   roster: PlayerMatchDetails[];
+}
+
+export interface FactionOverview extends BaseFaction {
+  team_id: string;
+  nickname: string;
+  players: PlayerMatchOverview[];
 }

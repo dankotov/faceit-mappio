@@ -9,12 +9,20 @@ export interface PlayerMapStats extends Player {
   maps: MapStats;
 }
 
-export interface PlayerMatchDetails extends Player {
+interface BasePlayerMatchInfo extends Player {
   avatar: string;
-  membership: string;
   game_player_id: string;
   game_player_name: string;
+}
+
+export interface PlayerMatchDetails extends BasePlayerMatchInfo {
+  membership: string;
   anticheat_required: boolean;
+}
+
+export interface PlayerMatchOverview extends BasePlayerMatchInfo {
+  skill_level: number;
+  faceit_url: string;
 }
 
 export interface PlayerGameStats {

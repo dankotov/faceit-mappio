@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { MappioFeature } from "../../shared/settings";
 
 const useExtensionOption = (
-  key: string
+  key: MappioFeature
 ): [boolean | null, Dispatch<SetStateAction<boolean | null>>] => {
   const [option, setOption] = useState<boolean | null>(null);
   const storageFetchResolved = useRef(false);

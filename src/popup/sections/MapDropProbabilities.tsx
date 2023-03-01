@@ -6,10 +6,10 @@ import SettingHeader from "../components/SettingHeader";
 const PlayerMapStats = () => (
   <Section>
     <SettingHeader
-      title="Player Map Stats"
-      settingKey={MappioFeature.PlayerMapStats}
+      title="Map Drop Probabilities"
+      settingKey={MappioFeature.MapDropProbabilities}
     />
-    <SectionDescription description="Display player statistics (number of games and average K/D) for each map in the match room player cards." />
+    <SectionDescription description="Display percentage probability of the opposing team captain dropping each map during the veto process." />
   </Section>
 );
 

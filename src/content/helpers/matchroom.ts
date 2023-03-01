@@ -116,28 +116,82 @@ export const getMatchroomPlayers = () => {
 };
 
 /**
- * Gets the HTML player card elements that represent the captains of each team in the matchroom.
- */
-export const getCaptainElements = () => {
-  const players = getMatchroomPlayers();
-  if (!players) return;
-  return [players[0], players[5]];
-};
-
-/**
  * Gets the HTML element that represents the info section of the matchroom.
  */
 export const getInfoElement = () => {
   const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
 
-  return mo?.querySelector('[name="info"]');
+  return mo?.querySelector('[name="info"]') as HTMLElement | null | undefined;
 };
 
 /**
- * Gets a player's nickname by parsing their matchroom HTML player card element (compattible /w vanilla and faceit-enhancer layouts).
+ * Gets a player's nickname by parsing their matchroom HTML player card element (compatible /w vanilla and faceit-enhancer layouts).
  */
 export const getNickname = (playerCard: HTMLDivElement) =>
   (
     playerCard.querySelector("span + div") ||
     playerCard.firstChild?.childNodes[1].firstChild?.firstChild
   )?.textContent;
+
+/**
+ * Gets the element that contains matchroom maps list and its parent element.
+ */
+export const getMatchroomMapsElementsParentAndContainer = () => {
+  const wrapper = getInfoElement()?.children?.[0].children?.[0];
+  const n_of_children = wrapper?.children?.length;
+
+  let parent;
+  let container;
+
+  if (n_of_children === 3) {
+    // if wrapper contains 3 children -> room is in veto state
+    parent = wrapper?.children?.[2];
+    container = parent?.children?.[0];
+  } else if (
+    n_of_children === 6 || // room is in connecting to server state
+    n_of_children === 5 || // room is in match live state
+    n_of_children === 4 // room is in match ended state
+  ) {
+    const i = n_of_children - 4; // map card element container is always 4th from the end in these states
+    parent = wrapper?.children?.[i].children?.[0];
+    container = parent?.children?.[3];
+  }
+
+  return [parent, container];
+};
+
+/**
+ * Gets a list of map card HTML elements.
+ */
+export const getMatchroomMapsElements = () => {
+  const wrapper = getInfoElement()?.children?.[0].children?.[0];
+  const n_of_children = wrapper?.children?.length;
+
+  let mapElements: HTMLDivElement[] = [];
+
+  if (n_of_children === 3) {
+    // if wrapper contains 3 children -> room is in veto state
+    const container = wrapper?.children?.[2].children?.[0];
+    container?.childNodes.forEach((mapContainer) => {
+      mapElements.push(mapContainer.childNodes[0] as HTMLDivElement);
+    });
+  } else if (
+    n_of_children === 6 || // room is in connecting to server state
+    n_of_children === 5 || // room is in match live state
+    n_of_children === 4 // room is in match ended state
+  ) {
+    const i = n_of_children - 4; // map card element container is always 4th from the end in these states
+    mapElements.push(
+      wrapper?.children?.[i].children?.[0].children?.[3]
+        .children?.[0] as HTMLDivElement
+    );
+  }
+
+  return mapElements;
+};
+
+/**
+ * Gets a map's name by parsing its matchroom HTML map card element.
+ */
+export const getMapName = (mapCard: HTMLDivElement) =>
+  mapCard.querySelector("div > span")?.textContent;

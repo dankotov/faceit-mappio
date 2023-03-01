@@ -22,7 +22,7 @@ const SectionHeader = ({
       }
 
       header > h2 {
-        font-size: 1.8em;
+        font-size: 1.7em;
       }
     `}</style>
   </>
