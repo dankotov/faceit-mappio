@@ -20,7 +20,7 @@ This is the MVP feature of this extension. Mappio appends each player's map stat
   </tr>
   <tr>
     <td><img src="/media/playerCards/Before.png" alt="FACEIT match room player card w/o mappio"></td>
-    <td><img src="/media/playerCards/After.png" alt="FACEIT match room player card /w mappio"></td>
+    <td><img src="/media/playerCards/After.png" alt="FACEIT match room player card w/ mappio"></td>
   </tr>
 </table>
 
@@ -35,8 +35,21 @@ While developing the Map Statistics feature, I realized it would also be useful 
     <th>w/ Mappio</th>
   </tr>
   <tr>
-    <td><img src="/media/mapCards/Before.png" alt="FACEIT match room map card w/o mappio"></td>
-    <td><img src="/media/mapCards/After.png" alt="FACEIT match room map card w/ mappio"></td>
+    <td><img src="/media/mapCards/Before.png" alt="FACEIT match room map cards w/o mappio"></td>
+    <td><img src="/media/mapCards/After.png" alt="FACEIT match room map cards w/ mappio"></td>
+  </tr>
+</table>
+
+### Popup
+
+Mappio features an extension popup that allows you to enable and disable features.
+
+<table align="center">
+  <tr>
+    <th>Mappio extension popup</th>
+  </tr>
+  <tr>
+    <td><img width="387" src="/media/popup/Popup.png" alt="Mappio extension popup"></td>
   </tr>
 </table>
 
