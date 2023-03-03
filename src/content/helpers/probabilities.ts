@@ -1,4 +1,4 @@
-import Beta from "@stdlib/stats-base-dists-beta-ctor";
+import { Beta } from "@stdlib/stats-base-dists-beta";
 import mem from "mem";
 import {
   ACTIVE_MAP_POOL,
