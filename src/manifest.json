@@ -1,9 +1,13 @@
 {
   "name": "FACEIT Mappio",
-  "description": "See everyone's map-related statistics in the matchroom and make educated veto decisions.",
-  "version": "1.0.0",
+  "description": "See the opponent's map drop probability and everyone's map-related statistics in the matchroom to make educated veto decisions.",
+  "version": "1.1.0",
   "permissions": ["storage"],
-  "host_permissions": ["https://open.faceit.com/*", "https://www.faceit.com/*"],
+  "host_permissions": [
+    "https://api.faceit.com/*",
+    "https://open.faceit.com/*",
+    "https://www.faceit.com/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },
