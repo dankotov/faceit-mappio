@@ -7,7 +7,7 @@ export const ESCL = EXTENSION_NAME;
 export const FACEIT_OPEN_BASE_URL = "https://open.faceit.com";
 export const FACEIT_API_BASE_URL = "https://api.faceit.com";
 
-export const CACHE_TIME = 1000 * 60 * 40; // 1000ms * 60 * 40 = 40 minutes ~ avg game length
+export const CACHE_TIME = 1000 * 60 * 60; // 1000ms * 60 * 60 = 60 minutes ~ slightly more than avg game length
 
 export const ACTIVE_MAP_POOL = new Map<MapCodename, MapName>([
   ["de_dust2", "Dust2"],
