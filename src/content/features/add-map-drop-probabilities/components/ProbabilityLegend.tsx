@@ -14,9 +14,12 @@ const ProbabilityLegend = ({ datasetSize }: { datasetSize: number }) => (
       color: colors.faceitgrey,
       textAlign: "left",
       marginBottom: 8,
+      display: "flex",
+      justifyContent: "space-between",
     }}
   >
-    Map Drop Dataset Size: {datasetSize} matches
+    <span>Captain Matches: {datasetSize}</span>
+    <span>Drop Probability</span>
   </div>
 );
 
