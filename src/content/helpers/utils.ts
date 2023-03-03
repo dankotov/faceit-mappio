@@ -9,7 +9,7 @@ import { SegmentStats, Stats } from "../../shared/types/stats";
 export const elementExistsIn = (
   selectorString: string,
   parent: HTMLElement | ShadowRoot | Element
-) => !!parent.querySelector(selectorString);
+) => !!parent?.querySelector(selectorString);
 
 /**
  * Checks whether a map stat is eligible to be accounted for by the extension.

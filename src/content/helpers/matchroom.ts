@@ -164,7 +164,8 @@ export const getMatchroomMapsElementsParentAndContainer = () => {
  * Gets a list of map card HTML elements.
  */
 export const getMatchroomMapsElements = () => {
-  const wrapper = getInfoElement()?.children?.[0].children?.[0];
+  const info = getInfoElement();
+  const wrapper = info?.children?.[0].children?.[0];
   const n_of_children = wrapper?.children?.length;
 
   let mapElements: HTMLDivElement[] = [];
@@ -194,4 +195,4 @@ export const getMatchroomMapsElements = () => {
  * Gets a map's name by parsing its matchroom HTML map card element.
  */
 export const getMapName = (mapCard: HTMLDivElement) =>
-  mapCard.querySelector("div > span")?.textContent;
+  mapCard?.querySelector("div > span")?.textContent;

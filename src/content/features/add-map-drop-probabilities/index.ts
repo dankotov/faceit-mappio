@@ -13,7 +13,7 @@ import {
   getMatchroomMapsElementsParentAndContainer,
 } from "../../helpers/matchroom";
 import { memGetPlayerMapDropProbabilities } from "../../helpers/probabilities";
-import { hasMappio } from "../../helpers/utils";
+import { elementExistsIn, hasMappio } from "../../helpers/utils";
 import createProbabilityCell from "./components/ProbabilityCell";
 import createProbabilityLegend from "./components/ProbabilityLegend";
 
@@ -34,15 +34,11 @@ export default debounce(async (matchId) => {
 
   const matchMapsElements = getMatchroomMapsElements();
 
-  const infoElement = getInfoElement();
-  if (infoElement && !hasMappio(infoElement)) {
-    const probabilityLegend = createProbabilityLegend({ datasetSize });
-    const [parent, container] = getMatchroomMapsElementsParentAndContainer();
-    if (parent && container) parent.insertBefore(probabilityLegend, container);
-  }
+  let probabilitiesAppended = false;
 
   matchMapsElements?.forEach((mapElement) => {
-    if (hasMappio(mapElement) || !mapElement) return;
+    if (!mapElement || hasMappio(mapElement) || mapElement.tagName !== "DIV")
+      return;
 
     const mapName = getMapName(mapElement);
     if (!mapName) return;
@@ -56,5 +52,18 @@ export default debounce(async (matchId) => {
 
     const probabilityCell = createProbabilityCell({ probability });
     mapElement.append(probabilityCell);
+    probabilitiesAppended = true;
   });
+
+  const infoElement = getInfoElement();
+
+  if (
+    probabilitiesAppended &&
+    infoElement &&
+    !elementExistsIn(".probabilityLegend", infoElement)
+  ) {
+    const probabilityLegend = createProbabilityLegend({ datasetSize });
+    const [parent, container] = getMatchroomMapsElementsParentAndContainer();
+    if (parent && container) parent.insertBefore(probabilityLegend, container);
+  }
 }, 300);
