@@ -1,7 +1,6 @@
-import { ACTIVE_MAP_POOL, ESCL } from "../../shared/consts";
+import { ESCL } from "../../shared/consts";
 import { colors } from "../../shared/theme";
-import { MapCodename } from "../../shared/types/csgo-maps";
-import { SegmentStats, Stats } from "../../shared/types/stats";
+import { Stats } from "../../shared/types/stats";
 
 /**
  * Checks whether an element identifiable by a query selector string is in an HTML element.
@@ -10,14 +9,6 @@ export const elementExistsIn = (
   selectorString: string,
   parent: HTMLElement | ShadowRoot | Element
 ) => !!parent?.querySelector(selectorString);
-
-/**
- * Checks whether a map stat is eligible to be accounted for by the extension.
- */
-export const isRelevantMapStat = (segmentStats: SegmentStats) =>
-  segmentStats.type === "Map" &&
-  segmentStats.mode === "5v5" &&
-  ACTIVE_MAP_POOL.has(segmentStats.label as MapCodename);
 
 /**
  * Checks whether the provided element has any mappio extension related elements appended to it.
@@ -34,4 +25,21 @@ export const colorCodeStat = (stats: Stats) => {
   if (games < 1 || (kd >= 1 && kd < 1.2)) return colors.foregrey;
 
   return kd >= 1.2 ? colors.faceitgreen : colors.faceitred;
+};
+
+export const padZero = (smth: number) => {
+  return smth.toString().padStart(2, "0");
+};
+
+export const getFaceitTimestamp = (date: Date, yearOffset: number = 0) => {
+  const year = date.getFullYear() - yearOffset;
+  const month = padZero(date.getMonth() + 1);
+  const day = padZero(date.getDate());
+  const hours = padZero(date.getHours());
+  const minutes = padZero(date.getMinutes());
+  const seconds = padZero(date.getSeconds());
+  const offsetHours = Math.floor(date.getTimezoneOffset() / 60);
+  const offsetDirection = offsetHours < 0 ? "+" : "-";
+  const offset = offsetHours.toString().padStart(2, "0").padEnd(4, "0");
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${offsetDirection}${offset}`;
 };

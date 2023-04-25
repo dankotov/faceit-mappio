@@ -16,7 +16,7 @@ export default debounce(async (matchroomId) => {
     if (!nickname) return;
 
     const mapStats =
-      playerMapStats.find((player) => player.nickname === nickname)?.maps ||
+      playerMapStats?.find((player) => player.nickname === nickname)?.maps ||
       EMPTY_MAP_STATS;
 
     const mapStatsTable = createMapStatsTable({ mapStats });

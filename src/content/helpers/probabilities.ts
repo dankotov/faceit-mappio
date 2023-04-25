@@ -6,6 +6,7 @@ import {
   EMPTY_MAP_DROP_STATS,
 } from "../../shared/consts";
 import { MapCodename } from "../../shared/types/csgo-maps";
+import { MatchOverview } from "../../shared/types/match-details";
 import { MapDropProbability } from "../../shared/types/probabilities";
 import { MapDropStats } from "../../shared/types/stats";
 import { VetoHistory } from "../../shared/types/veto";
@@ -20,14 +21,14 @@ import {
  */
 const getPlayerMapDropStats = (
   vetos: {
-    playerFaction: string;
-    veto: VetoHistory;
+    playerFaction: string | null;
+    veto: VetoHistory | null;
   }[]
 ) => {
   const mapDropStats: MapDropStats = new Map();
   vetos.forEach(({ playerFaction, veto }) => {
     // if veto fetch was corrupt -> dont process this match
-    if (!veto) return;
+    if (!playerFaction || !veto) return;
 
     let opportunityCount = 0;
     const mapVeto = veto.tickets.find((ticket) => ticket.entity_type === "map");
@@ -101,7 +102,7 @@ const getPlayerMapDropProbabilties = async (
   playerId: string
 ): Promise<[number, MapDropProbability[]]> => {
   const captainMatches = await fetchPlayerCaptainMatchList(playerId);
-  const vetoPromises = captainMatches.map(async (match: any) =>
+  const vetoPromises = captainMatches.map(async (match: MatchOverview) =>
     getPlayerMatchVetoDetails(match, playerId)
   );
   const vetos = await Promise.all(vetoPromises);

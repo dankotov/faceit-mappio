@@ -34,8 +34,6 @@ export const ACTIVE_MAP_POOL_REVERSE = new Map<MapName, MapCodename>([
 export const EMPTY_STATS: Stats = {
   games: "0",
   kd: "0",
-  kr: "0",
-  wr: "0",
 };
 
 export const EMPTY_MAP_STATS: MapStats = new Map([
