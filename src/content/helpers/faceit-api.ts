@@ -8,7 +8,10 @@ import {
   EMPTY_STATS,
   FACEIT_API_BASE_URL,
 } from "../../shared/consts";
-import { FaceitWrappedData } from "../../shared/types/faceit";
+import {
+  FaceitUnwrappedData,
+  FaceitWrappedData,
+} from "../../shared/types/faceit";
 import { MatchDetails, MatchOverview } from "../../shared/types/match-details";
 import { FactionDetails } from "../../shared/types/match-faction";
 import { Me } from "../../shared/types/me";
@@ -77,7 +80,7 @@ const fetchFaceitUnwrappedEndpoint = async (
   const response = await memFetchFaceitApi(baseUrl, requestPath);
   if (!response) return null;
 
-  const data = await response.json();
+  const data: FaceitUnwrappedData = await response.json();
 
   return data;
 };
@@ -137,11 +140,11 @@ export const fetchMatchDetails = async (
  */
 export const fetchPlayerStats = async (
   playerId: string
-): Promise<PlayerGameStats> =>
+): Promise<PlayerGameStats | null> =>
   memFetchFaceitUnwrappedEndpoint(
     FACEIT_API_BASE_URL,
     `/stats/v1/stats/users/${playerId}/games/csgo`
-  );
+  ) as Promise<PlayerGameStats | null>;
 
 /**
  * Extracts a list of the match players' nicknames and ids from the match details object.
@@ -210,7 +213,7 @@ const fetchPlayerMapStats = async (playerId: string): Promise<MapStats> => {
   const playerRawStats = await fetchPlayerStats(playerId);
   // extract stats of intereset for each map of active map pool from fetched player details
   const playerMapStats: MapStats = new Map([]);
-  const playerCompetetiveStats = playerRawStats.segments.find(
+  const playerCompetetiveStats = playerRawStats?.segments.find(
     (segment) =>
       segment._id.game === "csgo" &&
       segment._id.gameMode === "5v5" &&

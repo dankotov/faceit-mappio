@@ -1,5 +1,6 @@
 import { MatchDetails, MatchOverview } from "./match-details";
 import { Me } from "./me";
+import { PlayerGameStats } from "./player";
 import { VetoHistory } from "./veto";
 
 export type Payload = Me | MatchDetails | MatchOverview[] | VetoHistory;
@@ -9,3 +10,5 @@ export interface FaceitWrappedData {
   result?: string;
   payload: Payload;
 }
+
+export type FaceitUnwrappedData = PlayerGameStats;
