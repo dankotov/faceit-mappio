@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import mem from "mem";
+import pRetry, { AbortError } from "p-retry";
 import { getCookie } from "typescript-cookie";
 import {
   ACTIVE_MAP_POOL,
@@ -31,21 +32,34 @@ const getLocalApiToken = () => {
  * Returns response from `baseUrl` + `requestPath`.
  */
 const fetchFaceitApi = async (baseUrl: string, requestPath: string) => {
-  const token = getLocalApiToken();
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
+  try {
+    const token = getLocalApiToken();
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
 
-  const response = await fetch(baseUrl + requestPath, {
-    method: "GET",
-    headers,
-  });
+    const response = await pRetry(
+      async () => {
+        const r = await fetch(baseUrl + requestPath, {
+          method: "GET",
+          headers,
+        });
+        if (r.status === 404) {
+          throw new AbortError(r.statusText);
+        }
+        return r;
+      },
+      { retries: 3 }
+    );
 
-  // detect network error
-  if (!response.ok) return null;
+    // detect network error
+    if (!response.ok) return null;
 
-  return response;
+    return response;
+  } catch (err) {
+    return null;
+  }
 };
 
 /**
