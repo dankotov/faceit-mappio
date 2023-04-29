@@ -3,11 +3,7 @@
   "description": "See the opponent's map drop probability and everyone's map-related statistics in the matchroom to make educated veto decisions.",
   "version": "1.2.0",
   "permissions": ["storage"],
-  "host_permissions": [
-    "https://api.faceit.com/*",
-    "https://open.faceit.com/*",
-    "https://www.faceit.com/*"
-  ],
+  "host_permissions": ["https://api.faceit.com/*", "https://www.faceit.com/*"],
   "background": {
     "service_worker": "background.js"
   },
