@@ -1,13 +1,17 @@
 // eslint-disable-next-line import/no-unresolved
 import mem from "mem";
+import pRetry, { AbortError } from "p-retry";
 import { getCookie } from "typescript-cookie";
 import {
+  ACTIVE_MAP_POOL,
   CACHE_TIME,
+  EMPTY_STATS,
   FACEIT_API_BASE_URL,
-  FACEIT_OPEN_BASE_URL,
 } from "../../shared/consts";
-import { FACEIT_API_BEARER_TOKEN } from "../../shared/secrets";
-import { MapCodename } from "../../shared/types/csgo-maps";
+import {
+  FaceitUnwrappedData,
+  FaceitWrappedData,
+} from "../../shared/types/faceit";
 import { MatchDetails, MatchOverview } from "../../shared/types/match-details";
 import { FactionDetails } from "../../shared/types/match-faction";
 import { Me } from "../../shared/types/me";
@@ -18,7 +22,7 @@ import {
 } from "../../shared/types/player";
 import { MapStats, Stats } from "../../shared/types/stats";
 import { VetoHistory } from "../../shared/types/veto";
-import { isRelevantMapStat } from "./utils";
+import { getFaceitTimestamp } from "./utils";
 
 /**
  * Returns the user's cached FACEIT production API auth token.
@@ -28,28 +32,37 @@ const getLocalApiToken = () => {
 };
 
 /**
- * Returns the appropriate auth token for a FACEIT API.
- */
-const getApiToken = (apiUrl: string) => {
-  if (apiUrl === FACEIT_OPEN_BASE_URL) return FACEIT_API_BEARER_TOKEN;
-  return getLocalApiToken();
-};
-
-/**
  * Returns response from `baseUrl` + `requestPath`.
  */
 const fetchFaceitApi = async (baseUrl: string, requestPath: string) => {
-  const token = getApiToken(baseUrl);
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
-  const response = await fetch(baseUrl + requestPath, {
-    method: "GET",
-    headers,
-  });
-  const json = await response.json();
-  return json;
+  try {
+    const token = getLocalApiToken();
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    const response = await pRetry(
+      async () => {
+        const r = await fetch(baseUrl + requestPath, {
+          method: "GET",
+          headers,
+        });
+        if (r.status === 404) {
+          throw new AbortError(r.statusText);
+        }
+        return r;
+      },
+      { retries: 3 }
+    );
+
+    // detect network error
+    if (!response.ok) return null;
+
+    return response;
+  } catch (err) {
+    return null;
+  }
 };
 
 /**
@@ -60,32 +73,78 @@ const memFetchFaceitApi = mem(fetchFaceitApi, {
   cacheKey: (arguments_) => JSON.stringify(arguments_),
 });
 
+const fetchFaceitUnwrappedEndpoint = async (
+  baseUrl: string,
+  requestPath: string
+) => {
+  const response = await memFetchFaceitApi(baseUrl, requestPath);
+  if (!response) return null;
+
+  const data: FaceitUnwrappedData = await response.json();
+
+  return data;
+};
+
+const memFetchFaceitUnwrappedEndpoint = mem(fetchFaceitUnwrappedEndpoint, {
+  maxAge: CACHE_TIME,
+  cacheKey: (arguments_) => JSON.stringify(arguments_),
+});
+
+const fetchFaceitWrappedEndpoint = async (
+  baseUrl: string,
+  requestPath: string
+) => {
+  const response = await memFetchFaceitApi(baseUrl, requestPath);
+  if (!response) return null;
+
+  const data: FaceitWrappedData = await response.json();
+  const { code, result, payload } = data;
+
+  // detect faceit api error
+  if (
+    (code && code.toUpperCase() !== "OPERATION-OK") ||
+    (result && result.toUpperCase() !== "OK")
+  )
+    return null;
+
+  return payload;
+};
+
+const memFetchFaceitWrappedEndpoint = mem(fetchFaceitWrappedEndpoint, {
+  maxAge: CACHE_TIME,
+  cacheKey: (arguments_) => JSON.stringify(arguments_),
+});
+
 /**
  * Fetches currently logged in user's details
  */
-export const fetchMe = async (): Promise<Me> =>
-  memFetchFaceitApi(FACEIT_API_BASE_URL, "/users/v1/sessions/me").then(
-    (res) => res.payload
-  );
+export const fetchMe = async (): Promise<Me | null> =>
+  memFetchFaceitWrappedEndpoint(
+    FACEIT_API_BASE_URL,
+    "/users/v1/sessions/me"
+  ) as Promise<Me | null>;
 
 /**
  * Fetches match details by `matchId`.
  */
 export const fetchMatchDetails = async (
   matchId: string
-): Promise<MatchDetails> =>
-  memFetchFaceitApi(FACEIT_OPEN_BASE_URL, `/data/v4/matches/${matchId}`);
+): Promise<MatchDetails | null> =>
+  memFetchFaceitWrappedEndpoint(
+    FACEIT_API_BASE_URL,
+    `/match/v2/match/${matchId}`
+  ) as Promise<MatchDetails | null>;
 
 /**
  * Fetches player details by `playerId`
  */
 export const fetchPlayerStats = async (
   playerId: string
-): Promise<PlayerGameStats> =>
-  memFetchFaceitApi(
-    FACEIT_OPEN_BASE_URL,
-    `/data/v4/players/${playerId}/stats/csgo`
-  );
+): Promise<PlayerGameStats | null> =>
+  memFetchFaceitUnwrappedEndpoint(
+    FACEIT_API_BASE_URL,
+    `/stats/v1/stats/users/${playerId}/games/csgo`
+  ) as Promise<PlayerGameStats | null>;
 
 /**
  * Extracts a list of the match players' nicknames and ids from the match details object.
@@ -98,7 +157,7 @@ const getMatchPlayersFromMatchDetails = (matchDetails: MatchDetails) => {
   matchFactions.forEach((faction) => {
     faction.roster.forEach((playerDetails) => {
       const player: Player = {
-        player_id: playerDetails.player_id,
+        player_id: playerDetails.id,
         nickname: playerDetails.nickname,
       };
       players.push(player);
@@ -113,21 +172,8 @@ const getMatchPlayersFromMatchDetails = (matchDetails: MatchDetails) => {
  */
 export const getMatchPlayersFromMatchId = async (matchId: string) => {
   const md = await fetchMatchDetails(matchId);
+  if (!md) return null;
   return getMatchPlayersFromMatchDetails(md);
-};
-
-/**
- * Extracts a list of the maps that are on the voting list of the match from the match details object.
- */
-const getMatchMapsFromMatchDetails = (matchDetails: MatchDetails) =>
-  matchDetails.voting.map.entities.map((mapOption) => mapOption.game_map_id);
-
-/**
- * Gets a list of the maps that are on the voting list of the match by the FACEIT match id.
- */
-export const getMatchMapsFromMatchId = async (matchId: string) => {
-  const md = await fetchMatchDetails(matchId);
-  return getMatchMapsFromMatchDetails(md);
 };
 
 /**
@@ -139,7 +185,7 @@ const getOpponentCaptainIdFromMatchDetails = (
   playerId: string
 ) => {
   const opponentCaptainId = matchDetails.teams.faction1.roster.some(
-    (player) => player.player_id === playerId
+    (player) => player.id === playerId
   )
     ? matchDetails.teams.faction2.leader
     : matchDetails.teams.faction1.leader;
@@ -156,6 +202,7 @@ export const getOpponentCaptainIdFromMatchId = async (
   playerId: string
 ) => {
   const md = await fetchMatchDetails(matchId);
+  if (!md) return null;
   return getOpponentCaptainIdFromMatchDetails(md, playerId);
 };
 
@@ -166,14 +213,22 @@ const fetchPlayerMapStats = async (playerId: string): Promise<MapStats> => {
   const playerRawStats = await fetchPlayerStats(playerId);
   // extract stats of intereset for each map of active map pool from fetched player details
   const playerMapStats: MapStats = new Map([]);
-  playerRawStats.segments.filter(isRelevantMapStat).forEach((map) => {
+  const playerCompetetiveStats = playerRawStats?.segments.find(
+    (segment) =>
+      segment._id.game === "csgo" &&
+      segment._id.gameMode === "5v5" &&
+      segment._id.segmentId === "csgo_map"
+  )?.segments;
+
+  ACTIVE_MAP_POOL.forEach((_, mapCodename) => {
+    const rawMapData = playerCompetetiveStats?.[mapCodename];
+
     const mapData: Stats = {
-      games: map.stats.Matches,
-      kd: map.stats["Average K/D Ratio"],
-      kr: map.stats["Average K/R Ratio"],
-      wr: map.stats["Win Rate %"],
+      games: rawMapData?.m1 || EMPTY_STATS.games,
+      kd: rawMapData?.k5 || EMPTY_STATS.kd,
     };
-    playerMapStats.set(map.label as MapCodename, mapData);
+
+    playerMapStats.set(mapCodename, mapData);
   });
 
   return playerMapStats;
@@ -192,6 +247,7 @@ const addPlayerMapStats = async (player: Player): Promise<PlayerMapStats> => {
  */
 const fetchAllMatchPlayersMapStats = async (matchId: string) => {
   const matchDetails = await fetchMatchDetails(matchId);
+  if (!matchDetails) return null;
   const players = getMatchPlayersFromMatchDetails(matchDetails);
 
   const playersMapStatsPromises = players.map(async (player) =>
@@ -211,55 +267,35 @@ export const memFetchAllMatchPlayersMapStats = mem(
 );
 
 /**
- * Fetches a 100 matches of playerId offset by pageNum times 100.
+ * Fetches a 100 matches of playerId
  */
 export const fetchPlayerMatches = async (
-  playerId: string,
-  pageNum: number
-): Promise<MatchOverview[]> =>
-  memFetchFaceitApi(
-    FACEIT_OPEN_BASE_URL,
-    `/data/v4/players/${playerId}/history?game=csgo&limit=100&offset=${
-      pageNum * 100
-    }`
-  ).then((res) => res.items);
+  playerId: string
+): Promise<MatchOverview[] | null> => {
+  const cd = new Date();
+  const to = getFaceitTimestamp(cd);
+  const from = getFaceitTimestamp(cd, 2);
 
-/**
- * Fetches a list of a player's last 100 matches.
- */
-const fetchPlayerMatchList = async (playerId: string) => {
-  const pageNums = [...Array(1).keys()];
-  const matchPromises = pageNums.map(async (pageNum) =>
-    fetchPlayerMatches(playerId, pageNum)
-  );
-  const matches = await Promise.all(matchPromises);
-  const list = matches.reduce((acc, curr) => {
-    return acc.concat(curr);
-  }, []);
-  return list;
+  return memFetchFaceitWrappedEndpoint(
+    FACEIT_API_BASE_URL,
+    `/match-history/v5/players/${playerId}/history/?page=0&offset=0&to=${to}&from=${from}&size=100&playerId=${playerId}`
+  ) as Promise<MatchOverview[] | null>;
 };
 
 /**
  * Checks whether the player with `playerId` was a team captain in `match`.
  */
 const isCaptainMatch = (match: MatchOverview, playerId: string) => {
-  const player =
-    match.teams.faction1.players.find((p) => p.player_id === playerId) ||
-    match.teams.faction2.players.find((p) => p.player_id === playerId);
-  if (!player) return false;
-
   if (
-    match.teams.faction1.team_id !== playerId &&
-    match.teams.faction2.team_id !== playerId &&
-    !match.teams.faction1.nickname.endsWith(player.nickname) &&
-    !match.teams.faction2.nickname.endsWith(player.nickname)
+    match.teams.faction1.leader !== playerId &&
+    match.teams.faction2.leader !== playerId
   )
     return false;
 
-  if (match.game_mode !== "5v5") return false;
-  if (match.competition_name !== "5v5 RANKED") return false;
-  if (match.competition_type !== "matchmaking") return false;
-  if (match.status !== "finished") return false;
+  if (match.competition.name !== "5v5 RANKED") return false;
+  if (match.competition.type !== "matchmaking") return false;
+  if (match.organizer.id !== "faceit") return false;
+  if (match.state !== "finished") return false;
 
   return true;
 };
@@ -268,7 +304,8 @@ const isCaptainMatch = (match: MatchOverview, playerId: string) => {
  * Gets a list of a player's captain matches.
  */
 export const fetchPlayerCaptainMatchList = async (playerId: string) => {
-  const matches = await fetchPlayerMatchList(playerId);
+  const matches = await fetchPlayerMatches(playerId);
+  if (!matches) return [];
   const captainMatches = matches.filter((match) =>
     isCaptainMatch(match, playerId)
   );
@@ -278,11 +315,13 @@ export const fetchPlayerCaptainMatchList = async (playerId: string) => {
 /**
  * Gets the veto history of a match by match id.
  */
-const fetchMatchVetoHistory = async (matchId: string): Promise<VetoHistory> =>
-  memFetchFaceitApi(
+const fetchMatchVetoHistory = async (
+  matchId: string
+): Promise<VetoHistory | null> =>
+  memFetchFaceitWrappedEndpoint(
     FACEIT_API_BASE_URL,
     `/democracy/v1/match/${matchId}/history`
-  ).then((res) => res.payload);
+  ) as Promise<VetoHistory | null>;
 
 /**
  * Gets a match's veto history and the `playerId`'s faction in that match.
@@ -290,10 +329,12 @@ const fetchMatchVetoHistory = async (matchId: string): Promise<VetoHistory> =>
 export const getPlayerMatchVetoDetails = async (
   match: MatchOverview,
   playerId: string
-): Promise<{ playerFaction: string; veto: VetoHistory }> => {
+): Promise<{ playerFaction: string | null; veto: VetoHistory | null }> => {
   const playerFaction =
-    match.teams.faction1.team_id === playerId ? "faction1" : "faction2";
-  const veto = await fetchMatchVetoHistory(match.match_id);
+    match.teams.faction1.leader === playerId ? "faction1" : "faction2";
+  const veto = await fetchMatchVetoHistory(match.matchId);
+
+  if (!veto) return { playerFaction: null, veto: null };
 
   return { playerFaction, veto };
 };

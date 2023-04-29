@@ -147,14 +147,23 @@ export const getMatchroomMapsElementsParentAndContainer = () => {
     // if wrapper contains 3 children -> room is in veto state
     parent = wrapper?.children?.[2];
     container = parent?.children?.[0];
-  } else if (
-    n_of_children === 6 || // room is in connecting to server state
-    n_of_children === 5 || // room is in match live state
-    n_of_children === 4 // room is in match ended state
-  ) {
+  } else if (n_of_children === 6) {
+    // room is in connecting to server state
     const i = n_of_children - 4; // map card element container is always 4th from the end in these states
     parent = wrapper?.children?.[i].children?.[0];
     container = parent?.children?.[3];
+  } else if (n_of_children === 5) {
+    // room is in match live or match ended state
+    const index_live = 1; // map card element container is the second child in live state
+    const index_ended = 0; // map card elemenet container is the first child in ended state
+    // try getting elements for the live case
+    parent = wrapper?.children?.[index_live].children?.[0];
+    container = parent?.children?.[3];
+    if (!parent || !container) {
+      // if getting either of the elements was unseccusfull try the other case
+      parent = wrapper?.children?.[index_ended].children?.[0];
+      container = parent?.children?.[3];
+    }
   }
 
   return [parent, container];
@@ -176,16 +185,23 @@ export const getMatchroomMapsElements = () => {
     container?.childNodes.forEach((mapContainer) => {
       mapElements.push(mapContainer.childNodes[0] as HTMLDivElement);
     });
-  } else if (
-    n_of_children === 6 || // room is in connecting to server state
-    n_of_children === 5 || // room is in match live state
-    n_of_children === 4 // room is in match ended state
-  ) {
-    const i = n_of_children - 4; // map card element container is always 4th from the end in these states
+  } else if (n_of_children === 6) {
+    // room is in connecting to server state
+    const i = n_of_children - 4; // map card element container is always 4th from the end in this state
     mapElements.push(
-      wrapper?.children?.[i].children?.[0].children?.[3]
-        .children?.[0] as HTMLDivElement
+      wrapper?.children?.[i]?.children?.[0]?.children?.[3]
+        ?.children?.[0] as HTMLDivElement
     );
+  } else if (n_of_children === 5) {
+    // room is in match live or match ended state
+    const index_live = 1; // map card element container is the second child in this state
+    const index_ended = 0; // map card elemenet container is the first child in this state
+    const mapCardElement =
+      wrapper?.children?.[index_live]?.children?.[0]?.children?.[3]
+        ?.children?.[0] ||
+      wrapper?.children?.[index_ended]?.children?.[0]?.children?.[3]
+        ?.children?.[0];
+    if (mapCardElement) mapElements.push(mapCardElement as HTMLDivElement);
   }
 
   return mapElements;

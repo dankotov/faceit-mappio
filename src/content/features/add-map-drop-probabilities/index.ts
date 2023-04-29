@@ -19,7 +19,11 @@ import createProbabilityLegend from "./components/ProbabilityLegend";
 
 export default debounce(async (matchId) => {
   const matchPlayers = await getMatchPlayersFromMatchId(matchId);
-  const currentUserId = await fetchMe().then((me) => me.id);
+  if (!matchPlayers) return;
+
+  const currentUserId = await fetchMe()?.then((me) => me?.id);
+  if (!currentUserId) return;
+
   const currentUserIsInMatch = matchPlayers.some(
     (player) => player.player_id === currentUserId
   );
@@ -29,6 +33,7 @@ export default debounce(async (matchId) => {
     matchId,
     currentUserId
   );
+  if (!opponentCaptainId) return;
   const [datasetSize, mapDropProbabilities] =
     await memGetPlayerMapDropProbabilities(opponentCaptainId);
 
