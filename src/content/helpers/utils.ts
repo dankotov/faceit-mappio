@@ -27,8 +27,8 @@ export const colorCodeStat = (stats: Stats) => {
   return kd >= 1.2 ? colors.faceitgreen : colors.faceitred;
 };
 
-export const padZero = (smth: number) => {
-  return smth.toString().padStart(2, "0");
+export const padZero = (toBePadded: number) => {
+  return toBePadded.toString().padStart(2, "0");
 };
 
 export const getFaceitTimestamp = (date: Date, yearOffset: number = 0) => {
@@ -39,7 +39,10 @@ export const getFaceitTimestamp = (date: Date, yearOffset: number = 0) => {
   const minutes = padZero(date.getMinutes());
   const seconds = padZero(date.getSeconds());
   const offsetHours = Math.floor(date.getTimezoneOffset() / 60);
-  const offsetDirection = offsetHours < 0 ? "+" : "-";
-  const offset = offsetHours.toString().padStart(2, "0").padEnd(4, "0");
+  const offsetDirection = encodeURIComponent(offsetHours < 0 ? "+" : "-");
+  const offset = Math.abs(offsetHours)
+    .toString()
+    .padStart(2, "0")
+    .padEnd(4, "0");
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${offsetDirection}${offset}`;
 };
