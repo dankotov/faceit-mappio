@@ -72,20 +72,30 @@ npm install
 To automatically rebuild on detected changes:
 
 ```bash
-npm run dev
+npm run dev:chrome
+npm run dev:fox
 ```
 
 To build for publishing:
 
 ```bash
 npm run build
+npm run build:chrome
+npm run build:fox
 ```
 
-> Building the extension will create a `dist` folder.
+> Building the extension will create two `dist` folders, one for chrome and one for firefox.
 
 ###### Load in Chrome
 
 1. Go to `chrome://extensions`.
 2. Enable developer mode toggle on the top right side of the window.
 3. Click on `Load unpacked` button.
-4. Select the `dist` folder.
+4. Select the `dist_chrome` folder.
+
+###### Load in Firefox
+
+1. Go to `about:debugging#/runtime/this-firefox`.
+2. Click on `Load Temporary Add-on...` button.
+3. Select the `content` file in the `dist_firefox` folder.
+4. Grant Mappio the requested permissions in the `Manage Extension` tab.

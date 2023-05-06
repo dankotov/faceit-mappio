@@ -1,6 +1,10 @@
 const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
+const browser_suffix =
+  (process.env.BROWSER === "chrome" && "chrome") ||
+  (process.env.BROWSER === "firefox" && "firefox");
+
 module.exports = {
   mode: process.env.NODE_ENV === "prod" ? "production" : "development",
   devtool: process.env.NODE_ENV === "prod" ? false : "source-map",
@@ -10,7 +14,7 @@ module.exports = {
     popup: path.resolve(__dirname, "./src/popup/popup.tsx"),
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, `dist_${browser_suffix}`),
     filename: "[name].js",
     clean: true,
   },
@@ -72,16 +76,19 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, "./src/manifest.json"),
-          to: path.resolve(__dirname, "dist"),
+          from: path.resolve(
+            __dirname,
+            `./src/manifest_${browser_suffix}.json`
+          ),
+          to: path.resolve(__dirname, `dist_${browser_suffix}/manifest.json`),
         },
         {
           from: path.resolve(__dirname, "./src/assets/"),
-          to: path.resolve(__dirname, "dist/assets"),
+          to: path.resolve(__dirname, `dist_${browser_suffix}/assets`),
         },
         {
           from: path.resolve(__dirname, "./src/popup/popup.html"),
-          to: path.resolve(__dirname, "dist/popup.html"),
+          to: path.resolve(__dirname, `dist_${browser_suffix}/popup.html`),
         },
       ],
     }),
