@@ -1,0 +1,39 @@
+{
+  "name": "FACEIT Mappio",
+  "description": "See the opponent's map drop probability and everyone's map-related statistics in the matchroom to make educated veto decisions.",
+  "version": "1.2.1",
+  "permissions": ["storage"],
+  "host_permissions": ["https://api.faceit.com/*", "https://www.faceit.com/*"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.faceit.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "32": "assets/icons/icon32.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "manifest_version": 3,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{3b97fb03-3e94-42f0-8718-68887eec07ed}",
+      "strict_min_version": "109.0"
+    }
+  }
+}

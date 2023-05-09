@@ -1,8 +1,8 @@
 # FACEIT Mappio
 
-> Chrome extension for the FACEIT CSGO esports platform that displays everyone's map-related information in the match room letting you make more educated decisions during the veto process.
+> Browser extension for the FACEIT CSGO esports platform that displays everyone's map-related information in the match room letting you make more educated decisions during the veto process.
 
-> [[chrome web store]](https://chrome.google.com/webstore/detail/faceit-mappio/kaeamgghipbhkjgibgglnmmnobdakapa)
+> [[chrome web store]](https://chrome.google.com/webstore/detail/faceit-mappio/kaeamgghipbhkjgibgglnmmnobdakapa) [[firefox addons]](https://addons.mozilla.org/addon/faceit-mappio/)
 
 The idea behind creating this extension is to provide more information about the match players directly in the match room. I usually play with a stack of friends and I am often the captain of the team. Every time I get to the veto stage, I find myself openning the opponents' profiles to check their map statistics. FACEIT web pages take notoriously long to load, so I frequently miss the first couple of veto picks. Hoping to resolve this issue, I created Mappio.
 
@@ -72,20 +72,30 @@ npm install
 To automatically rebuild on detected changes:
 
 ```bash
-npm run dev
+npm run dev:chrome
+npm run dev:fox
 ```
 
 To build for publishing:
 
 ```bash
 npm run build
+npm run build:chrome
+npm run build:fox
 ```
 
-> Building the extension will create a `dist` folder.
+> Building the extension will create two `dist` folders, one for chrome and one for firefox.
 
 ###### Load in Chrome
 
 1. Go to `chrome://extensions`.
 2. Enable developer mode toggle on the top right side of the window.
 3. Click on `Load unpacked` button.
-4. Select the `dist` folder.
+4. Select the `dist_chrome` folder.
+
+###### Load in Firefox
+
+1. Go to `about:debugging#/runtime/this-firefox`.
+2. Click on `Load Temporary Add-on...` button.
+3. Select the `content` file in the `dist_firefox` folder.
+4. Grant Mappio the requested permissions in the `Manage Extension` tab.
