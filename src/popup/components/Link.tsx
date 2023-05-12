@@ -52,6 +52,10 @@ const Link = ({
       a.lg img {
         margin-right: 6px;
       }
+
+      a p {
+        font-size: 0.75rem;
+      }
     `}</style>
   </>
 );

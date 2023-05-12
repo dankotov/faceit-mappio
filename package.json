@@ -1,6 +1,6 @@
 {
   "name": "mappio",
-  "version": "1.0.0",
+  "version": "1.2.2",
   "description": "Chrome extension that displays everyone's map-related information in the matchroom letting you make more educated decisions during the veto process",
   "scripts": {
     "build": "cross-env NODE_ENV=prod BROWSER=chrome webpack && cross-env NODE_ENV=prod BROWSER=firefox webpack",

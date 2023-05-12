@@ -23,6 +23,7 @@ const AboutColumn = ({
       }
       .about-column-container h3 {
         margin-bottom: 5px;
+        font-size: 0.877rem;
       }
     `}</style>
   </>
