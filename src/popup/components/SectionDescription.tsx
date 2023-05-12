@@ -8,6 +8,7 @@ const SectionDescription = ({ description }: { description: string }) => (
       p {
         color: ${colors.foregrey};
         margin-bottom: 8px;
+        font-size: 0.75rem;
       }
     `}</style>
   </>

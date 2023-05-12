@@ -24,6 +24,7 @@ const Header = () => (
 
       header > h1 {
         margin-top: 10px;
+        font-size: 1.5rem;
       }
     `}</style>
   </>
