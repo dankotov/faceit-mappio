@@ -4,7 +4,7 @@ import { elementExistsIn } from "./utils";
  * Gets the current page's shadow root element.
  */
 const getShadowRootElement = () =>
-  document.querySelector("#parasite-container")?.shadowRoot;
+  document.querySelector("#parasite-container");
 
 /**
  * Checks if the current page has a main content element.
