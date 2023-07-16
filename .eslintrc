@@ -16,10 +16,21 @@
       "exports": "always-multiline",
       "functions": "never"
   }],
+    "@typescript-eslint/comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "never"
+  }],
+    "@typescript-eslint/quotes": [2, "double"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "react/function-component-definition": [2, { "namedComponents": "arrow-function", "unnamedComponents": "arrow-function" }]
   },
   "env": {
     "browser": true
+  },
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
   }
 }
