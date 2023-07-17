@@ -27,9 +27,7 @@ import { getFaceitTimestamp } from "./utils";
 /**
  * Returns the user's cached FACEIT production API auth token.
  */
-const getLocalApiToken = () => {
-  return getCookie("t") || localStorage.getItem("token");
-};
+const getLocalApiToken = () => getCookie("t") || localStorage.getItem("token");
 
 /**
  * Returns response from `baseUrl` + `requestPath`.
