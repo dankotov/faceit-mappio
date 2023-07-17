@@ -96,10 +96,7 @@ const getRosterList = (rosterContainer: HTMLDivElement) => {
   return roster;
 };
 
-/**
- * Gets the HTML player card elements taht represent all players in the matchroom.
- */
-export const getMatchroomPlayers = () => {
+export const getRosters = () => {
   const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
 
   const rosterOneContainer =
@@ -112,7 +109,18 @@ export const getMatchroomPlayers = () => {
   const rosterOne = getRosterList(rosterOneContainer as HTMLDivElement);
   const rosterTwo = getRosterList(rosterTwoContainer as HTMLDivElement);
 
-  return rosterOne.concat(rosterTwo);
+  return [rosterOne, rosterTwo];
+};
+
+/**
+ * Gets the HTML player card elements taht represent all players in the matchroom.
+ */
+export const getMatchroomPlayers = () => {
+  const rosters = getRosters();
+
+  if (!rosters) return;
+
+  return rosters.flat();
 };
 
 /**

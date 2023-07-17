@@ -1,6 +1,7 @@
 import { isFeatureEnabled, MappioFeature } from "../shared/settings";
 import debounceAddMapDropProbabilities from "./features/add-map-drop-probabilities";
 import debounceAddPlayerMapStats from "./features/add-player-map-stats";
+import debounceAddTeamAverageStats from "./features/add-team-average-stats";
 import { memFetchAllMatchPlayersMapStats } from "./helpers/faceit-api";
 import {
   getMatchroomId,
@@ -32,6 +33,8 @@ const handleMutation = async (
   // Add map drop probabilities
   if (await isFeatureEnabled(MappioFeature.MapDropProbabilities))
     debounceAddMapDropProbabilities(matchroomId);
+
+  debounceAddTeamAverageStats(matchroomId);
 
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((addedNode: any) => {
