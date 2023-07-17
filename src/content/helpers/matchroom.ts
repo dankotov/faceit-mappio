@@ -185,7 +185,7 @@ export const getMatchroomMapsElements = () => {
   const wrapper = info?.children?.[0].children?.[0];
   const n_of_children = wrapper?.children?.length;
 
-  let mapElements: HTMLDivElement[] = [];
+  const mapElements: HTMLDivElement[] = [];
 
   if (n_of_children === 3) {
     // if wrapper contains 3 children -> room is in veto state
