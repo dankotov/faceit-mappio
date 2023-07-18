@@ -146,30 +146,30 @@ export const getNickname = (playerCard: HTMLDivElement) =>
  */
 export const getMatchroomMapsElementsParentAndContainer = () => {
   const wrapper = getInfoElement()?.children?.[0].children?.[0];
-  const n_of_children = wrapper?.children?.length;
+  const N_OF_CHILDREN = wrapper?.children?.length;
 
   let parent;
   let container;
 
-  if (n_of_children === 3) {
+  if (N_OF_CHILDREN === 3) {
     // if wrapper contains 3 children -> room is in veto state
     parent = wrapper?.children?.[2];
     container = parent?.children?.[0];
-  } else if (n_of_children === 6) {
+  } else if (N_OF_CHILDREN === 6) {
     // room is in connecting to server state
-    const i = n_of_children - 4; // map card element container is always 4th from the end in these states
+    const i = N_OF_CHILDREN - 4; // map card element container is always 4th from the end in these states
     parent = wrapper?.children?.[i].children?.[0];
     container = parent?.children?.[3];
-  } else if (n_of_children === 5) {
+  } else if (N_OF_CHILDREN === 5) {
     // room is in match live or match ended state
-    const index_live = 1; // map card element container is the second child in live state
-    const index_ended = 0; // map card elemenet container is the first child in ended state
+    const INDEX_LIVE = 1; // map card element container is the second child in live state
+    const INDEX_ENDED = 0; // map card elemenet container is the first child in ended state
     // try getting elements for the live case
-    parent = wrapper?.children?.[index_live].children?.[0];
+    parent = wrapper?.children?.[INDEX_LIVE].children?.[0];
     container = parent?.children?.[3];
     if (!parent || !container) {
       // if getting either of the elements was unseccusfull try the other case
-      parent = wrapper?.children?.[index_ended].children?.[0];
+      parent = wrapper?.children?.[INDEX_ENDED].children?.[0];
       container = parent?.children?.[3];
     }
   }
@@ -183,31 +183,31 @@ export const getMatchroomMapsElementsParentAndContainer = () => {
 export const getMatchroomMapsElements = () => {
   const info = getInfoElement();
   const wrapper = info?.children?.[0].children?.[0];
-  const n_of_children = wrapper?.children?.length;
+  const N_OF_CHILDREN = wrapper?.children?.length;
 
   const mapElements: HTMLDivElement[] = [];
 
-  if (n_of_children === 3) {
+  if (N_OF_CHILDREN === 3) {
     // if wrapper contains 3 children -> room is in veto state
     const container = wrapper?.children?.[2].children?.[0];
     container?.childNodes.forEach((mapContainer) => {
       mapElements.push(mapContainer.childNodes[0] as HTMLDivElement);
     });
-  } else if (n_of_children === 6) {
+  } else if (N_OF_CHILDREN === 6) {
     // room is in connecting to server state
-    const i = n_of_children - 4; // map card element container is always 4th from the end in this state
+    const i = N_OF_CHILDREN - 4; // map card element container is always 4th from the end in this state
     mapElements.push(
       wrapper?.children?.[i]?.children?.[0]?.children?.[3]
         ?.children?.[0] as HTMLDivElement
     );
-  } else if (n_of_children === 5) {
+  } else if (N_OF_CHILDREN === 5) {
     // room is in match live or match ended state
-    const index_live = 1; // map card element container is the second child in this state
-    const index_ended = 0; // map card elemenet container is the first child in this state
+    const INDEX_LIVE = 1; // map card element container is the second child in this state
+    const INDEX_ENDED = 0; // map card elemenet container is the first child in this state
     const mapCardElement =
-      wrapper?.children?.[index_live]?.children?.[0]?.children?.[3]
+      wrapper?.children?.[INDEX_LIVE]?.children?.[0]?.children?.[3]
         ?.children?.[0] ||
-      wrapper?.children?.[index_ended]?.children?.[0]?.children?.[3]
+      wrapper?.children?.[INDEX_ENDED]?.children?.[0]?.children?.[3]
         ?.children?.[0];
     if (mapCardElement) mapElements.push(mapCardElement as HTMLDivElement);
   }
