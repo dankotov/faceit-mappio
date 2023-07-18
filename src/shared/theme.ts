@@ -14,7 +14,7 @@ type ColorName =
   | "faceitorange"
   | "faceitgreen";
 
-export const colors: { [key in ColorName]: CSSColorCode } = {
+const colors: { [key in ColorName]: CSSColorCode } = {
   backblack: "#161616",
   backgrey: "#303030",
   backlightgrey: "#505050",
@@ -25,3 +25,5 @@ export const colors: { [key in ColorName]: CSSColorCode } = {
   faceitorange: "#ff550b",
   faceitgreen: "#32d35a",
 };
+
+export default colors;

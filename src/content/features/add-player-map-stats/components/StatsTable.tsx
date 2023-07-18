@@ -2,7 +2,7 @@
 import { h } from "dom-chef";
 import { ReactNode } from "react";
 import { ACTIVE_MAP_POOL, EMPTY_STATS, ESCL } from "../../../../shared/consts";
-import { colors } from "../../../../shared/theme";
+import colors from "../../../../shared/theme";
 import { MapStats } from "../../../../shared/types/stats";
 import createMapStatsCell from "./StatsCell";
 

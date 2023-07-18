@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { colors } from "../../shared/theme";
+import colors from "../../shared/theme";
 
 const Section = ({ children }: { children: ReactNode | ReactNode[] }) => (
   <>

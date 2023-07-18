@@ -1,5 +1,5 @@
 import { ESCL } from "../../shared/consts";
-import { colors } from "../../shared/theme";
+import colors from "../../shared/theme";
 import { Stats } from "../../shared/types/stats";
 
 /**

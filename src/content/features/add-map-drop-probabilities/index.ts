@@ -12,7 +12,7 @@ import {
   getMatchroomMapsElements,
   getMatchroomMapsElementsParentAndContainer,
 } from "../../helpers/matchroom";
-import { memGetPlayerMapDropProbabilities } from "../../helpers/probabilities";
+import memGetPlayerMapDropProbabilities from "../../helpers/probabilities";
 import { elementExistsIn, hasMappio } from "../../helpers/utils";
 import createProbabilityCell from "./components/ProbabilityCell";
 import createProbabilityLegend from "./components/ProbabilityLegend";

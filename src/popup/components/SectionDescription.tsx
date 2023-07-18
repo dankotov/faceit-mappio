@@ -1,4 +1,4 @@
-import { colors } from "../../shared/theme";
+import colors from "../../shared/theme";
 
 const SectionDescription = ({ description }: { description: string }) => (
   <>

@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { colors } from "../shared/theme";
+import colors from "../shared/theme";
 import "./popup.css";
 import About from "./sections/About";
 import Header from "./sections/Header";
