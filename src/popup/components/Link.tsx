@@ -2,25 +2,25 @@
 import colors from "../../shared/theme";
 
 const Link = ({
-  url,
+  href,
   title,
   text = "",
   img,
 }: {
-  url: string;
+  href: string;
   title: string;
   text?: string; // eslint-disable-line react/require-default-props
   img: string;
 }) => (
   <>
     <a
-      href={url}
+      href={href}
       className={text ? "lg" : "sm"}
       target="_blank"
       title={title}
       rel="noreferrer"
     >
-      <img src={img} />
+      <img src={img} alt={title} />
       {text && <p>{text}</p>}
     </a>
 
