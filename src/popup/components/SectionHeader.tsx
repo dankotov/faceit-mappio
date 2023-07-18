@@ -6,7 +6,7 @@ const SectionHeader = ({
   children,
 }: {
   title: string;
-  children?: ReactNode | ReactNode[];
+  children?: ReactNode | ReactNode[]; // eslint-disable-line react/require-default-props
 }) => (
   <>
     <header>

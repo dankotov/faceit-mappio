@@ -4,12 +4,12 @@ import colors from "../../shared/theme";
 const Link = ({
   url,
   title,
-  text,
+  text = "",
   img,
 }: {
   url: string;
   title: string;
-  text?: string;
+  text?: string; // eslint-disable-line react/require-default-props
   img: string;
 }) => (
   <>
