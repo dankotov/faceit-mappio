@@ -6,6 +6,7 @@ import { colors } from "../../../../shared/theme";
 import { MapStats } from "../../../../shared/types/stats";
 import createMapStatsCell from "./StatsCell";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
 type _h = typeof h; // needed to prevent TSeslint from removing h import
 
 const mapStatsTable = ({ mapStats }: { mapStats: MapStats }) => {
