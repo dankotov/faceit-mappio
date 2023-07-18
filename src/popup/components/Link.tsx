@@ -12,8 +12,14 @@ const Link = ({
   img: string;
 }) => (
   <>
-    <a href={url} className={text ? "lg" : "sm"} target="_blank" title={title}>
-      <img src={img}></img>
+    <a
+      href={url}
+      className={text ? "lg" : "sm"}
+      target="_blank"
+      title={title}
+      rel="noreferrer"
+    >
+      <img src={img} />
       {text && <p>{text}</p>}
     </a>
 

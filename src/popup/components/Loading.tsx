@@ -3,10 +3,10 @@ import colors from "../../shared/theme";
 const Loading = () => (
   <>
     <div className="loader">
-      <div className="loader-dot"></div>
-      <div className="loader-dot"></div>
-      <div className="loader-dot"></div>
-      <div className="loader-dot"></div>
+      <div className="loader-dot" />
+      <div className="loader-dot" />
+      <div className="loader-dot" />
+      <div className="loader-dot" />
     </div>
 
     <style jsx>{`
