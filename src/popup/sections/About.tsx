@@ -1,3 +1,4 @@
+/* eslint react/react-in-jsx-scope: 0 */
 import { ReactNode } from "react";
 import Link from "../components/Link";
 import Section from "../components/Section";

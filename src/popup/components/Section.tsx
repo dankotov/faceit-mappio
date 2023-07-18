@@ -1,3 +1,4 @@
+/* eslint react/react-in-jsx-scope: 0 */
 import { ReactNode } from "react";
 import colors from "../../shared/theme";
 

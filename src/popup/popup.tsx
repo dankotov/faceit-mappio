@@ -1,3 +1,4 @@
+/* eslint react/react-in-jsx-scope: 0 */
 import { createRoot } from "react-dom/client";
 import colors from "../shared/theme";
 import "./popup.css";

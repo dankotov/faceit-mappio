@@ -1,3 +1,4 @@
+/* eslint react/react-in-jsx-scope: 0 */
 import { MappioFeature } from "../../shared/settings";
 import Section from "../components/Section";
 import SectionDescription from "../components/SectionDescription";

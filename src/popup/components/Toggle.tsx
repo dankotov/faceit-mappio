@@ -1,3 +1,4 @@
+/* eslint react/react-in-jsx-scope: 0 */
 import colors from "../../shared/theme";
 
 const Toggle = ({
