@@ -96,7 +96,7 @@ const getRosterList = (rosterContainer: HTMLDivElement) => {
   return roster;
 };
 
-export const getRosters = () => {
+export const getRosters = (): [HTMLDivElement[], HTMLDivElement[]] | [] => {
   const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
 
   const rosterOneContainer =
@@ -104,7 +104,7 @@ export const getRosters = () => {
   const rosterTwoContainer =
     mo?.querySelector('[name="roster2"]')?.childNodes[0];
 
-  if (!rosterOneContainer || !rosterTwoContainer) return;
+  if (!rosterOneContainer || !rosterTwoContainer) return [];
 
   const rosterOne = getRosterList(rosterOneContainer as HTMLDivElement);
   const rosterTwo = getRosterList(rosterTwoContainer as HTMLDivElement);
@@ -117,8 +117,6 @@ export const getRosters = () => {
  */
 export const getMatchroomPlayers = () => {
   const rosters = getRosters();
-
-  if (!rosters) return;
 
   return rosters.flat();
 };
