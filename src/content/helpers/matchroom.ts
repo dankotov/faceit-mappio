@@ -1,3 +1,4 @@
+import { Maybe } from "../../shared/types/utils";
 import { elementExistsIn } from "./utils";
 
 /**
@@ -56,18 +57,44 @@ export const getMatchroomId = (): string => {
 };
 
 /**
- * Returns an array of individual matchroom player card HTML elements (compattible /w vanilla and faceit-enhacner layouts).
+ * Returns an object with two HTML div elements that are containers for each roster's player cards
  */
-const getRosterList = (rosterContainer: HTMLDivElement) => {
+export const getRosterContainers = (): {
+  rosterOneContainer: Maybe<HTMLDivElement>;
+  rosterTwoContainer: Maybe<HTMLDivElement>;
+} => {
+  const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
+
+  const rosterOneContainer = mo?.querySelector(
+    'div[name="roster1"] > div'
+  ) as Maybe<HTMLDivElement>;
+  const rosterTwoContainer = mo?.querySelector(
+    'div[name="roster2"] > div'
+  ) as Maybe<HTMLDivElement>;
+
+  return { rosterOneContainer, rosterTwoContainer };
+};
+
+/**
+ * Returns an array of individual matchroom player card HTML elements from a specific roster container
+ * (compattible /w vanilla and faceit-enhacner layouts).
+ */
+export const getRosterList = (rosterContainer: HTMLDivElement) => {
   const roster: HTMLDivElement[] = [];
-  if (rosterContainer.childElementCount === 5) {
+
+  // omit mappio team average player card
+  const nativeRosterElements = rosterContainer.querySelectorAll(
+    ":scope > div:not(.mappio.teamAvgMapStats)"
+  );
+
+  if (nativeRosterElements.length === 5) {
     // if there are 5 children -> there are no premade parties -> get each child
-    rosterContainer.childNodes.forEach((playerCard) => {
+    nativeRosterElements.forEach((playerCard) => {
       roster.push(playerCard.childNodes[0].childNodes[0] as HTMLDivElement);
     });
-  } else if (rosterContainer.childElementCount === 1) {
+  } else if (nativeRosterElements.length === 1) {
     // if there is only 1 child element -> there is a full stack -> get each child of that child element
-    const playerCards = rosterContainer.childNodes[0].childNodes;
+    const playerCards = nativeRosterElements[0].childNodes;
     playerCards.forEach((playerCard) => {
       roster.push(
         playerCard.childNodes[0].childNodes[0].childNodes[0] as HTMLDivElement
@@ -75,7 +102,7 @@ const getRosterList = (rosterContainer: HTMLDivElement) => {
     });
   } else {
     // if the team is a combination of premade parties
-    rosterContainer.childNodes.forEach((premadeContainer) => {
+    nativeRosterElements.forEach((premadeContainer) => {
       // if the current premade container holds only one player -> get that player's card element
       if ((premadeContainer as HTMLDivElement).childElementCount === 1) {
         roster.push(
@@ -96,29 +123,20 @@ const getRosterList = (rosterContainer: HTMLDivElement) => {
   return roster;
 };
 
-export const getRosters = (): [HTMLDivElement[], HTMLDivElement[]] | [] => {
-  const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
-
-  const rosterOneContainer =
-    mo?.querySelector('[name="roster1"]')?.childNodes[0];
-  const rosterTwoContainer =
-    mo?.querySelector('[name="roster2"]')?.childNodes[0];
-
-  if (!rosterOneContainer || !rosterTwoContainer) return [];
-
-  const rosterOne = getRosterList(rosterOneContainer as HTMLDivElement);
-  const rosterTwo = getRosterList(rosterTwoContainer as HTMLDivElement);
-
-  return [rosterOne, rosterTwo];
-};
-
 /**
  * Gets the HTML player card elements taht represent all players in the matchroom.
  */
 export const getMatchroomPlayers = () => {
-  const rosters = getRosters();
+  const { rosterOneContainer, rosterTwoContainer } = getRosterContainers();
 
-  return rosters.flat();
+  if (!rosterOneContainer || !rosterTwoContainer) return [];
+
+  const mathcroomPlayers = [
+    getRosterList(rosterOneContainer),
+    getRosterList(rosterTwoContainer),
+  ].flat();
+
+  return mathcroomPlayers;
 };
 
 /**
