@@ -102,7 +102,7 @@ export const getRosterContainers = (): {
  * Returns an array of individual matchroom player card HTML elements from a specific roster container
  * (compattible /w vanilla and faceit-enhacner layouts).
  */
-export const getRosterList = (rosterContainer: HTMLDivElement) => {
+export const getRosterPlayers = (rosterContainer: HTMLDivElement) => {
   const roster: HTMLDivElement[] = [];
 
   // omit mappio team average player card
@@ -155,8 +155,8 @@ export const getMatchroomPlayers = () => {
   if (!rosterOneContainer || !rosterTwoContainer) return [];
 
   const mathcroomPlayers = [
-    getRosterList(rosterOneContainer),
-    getRosterList(rosterTwoContainer),
+    getRosterPlayers(rosterOneContainer),
+    getRosterPlayers(rosterTwoContainer),
   ].flat();
 
   return mathcroomPlayers;
