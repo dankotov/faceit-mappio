@@ -66,14 +66,14 @@ export const getRosterNames = (): {
   const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
 
   const matchHeaderElement = mo?.querySelector(
-    ":scope > div > div:nth-child(2)"
+    ":scope > div > div > div:nth-child(2)"
   );
 
   const rosterOneName = matchHeaderElement?.querySelector(
-    ":scope:nth-child(1) h6"
+    ":scope > div:nth-child(1) h6"
   )?.textContent as Maybe<string>;
   const rosterTwoName = matchHeaderElement?.querySelector(
-    ":scope:nth-child(3) h6"
+    ":scope > div:nth-child(3) h6"
   )?.textContent as Maybe<string>;
 
   return { rosterOneName, rosterTwoName };
