@@ -6,12 +6,14 @@ import About from "./sections/About";
 import Header from "./sections/Header";
 import MapDropProbabilities from "./sections/MapDropProbabilities";
 import PlayerMapStats from "./sections/PlayerMapStats";
+import TeamAverageMapStats from "./sections/TeamAverageMapStats";
 
 const Popup = () => (
   <>
     <div className="app">
       <Header />
       <PlayerMapStats />
+      <TeamAverageMapStats />
       <MapDropProbabilities />
       <About />
     </div>

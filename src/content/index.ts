@@ -30,11 +30,13 @@ const handleMutation = async (
   if (await isFeatureEnabled(MappioFeature.PlayerMapStats))
     debounceAddPlayerMapStats(matchroomId);
 
+  // Add team average statistics
+  if (await isFeatureEnabled(MappioFeature.TeamAverageMapStats))
+    debounceAddTeamAverageStats(matchroomId);
+
   // Add map drop probabilities
   if (await isFeatureEnabled(MappioFeature.MapDropProbabilities))
     debounceAddMapDropProbabilities(matchroomId);
-
-  debounceAddTeamAverageStats(matchroomId);
 
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((addedNode: any) => {
