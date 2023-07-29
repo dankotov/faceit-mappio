@@ -1,36 +1,62 @@
 import { debounce } from "lodash";
+import { ESCL } from "../../../shared/consts";
 import { memFetchAllMatchPlayersMapStats } from "../../helpers/faceit-api";
-import { getNickname, getRosters } from "../../helpers/matchroom";
-import { EMPTY_MAP_STATS } from "../../../shared/consts";
-import { MapStats } from "../../../shared/types/stats";
+import {
+  getRosterContainers,
+  getRosterNames,
+  getRosterPlayers,
+} from "../../helpers/matchroom";
+import { getTeamAverageStats } from "../../helpers/team-average";
+import { elementExistsIn } from "../../helpers/utils";
+import createTeamAvgPlayerCard from "./components/TeamAvgPlayerCard";
 
 export default debounce(async (matchroomId) => {
-  const rosters = getRosters();
-  if (!rosters) return;
+  const { rosterOneName, rosterTwoName } = getRosterNames();
+  const { rosterOneContainer, rosterTwoContainer } = getRosterContainers();
 
-  const playerMapStats = await memFetchAllMatchPlayersMapStats(matchroomId);
-  if (!playerMapStats) return;
+  if (
+    !rosterOneName ||
+    !rosterTwoName ||
+    !rosterOneContainer ||
+    !rosterTwoContainer
+  )
+    return;
 
-  rosters.forEach((roster) => {
-    const rosterSummedStats = roster.reduce((acc: MapStats, rosterPlayer) => {
-      const nickname = getNickname(rosterPlayer);
-      const playerStats = playerMapStats.find(
-        (playerMapStat) => playerMapStat.nickname === nickname
-      );
-      playerStats?.maps.forEach((mapStats, mapCodename) => {
-        const currentMapStats = acc.get(mapCodename);
-        const currentTotalGamesCount = currentMapStats?.games;
-        const currentTotalKDCount = currentMapStats?.kd;
+  const matchPlayersMapStats = await memFetchAllMatchPlayersMapStats(
+    matchroomId
+  );
+  if (!matchPlayersMapStats) return;
 
-        acc.set(mapCodename, {
-          games: currentTotalGamesCount + mapStats.games,
-          kd: currentTotalKDCount + mapStats.kd,
-        });
-      });
+  const rosterOnePlayers = getRosterPlayers(rosterOneContainer);
+  const rosterTwoPlayers = getRosterPlayers(rosterTwoContainer);
 
-      return acc;
-    }, EMPTY_MAP_STATS);
+  const rosters = [
+    {
+      rosterName: rosterOneName,
+      rosterContainer: rosterOneContainer,
+      rosterPlayers: rosterOnePlayers,
+    },
+    {
+      rosterName: rosterTwoName,
+      rosterContainer: rosterTwoContainer,
+      rosterPlayers: rosterTwoPlayers,
+    },
+  ];
 
-    // TODO: roster average stats
+  rosters.forEach(({ rosterName, rosterContainer, rosterPlayers }, index) => {
+    if (elementExistsIn(`.${ESCL}.teamAvgMapStats`, rosterContainer)) return;
+
+    const teamAverageStats = getTeamAverageStats(
+      rosterPlayers,
+      matchPlayersMapStats
+    );
+
+    const teamAvgPlayerCard = createTeamAvgPlayerCard({
+      mapStats: teamAverageStats,
+      rosterName,
+      rosterIndex: index,
+    });
+
+    rosterContainer.prepend(teamAvgPlayerCard);
   });
 }, 300);
