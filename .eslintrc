@@ -21,6 +21,7 @@
       "objects": "always-multiline",
       "imports": "always-multiline",
       "exports": "always-multiline",
+      "enums": "always-multiline",
       "functions": "never"
   }],
     "@typescript-eslint/quotes": [2, "double", { "avoidEscape": true }],
