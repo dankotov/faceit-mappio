@@ -10,7 +10,7 @@ const TeamAverageMapStats = () => (
       title="Team Average Map Stats"
       settingKey={MappioFeature.TeamAverageMapStats}
     />
-    <SectionDescription description="Display team average statistics (number of games and average K/D) for each map in the match room." />
+    <SectionDescription description="Display team average statistics (number of games and average K/D) for each map in the match room. Statistics of players who have 0 matches on a map will be ignored in the average calculation." />
   </Section>
 );
 

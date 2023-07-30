@@ -19,6 +19,17 @@ export const getTeamAverageStats = (
     ["de_anubis", EMPTY_STATS],
   ]);
 
+  const nonZeroStatsCount = {
+    de_dust2: 0,
+    de_inferno: 0,
+    de_ancient: 0,
+    de_overpass: 0,
+    de_mirage: 0,
+    de_nuke: 0,
+    de_vertigo: 0,
+    de_anubis: 0,
+  };
+
   rosterPlayers.forEach((rosterPlayer) => {
     const playerNickname = getNickname(rosterPlayer);
     const playerStats = matchPlayersMapStats.find(
@@ -34,19 +45,26 @@ export const getTeamAverageStats = (
 
       const currentTotalGamesCount = Number(currentMapStats.games);
       const currentTotalKDCount = Number(currentMapStats.kd);
+      const currentTotalNonZeroStatsCount = nonZeroStatsCount[mapCodename];
       const playerGames = Number(mapStats.games);
       const playerKD = Number(mapStats.kd);
+
+      if (playerGames < 1) return;
 
       accumulatorStats.set(mapCodename, {
         games: (currentTotalGamesCount + playerGames).toString(),
         kd: (currentTotalKDCount + playerKD).toString(),
       });
+      nonZeroStatsCount[mapCodename] = currentTotalNonZeroStatsCount + 1;
     });
   });
 
   accumulatorStats.forEach((mapStats, mapCodename) => {
-    const avgGames = (Number(mapStats.games) / 5).toFixed(0);
-    const avgKd = (Number(mapStats.kd) / 5).toFixed(2);
+    const totalNonZeroStatsCount = nonZeroStatsCount[mapCodename];
+    const avgGames = (Number(mapStats.games) / totalNonZeroStatsCount).toFixed(
+      0
+    );
+    const avgKd = (Number(mapStats.kd) / totalNonZeroStatsCount).toFixed(2);
 
     accumulatorStats.set(mapCodename, { games: avgGames, kd: avgKd });
   });
