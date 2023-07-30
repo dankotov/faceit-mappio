@@ -84,7 +84,7 @@ const teamAvgPlayerCard = ({
               color: "rgba(255,255,255,0.6)",
             }}
           >
-            team average
+            Team Avg.
           </div>
         </div>
       </div>
