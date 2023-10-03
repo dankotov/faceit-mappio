@@ -17,7 +17,7 @@ export const hasMainContentElement = () =>
  */
 export const isMatchroomPage = () => {
   const pageUrl = document.location.href;
-  return pageUrl.includes("/csgo/room/") && !pageUrl.includes("/matchroom");
+  return (pageUrl.includes("/csgo/room/") || pageUrl.includes("/cs2/room/")) && !pageUrl.includes("/matchroom");
 };
 
 /**

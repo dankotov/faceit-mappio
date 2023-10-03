@@ -139,11 +139,11 @@ export const fetchMatchDetails = async (
  * Fetches player details by `playerId`
  */
 export const fetchPlayerStats = async (
-  playerId: string
+  playerId: string, gameId: string
 ): Promise<PlayerGameStats | null> =>
   memFetchFaceitUnwrappedEndpoint(
     FACEIT_API_BASE_URL,
-    `/stats/v1/stats/users/${playerId}/games/csgo`
+    `/stats/v1/stats/users/${playerId}/games/${gameId}`
   ) as Promise<PlayerGameStats | null>;
 
 /**
@@ -209,13 +209,13 @@ export const getOpponentCaptainIdFromMatchId = async (
 /**
  * Fetches and organizes player stat data fetched from the FACEIT API.
  */
-const fetchPlayerMapStats = async (playerId: string): Promise<MapStats> => {
-  const playerRawStats = await fetchPlayerStats(playerId);
+const fetchPlayerMapStats = async (playerId: string, gameId: string): Promise<MapStats> => {
+  const playerRawStats = await fetchPlayerStats(playerId, gameId);
   // extract stats of intereset for each map of active map pool from fetched player details
   const playerMapStats: MapStats = new Map([]);
   const playerCompetetiveStats = playerRawStats?.segments.find(
     (segment) =>
-      segment._id.game === "csgo" &&
+      segment._id.game === gameId &&
       segment._id.gameMode === "5v5" &&
       segment._id.segmentId === "csgo_map"
   )?.segments;
@@ -237,8 +237,8 @@ const fetchPlayerMapStats = async (playerId: string): Promise<MapStats> => {
 /**
  * Takes a player object and adds map stats to it.
  */
-const addPlayerMapStats = async (player: Player): Promise<PlayerMapStats> => {
-  const playerMapStats = await fetchPlayerMapStats(player.player_id);
+const addPlayerMapStats = async (player: Player, gameId: string): Promise<PlayerMapStats> => {
+  const playerMapStats = await fetchPlayerMapStats(player.player_id, gameId);
   return { ...player, maps: playerMapStats };
 };
 
@@ -251,7 +251,7 @@ const fetchAllMatchPlayersMapStats = async (matchId: string) => {
   const players = getMatchPlayersFromMatchDetails(matchDetails);
 
   const playersMapStatsPromises = players.map(async (player) =>
-    addPlayerMapStats(player)
+    addPlayerMapStats(player, matchDetails.game)
   );
   const allMatchPlayersMapStats = await Promise.all(playersMapStatsPromises);
 
