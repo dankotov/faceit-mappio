@@ -19,6 +19,7 @@ export interface MatchOverview {
 }
 
 export interface MatchDetails {
+  game: string,
   teams: {
     faction1: FactionDetails;
     faction2: FactionDetails;
