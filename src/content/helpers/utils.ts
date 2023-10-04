@@ -1,5 +1,5 @@
 import { ESCL } from "../../shared/consts";
-import { colors } from "../../shared/theme";
+import colors from "../../shared/theme";
 import { Stats } from "../../shared/types/stats";
 
 /**
@@ -27,9 +27,8 @@ export const colorCodeStat = (stats: Stats) => {
   return kd >= 1.2 ? colors.faceitgreen : colors.faceitred;
 };
 
-export const padZero = (toBePadded: number) => {
-  return toBePadded.toString().padStart(2, "0");
-};
+export const padZero = (toBePadded: number) =>
+  toBePadded.toString().padStart(2, "0");
 
 export const getFaceitTimestamp = (date: Date, yearOffset: number = 0) => {
   const year = date.getFullYear() - yearOffset;

@@ -113,9 +113,8 @@ const getPlayerMapDropProbabilties = async (
   return [captainMatches.length, probabilities];
 };
 
-export const memGetPlayerMapDropProbabilities = mem(
-  getPlayerMapDropProbabilties,
-  {
-    maxAge: CACHE_TIME,
-  }
-);
+const memGetPlayerMapDropProbabilities = mem(getPlayerMapDropProbabilties, {
+  maxAge: CACHE_TIME,
+});
+
+export default memGetPlayerMapDropProbabilities;

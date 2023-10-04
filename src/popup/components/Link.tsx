@@ -1,19 +1,26 @@
-import { colors } from "../../shared/theme";
+/* eslint react/react-in-jsx-scope: 0 */
+import colors from "../../shared/theme";
 
 const Link = ({
-  url,
+  href,
   title,
-  text,
+  text = "",
   img,
 }: {
-  url: string;
+  href: string;
   title: string;
-  text?: string;
+  text?: string; // eslint-disable-line react/require-default-props
   img: string;
 }) => (
   <>
-    <a href={url} className={text ? "lg" : "sm"} target="_blank" title={title}>
-      <img src={img}></img>
+    <a
+      href={href}
+      className={text ? "lg" : "sm"}
+      target="_blank"
+      title={title}
+      rel="noreferrer"
+    >
+      <img src={img} alt={title} />
       {text && <p>{text}</p>}
     </a>
 

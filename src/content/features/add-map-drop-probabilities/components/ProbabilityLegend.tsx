@@ -1,8 +1,9 @@
 /** @jsx h */
 import { h } from "dom-chef";
 import { ESCL } from "../../../../shared/consts";
-import { colors } from "../../../../shared/theme";
+import colors from "../../../../shared/theme";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
 type _h = typeof h; // needed to prevent TSeslint from removing h import
 
 const ProbabilityLegend = ({ datasetSize }: { datasetSize: number }) => (

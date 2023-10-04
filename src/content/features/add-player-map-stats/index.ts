@@ -9,8 +9,8 @@ export default debounce(async (matchroomId) => {
   const playerElements = getMatchroomPlayers();
   const playerMapStats = await memFetchAllMatchPlayersMapStats(matchroomId);
 
-  playerElements?.forEach((playerElement) => {
-    if (hasMappio(playerElement)) return;
+  playerElements.forEach((playerElement) => {
+    if (!playerElement || hasMappio(playerElement)) return;
 
     const nickname = getNickname(playerElement);
     if (!nickname) return;

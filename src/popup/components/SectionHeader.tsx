@@ -1,3 +1,4 @@
+/* eslint react/react-in-jsx-scope: 0 */
 import { ReactNode } from "react";
 
 const SectionHeader = ({
@@ -5,7 +6,7 @@ const SectionHeader = ({
   children,
 }: {
   title: string;
-  children?: ReactNode | ReactNode[];
+  children?: ReactNode | ReactNode[]; // eslint-disable-line react/require-default-props
 }) => (
   <>
     <header>

@@ -27,9 +27,7 @@ import { getFaceitTimestamp } from "./utils";
 /**
  * Returns the user's cached FACEIT production API auth token.
  */
-const getLocalApiToken = () => {
-  return getCookie("t") || localStorage.getItem("token");
-};
+const getLocalApiToken = () => getCookie("t") || localStorage.getItem("token");
 
 /**
  * Returns response from `baseUrl` + `requestPath`.
@@ -213,12 +211,14 @@ const fetchPlayerMapStats = async (playerId: string, gameId: string): Promise<Ma
   const playerRawStats = await fetchPlayerStats(playerId, gameId);
   // extract stats of intereset for each map of active map pool from fetched player details
   const playerMapStats: MapStats = new Map([]);
+  /* eslint-disable no-underscore-dangle */
   const playerCompetetiveStats = playerRawStats?.segments.find(
     (segment) =>
       segment._id.game === gameId &&
       segment._id.gameMode === "5v5" &&
       segment._id.segmentId === "csgo_map"
   )?.segments;
+  /* eslint-enable */
 
   ACTIVE_MAP_POOL.forEach((_, mapCodename) => {
     const rawMapData = playerCompetetiveStats?.[mapCodename];

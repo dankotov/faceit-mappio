@@ -1,12 +1,13 @@
-import { colors } from "../../shared/theme";
+/* eslint react/react-in-jsx-scope: 0 */
+import colors from "../../shared/theme";
 
 const Loading = () => (
   <>
     <div className="loader">
-      <div className="loader-dot"></div>
-      <div className="loader-dot"></div>
-      <div className="loader-dot"></div>
-      <div className="loader-dot"></div>
+      <div className="loader-dot" />
+      <div className="loader-dot" />
+      <div className="loader-dot" />
+      <div className="loader-dot" />
     </div>
 
     <style jsx>{`

@@ -1,3 +1,4 @@
+import { Maybe } from "../../shared/types/utils";
 import { elementExistsIn } from "./utils";
 
 /**
@@ -56,18 +57,67 @@ export const getMatchroomId = (): string => {
 };
 
 /**
- * Returns an array of individual matchroom player card HTML elements (compattible /w vanilla and faceit-enhacner layouts).
+ * Returns an object with two strings that are the team names for each roster
  */
-const getRosterList = (rosterContainer: HTMLDivElement) => {
+export const getRosterNames = (): {
+  rosterOneName: Maybe<string>;
+  rosterTwoName: Maybe<string>;
+} => {
+  const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
+
+  const matchHeaderElement = mo?.querySelector(
+    ":scope > div > div > div:nth-child(2)"
+  );
+
+  const rosterOneName = matchHeaderElement?.querySelector(
+    ":scope > div:nth-child(1) h6"
+  )?.textContent as Maybe<string>;
+  const rosterTwoName = matchHeaderElement?.querySelector(
+    ":scope > div:nth-child(3) h6"
+  )?.textContent as Maybe<string>;
+
+  return { rosterOneName, rosterTwoName };
+};
+
+/**
+ * Returns an object with two HTML div elements that are containers for each roster's player cards
+ */
+export const getRosterContainers = (): {
+  rosterOneContainer: Maybe<HTMLDivElement>;
+  rosterTwoContainer: Maybe<HTMLDivElement>;
+} => {
+  const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
+
+  const rosterOneContainer = mo?.querySelector(
+    'div[name="roster1"] > div'
+  ) as Maybe<HTMLDivElement>;
+  const rosterTwoContainer = mo?.querySelector(
+    'div[name="roster2"] > div'
+  ) as Maybe<HTMLDivElement>;
+
+  return { rosterOneContainer, rosterTwoContainer };
+};
+
+/**
+ * Returns an array of individual matchroom player card HTML elements from a specific roster container
+ * (compattible /w vanilla and faceit-enhacner layouts).
+ */
+export const getRosterPlayers = (rosterContainer: HTMLDivElement) => {
   const roster: HTMLDivElement[] = [];
-  if (rosterContainer.childElementCount === 5) {
+
+  // omit mappio team average player card
+  const nativeRosterElements = rosterContainer.querySelectorAll(
+    ":scope > div:not(.mappio.teamAvgMapStats)"
+  );
+
+  if (nativeRosterElements.length === 5) {
     // if there are 5 children -> there are no premade parties -> get each child
-    rosterContainer.childNodes.forEach((playerCard) => {
+    nativeRosterElements.forEach((playerCard) => {
       roster.push(playerCard.childNodes[0].childNodes[0] as HTMLDivElement);
     });
-  } else if (rosterContainer.childElementCount === 1) {
+  } else if (nativeRosterElements.length === 1) {
     // if there is only 1 child element -> there is a full stack -> get each child of that child element
-    const playerCards = rosterContainer.childNodes[0].childNodes;
+    const playerCards = nativeRosterElements[0].childNodes;
     playerCards.forEach((playerCard) => {
       roster.push(
         playerCard.childNodes[0].childNodes[0].childNodes[0] as HTMLDivElement
@@ -75,7 +125,7 @@ const getRosterList = (rosterContainer: HTMLDivElement) => {
     });
   } else {
     // if the team is a combination of premade parties
-    rosterContainer.childNodes.forEach((premadeContainer) => {
+    nativeRosterElements.forEach((premadeContainer) => {
       // if the current premade container holds only one player -> get that player's card element
       if ((premadeContainer as HTMLDivElement).childElementCount === 1) {
         roster.push(
@@ -100,19 +150,16 @@ const getRosterList = (rosterContainer: HTMLDivElement) => {
  * Gets the HTML player card elements taht represent all players in the matchroom.
  */
 export const getMatchroomPlayers = () => {
-  const mo = getShadowRootElement()?.querySelector("#MATCHROOM-OVERVIEW");
+  const { rosterOneContainer, rosterTwoContainer } = getRosterContainers();
 
-  const rosterOneContainer =
-    mo?.querySelector('[name="roster1"]')?.childNodes[0];
-  const rosterTwoContainer =
-    mo?.querySelector('[name="roster2"]')?.childNodes[0];
+  if (!rosterOneContainer || !rosterTwoContainer) return [];
 
-  if (!rosterOneContainer || !rosterTwoContainer) return;
+  const mathcroomPlayers = [
+    getRosterPlayers(rosterOneContainer),
+    getRosterPlayers(rosterTwoContainer),
+  ].flat();
 
-  const rosterOne = getRosterList(rosterOneContainer as HTMLDivElement);
-  const rosterTwo = getRosterList(rosterTwoContainer as HTMLDivElement);
-
-  return rosterOne.concat(rosterTwo);
+  return mathcroomPlayers;
 };
 
 /**
@@ -138,30 +185,30 @@ export const getNickname = (playerCard: HTMLDivElement) =>
  */
 export const getMatchroomMapsElementsParentAndContainer = () => {
   const wrapper = getInfoElement()?.children?.[0].children?.[0];
-  const n_of_children = wrapper?.children?.length;
+  const N_OF_CHILDREN = wrapper?.children?.length;
 
   let parent;
   let container;
 
-  if (n_of_children === 3) {
+  if (N_OF_CHILDREN === 3) {
     // if wrapper contains 3 children -> room is in veto state
     parent = wrapper?.children?.[2];
     container = parent?.children?.[0];
-  } else if (n_of_children === 6) {
+  } else if (N_OF_CHILDREN === 6) {
     // room is in connecting to server state
-    const i = n_of_children - 4; // map card element container is always 4th from the end in these states
+    const i = N_OF_CHILDREN - 4; // map card element container is always 4th from the end in these states
     parent = wrapper?.children?.[i].children?.[0];
     container = parent?.children?.[3];
-  } else if (n_of_children === 5) {
+  } else if (N_OF_CHILDREN === 5) {
     // room is in match live or match ended state
-    const index_live = 1; // map card element container is the second child in live state
-    const index_ended = 0; // map card elemenet container is the first child in ended state
+    const INDEX_LIVE = 1; // map card element container is the second child in live state
+    const INDEX_ENDED = 0; // map card elemenet container is the first child in ended state
     // try getting elements for the live case
-    parent = wrapper?.children?.[index_live].children?.[0];
+    parent = wrapper?.children?.[INDEX_LIVE].children?.[0];
     container = parent?.children?.[3];
     if (!parent || !container) {
       // if getting either of the elements was unseccusfull try the other case
-      parent = wrapper?.children?.[index_ended].children?.[0];
+      parent = wrapper?.children?.[INDEX_ENDED].children?.[0];
       container = parent?.children?.[3];
     }
   }
@@ -175,31 +222,31 @@ export const getMatchroomMapsElementsParentAndContainer = () => {
 export const getMatchroomMapsElements = () => {
   const info = getInfoElement();
   const wrapper = info?.children?.[0].children?.[0];
-  const n_of_children = wrapper?.children?.length;
+  const N_OF_CHILDREN = wrapper?.children?.length;
 
-  let mapElements: HTMLDivElement[] = [];
+  const mapElements: HTMLDivElement[] = [];
 
-  if (n_of_children === 3) {
+  if (N_OF_CHILDREN === 3) {
     // if wrapper contains 3 children -> room is in veto state
     const container = wrapper?.children?.[2].children?.[0];
     container?.childNodes.forEach((mapContainer) => {
       mapElements.push(mapContainer.childNodes[0] as HTMLDivElement);
     });
-  } else if (n_of_children === 6) {
+  } else if (N_OF_CHILDREN === 6) {
     // room is in connecting to server state
-    const i = n_of_children - 4; // map card element container is always 4th from the end in this state
+    const i = N_OF_CHILDREN - 4; // map card element container is always 4th from the end in this state
     mapElements.push(
       wrapper?.children?.[i]?.children?.[0]?.children?.[3]
         ?.children?.[0] as HTMLDivElement
     );
-  } else if (n_of_children === 5) {
+  } else if (N_OF_CHILDREN === 5) {
     // room is in match live or match ended state
-    const index_live = 1; // map card element container is the second child in this state
-    const index_ended = 0; // map card elemenet container is the first child in this state
+    const INDEX_LIVE = 1; // map card element container is the second child in this state
+    const INDEX_ENDED = 0; // map card elemenet container is the first child in this state
     const mapCardElement =
-      wrapper?.children?.[index_live]?.children?.[0]?.children?.[3]
+      wrapper?.children?.[INDEX_LIVE]?.children?.[0]?.children?.[3]
         ?.children?.[0] ||
-      wrapper?.children?.[index_ended]?.children?.[0]?.children?.[3]
+      wrapper?.children?.[INDEX_ENDED]?.children?.[0]?.children?.[3]
         ?.children?.[0];
     if (mapCardElement) mapElements.push(mapCardElement as HTMLDivElement);
   }

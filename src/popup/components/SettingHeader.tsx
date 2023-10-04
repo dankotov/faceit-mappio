@@ -1,3 +1,4 @@
+/* eslint react/react-in-jsx-scope: 0 */
 import { MappioFeature } from "../../shared/settings";
 import useExtensionOption from "../hooks/useExtensionOption";
 import Loading from "./Loading";

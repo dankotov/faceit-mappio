@@ -3,6 +3,7 @@ import { h } from "dom-chef";
 import { Stats } from "../../../../shared/types/stats";
 import { colorCodeStat } from "../../../helpers/utils";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
 type _h = typeof h; // needed to prevent TSeslint from removing h import
 
 const mapStatsCell = ({ label, stats }: { label: string; stats: Stats }) => (
