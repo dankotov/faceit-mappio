@@ -24,6 +24,19 @@ This is the MVP feature of this extension. Mappio appends each player's map stat
   </tr>
 </table>
 
+### Team Average Map Statistics
+
+Drawing from personal experience and some user feedback, appending each player's map statistic creates a rather crowded, confusing interface. To eliminate that, I have implemented a Team Average card, which displays the average statistics of each team.
+
+<table align="center">
+  <tr>
+    <th>Team Average Card</th>
+  </tr>
+  <tr>
+    <td><img width="387" src="/media/teamAverageCard/TeamAverageCard.png" alt="Team Average Card"></td>
+  </tr>
+</table>
+
 ### Map Drop Probabilities
 
 While developing the Map Statistics feature, I realized it would also be useful to see the opponent's map dropping statistics. Let's say if you see that the opponent drops Nuke very often, you might want to let him drop it and use your veto pick to drop some other map you do not want to play. Mappio calculates the opposing team's captain map drop probabilities and appends them to the map cards in the match room.
