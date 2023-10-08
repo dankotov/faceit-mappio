@@ -61,6 +61,11 @@ export const getTeamAverageStats = (
 
   accumulatorStats.forEach((mapStats, mapCodename) => {
     const totalNonZeroStatsCount = nonZeroStatsCount[mapCodename];
+    if (!totalNonZeroStatsCount) {
+      accumulatorStats.set(mapCodename, { games: "0", kd: "0" });
+      return;
+    }
+
     const avgGames = (Number(mapStats.games) / totalNonZeroStatsCount).toFixed(
       0
     );
