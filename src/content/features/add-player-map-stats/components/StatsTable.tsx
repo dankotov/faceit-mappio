@@ -31,6 +31,7 @@ const mapStatsTable = ({ mapStats }: { mapStats: MapStats }) => {
         borderTop: `1px solid ${colors.backgrey}`,
         color: `${colors.foregrey}`,
         fontSize: 11,
+        position: "relative",
       }}
     >
       <div style={{ textAlign: "center", paddingTop: 4 }}>
@@ -48,6 +49,30 @@ const mapStatsTable = ({ mapStats }: { mapStats: MapStats }) => {
         }}
       >
         {mapStatsElements}
+      </div>
+      <div
+        title="FACEIT Mappio now shows separate stats for CS:GO and CS2. Some players haven't tried all CS2 maps yet, so there might be missing stats for them on certain maps. Don't worry, the stats will show up as these players play more CS2 games on FACEIT."
+        style={{
+          position: "absolute",
+          right: 5,
+          top: 4,
+          width: 15,
+          height: 15,
+          padding: 0,
+          border: "1px solid rgb(100, 100, 100)",
+          color: "rgb(100, 100, 100)",
+          background: "transparent",
+          borderRadius: "50%",
+          fontWeight: "bold",
+          fontStyle: "italic",
+          paddingRight: 2,
+          lineHeight: "14px",
+          transition: "background 0.1s ease-in-out",
+          textAlign: "center",
+          cursor: "help",
+        }}
+      >
+        i
       </div>
     </div>
   );
