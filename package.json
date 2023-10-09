@@ -4,7 +4,7 @@
   "description": "Chrome extension that displays everyone's map-related information in the matchroom letting you make more educated decisions during the veto process",
   "scripts": {
     "build": "cross-env NODE_ENV=prod BROWSER=chrome webpack && cross-env NODE_ENV=prod BROWSER=firefox webpack",
-    "build:chrome": "ross-env NODE_ENV=prod BROWSER=chrome webpack",
+    "build:chrome": "cross-env NODE_ENV=prod BROWSER=chrome webpack",
     "build:fox": "cross-env NODE_ENV=prod BROWSER=firefox webpack",
     "dev:chrome": "cross-env NODE_ENV=dev BROWSER=chrome webpack --watch",
     "dev:fox": "cross-env NODE_ENV=dev BROWSER=firefox webpack --watch"
