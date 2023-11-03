@@ -10,7 +10,10 @@
     "dev:fox": "cross-env NODE_ENV=dev BROWSER=firefox webpack --watch",
     "pack": "npm run pack:chrome && npm run pack:fox",
     "pack:chrome": "rm -f dist_chrome.zip && zip -r dist_chrome.zip dist_chrome",
-    "pack:fox": "rm -f dist_firefox.zip && cd dist_firefox && zip -r ../dist_firefox.zip *"
+    "pack:fox": "rm -f dist_firefox.zip && cd dist_firefox && zip -r ../dist_firefox.zip *",
+    "prepub": "npm run prepub:chrome && npm run prepub:fox",
+    "prepub:chrome": "npm run build:chrome && npm run pack:chrome",
+    "prepub:fox": "npm run build:fox && npm run pack:fox"
   },
   "repository": {
     "type": "git",
