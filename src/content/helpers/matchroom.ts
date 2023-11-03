@@ -249,6 +249,10 @@ export const getMatchroomMapsElements = () => {
       wrapper?.children?.[INDEX_ENDED]?.children?.[0]?.children?.[3]
         ?.children?.[0];
     if (mapCardElement) mapElements.push(mapCardElement as HTMLDivElement);
+  } else if (N_OF_CHILDREN === 4) {
+    // room is in match ended long ago (no demo available) state
+    const mapCardElement = wrapper?.children?.[0]?.children?.[0]?.children?.[3];
+    if (mapCardElement) mapElements.push(mapCardElement as HTMLDivElement);
   }
 
   return mapElements;
