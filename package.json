@@ -1,13 +1,19 @@
 {
   "name": "mappio",
-  "version": "1.3.0",
+  "version": "1.3.3",
   "description": "Chrome extension that displays everyone's map-related information in the matchroom letting you make more educated decisions during the veto process",
   "scripts": {
-    "build": "cross-env NODE_ENV=prod BROWSER=chrome webpack && cross-env NODE_ENV=prod BROWSER=firefox webpack",
+    "build": "npm run build:chrome && npm run build:fox",
     "build:chrome": "cross-env NODE_ENV=prod BROWSER=chrome webpack",
     "build:fox": "cross-env NODE_ENV=prod BROWSER=firefox webpack",
     "dev:chrome": "cross-env NODE_ENV=dev BROWSER=chrome webpack --watch",
-    "dev:fox": "cross-env NODE_ENV=dev BROWSER=firefox webpack --watch"
+    "dev:fox": "cross-env NODE_ENV=dev BROWSER=firefox webpack --watch",
+    "pack": "npm run pack:chrome && npm run pack:fox",
+    "pack:chrome": "rm -f dist_chrome.zip && zip -r dist_chrome.zip dist_chrome",
+    "pack:fox": "rm -f dist_firefox.zip && cd dist_firefox && zip -r ../dist_firefox.zip *",
+    "prepub": "npm run prepub:chrome && npm run prepub:fox",
+    "prepub:chrome": "npm run build:chrome && npm run pack:chrome",
+    "prepub:fox": "npm run build:fox && npm run pack:fox"
   },
   "repository": {
     "type": "git",
