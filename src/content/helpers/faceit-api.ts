@@ -137,7 +137,8 @@ export const fetchMatchDetails = async (
  * Fetches player details by `playerId`
  */
 export const fetchPlayerStats = async (
-  playerId: string, gameId: string
+  playerId: string,
+  gameId: string
 ): Promise<PlayerGameStats | null> =>
   memFetchFaceitUnwrappedEndpoint(
     FACEIT_API_BASE_URL,
@@ -207,7 +208,10 @@ export const getOpponentCaptainIdFromMatchId = async (
 /**
  * Fetches and organizes player stat data fetched from the FACEIT API.
  */
-const fetchPlayerMapStats = async (playerId: string, gameId: string): Promise<MapStats> => {
+const fetchPlayerMapStats = async (
+  playerId: string,
+  gameId: string
+): Promise<MapStats> => {
   const playerRawStats = await fetchPlayerStats(playerId, gameId);
   // extract stats of intereset for each map of active map pool from fetched player details
   const playerMapStats: MapStats = new Map([]);
@@ -237,7 +241,10 @@ const fetchPlayerMapStats = async (playerId: string, gameId: string): Promise<Ma
 /**
  * Takes a player object and adds map stats to it.
  */
-const addPlayerMapStats = async (player: Player, gameId: string): Promise<PlayerMapStats> => {
+const addPlayerMapStats = async (
+  player: Player,
+  gameId: string
+): Promise<PlayerMapStats> => {
   const playerMapStats = await fetchPlayerMapStats(player.player_id, gameId);
   return { ...player, maps: playerMapStats };
 };
@@ -292,7 +299,11 @@ const isCaptainMatch = (match: MatchOverview, playerId: string) => {
   )
     return false;
 
-  if (match.competition.name !== "5v5 RANKED") return false;
+  if (
+    match.competition.name !== "5v5 RANKED" &&
+    match.competition.name !== "COMPETITIVE 5v5"
+  )
+    return false;
   if (match.competition.type !== "matchmaking") return false;
   if (match.organizer.id !== "faceit") return false;
   if (match.state !== "finished") return false;

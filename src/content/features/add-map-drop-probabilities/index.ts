@@ -63,7 +63,7 @@ export default debounce(async (matchId) => {
   const infoElement = getInfoElement();
 
   if (
-    probabilitiesAppended &&
+    (probabilitiesAppended || !mapDropProbabilities.length) &&
     infoElement &&
     !elementExistsIn(".probabilityLegend", infoElement)
   ) {
