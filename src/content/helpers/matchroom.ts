@@ -18,7 +18,10 @@ export const hasMainContentElement = () =>
  */
 export const isMatchroomPage = () => {
   const pageUrl = document.location.href;
-  return (pageUrl.includes("/csgo/room/") || pageUrl.includes("/cs2/room/")) && !pageUrl.includes("/matchroom");
+  return (
+    (pageUrl.includes("/csgo/room/") || pageUrl.includes("/cs2/room/")) &&
+    !pageUrl.includes("/matchroom")
+  );
 };
 
 /**
@@ -211,6 +214,10 @@ export const getMatchroomMapsElementsParentAndContainer = () => {
       parent = wrapper?.children?.[INDEX_ENDED].children?.[0];
       container = parent?.children?.[3];
     }
+  } else if (N_OF_CHILDREN === 4) {
+    // room is in match ended long ago (no demo available)
+    parent = wrapper?.children?.[0]?.children?.[0];
+    container = wrapper?.children?.[0]?.children?.[0]?.children?.[3];
   }
 
   return [parent, container];
